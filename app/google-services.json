@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "703622871522",
+    "firebase_url": "https://cs310-beach4life-default-rtdb.firebaseio.com",
+    "project_id": "cs310-beach4life",
+    "storage_bucket": "cs310-beach4life.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:703622871522:android:8d5fa220adbc8b630821bb",
+        "android_client_info": {
+          "package_name": "com.example.beachtrip"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "703622871522-9sm9goqnui3416fdq7op90v9kbdghrnq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD74RVBVLGMVyHT3NeHaI2Rb9nnniwNtkI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "703622871522-9sm9goqnui3416fdq7op90v9kbdghrnq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
