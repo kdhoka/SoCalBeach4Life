@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.widget.TextView;
 
+import com.google.firebase.FirebaseApp;
+
 public class Login_Register extends AppCompatActivity {
 
     @Override
