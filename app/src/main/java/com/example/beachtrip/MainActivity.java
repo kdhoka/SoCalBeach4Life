@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         //setContentView(R.layout.activity_main);
     }
 
-    public void onSendMessage(View view){
+    public void onClickLogReg(View view){
         Intent intent = new Intent(this, Login_Register.class);
         startActivity(intent);
     }

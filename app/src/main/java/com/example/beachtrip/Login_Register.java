@@ -1,13 +1,7 @@
 package com.example.beachtrip;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Intent;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.widget.TextView;
-
-import com.google.firebase.FirebaseApp;
 
 public class Login_Register extends AppCompatActivity {
 
@@ -15,26 +9,58 @@ public class Login_Register extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_register);
-        Intent intent = getIntent();
-        DataRetrieval DR = DataRetrieval.getInstance();
-        User user = DR.getUserCredential();
-        TextView credentialPrint = findViewById(R.id.credential);
-        if (user == null){
-            credentialPrint.setText("no user1");//hard coded to get data of user1 only
+    }
+
+    public void onClickLog(android.view.View view){
+        String name = findViewById(R.id.name).toString();
+        String email = findViewById(R.id.email).toString();
+        String password = findViewById(R.id.password).toString();
+        Review[] reviews = new Review[0];
+
+        User u = new User(name, email, password, reviews);
+        String reg_msg = toLog(u);
+        if (reg_msg.equals("success")){
+            //redirect to homepage with log in status
         } else {
-            StringBuilder sb = new StringBuilder();
-            sb.append("name: ").append(user.getName()).append("\n");
-            sb.append("email: ").append(user.getEmail()).append("\n");
-            sb.append("password: ").append(user.getPassword()).append("\n");
-            sb.append("reviews: ");
-            Review[] reviews = user.getReviews();
-            for (int i = 0; i < reviews.length; i++){
-                sb.append(reviews[i]).append("\n");
-            }
-            credentialPrint.setText(sb.toString());
+            //display msg on current page
         }
     }
 
+    public void onClickReg(android.view.View view){
+        String name = findViewById(R.id.name).toString();
+        String email = findViewById(R.id.email).toString();
+        String password = findViewById(R.id.password).toString();
+        Review[] reviews = new Review[0];
 
+        User u = new User(name, email, password, reviews);
+        String reg_msg = toRegister(u);
+        if (reg_msg.equals("success")){
+            //redirect to homepage with log in status
+        } else {
+            //display msg on current page
+        }
+    }
+
+    private String toLog(User u){
+        User dbU = getUser(u.getEmail());
+        //if dbu is null
+        //u is not even register
+            //return "user not register"
+        //else
+            //do further checking
+        //if name & password match
+            //return "success"
+        //else
+            //return "name or password wrong'
+        return "null";//TODO: change to reflect correct status
+    }
+
+    private String toRegister(User u){
+        return "null";//TODO: change to reflect correct status
+    }
+
+    private User getUser(String email){
+        return null;
+    }
 
 }

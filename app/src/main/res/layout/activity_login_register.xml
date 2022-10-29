@@ -8,12 +8,103 @@
 
 
     <TextView
-        android:id="@+id/credential"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="default"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="0dp">
+        android:id="@+id/name_prompt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="105dp"
+        android:layout_marginTop="251dp"
+        android:layout_marginEnd="39dp"
+        android:layout_marginBottom="34dp"
+        android:text="Name:"
+        app:layout_constraintBottom_toTopOf="@+id/email_prompt"
+        app:layout_constraintEnd_toStartOf="@+id/name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    </TextView>
+    <TextView
+        android:id="@+id/email_prompt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="105dp"
+        android:layout_marginEnd="42dp"
+        android:layout_marginBottom="33dp"
+        android:text="Email:"
+        app:layout_constraintBottom_toTopOf="@+id/password_prompt"
+        app:layout_constraintEnd_toStartOf="@+id/email"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/name_prompt" />
+
+    <TextView
+        android:id="@+id/password_prompt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="105dp"
+        android:layout_marginEnd="14dp"
+        android:layout_marginBottom="34dp"
+        android:text="Password:"
+        app:layout_constraintBottom_toTopOf="@+id/log_btn"
+        app:layout_constraintEnd_toStartOf="@+id/password"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/email_prompt" />
+
+    <EditText
+        android:id="@+id/name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="233dp"
+        android:layout_marginEnd="106dp"
+        android:layout_marginBottom="8dp"
+        android:inputType="text"
+        app:layout_constraintBottom_toTopOf="@+id/email"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/name_prompt"
+        app:layout_constraintTop_toTopOf="parent"></EditText>
+
+    <EditText
+        android:id="@+id/email"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="106dp"
+        android:layout_marginBottom="12dp"
+        android:inputType="text"
+        app:layout_constraintBottom_toTopOf="@+id/password"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/email_prompt"
+        app:layout_constraintTop_toBottomOf="@+id/name"></EditText>
+
+    <EditText
+        android:id="@+id/password"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="106dp"
+        android:layout_marginBottom="21dp"
+        android:inputType="text"
+        app:layout_constraintBottom_toTopOf="@+id/log_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/password_prompt"
+        app:layout_constraintTop_toBottomOf="@+id/email"></EditText>
+
+    <Button
+        android:id="@+id/log_btn"
+        android:layout_width="200dp"
+        android:layout_height="60dp"
+        android:onClick="onClickLog"
+        android:text="Log in"
+        tools:layout_editor_absoluteX="106dp"
+        tools:layout_editor_absoluteY="408dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/password"></Button>
+
+    <Button
+        android:id="@+id/reg_btn"
+        android:layout_width="200dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="4dp"
+        android:onClick="onClickReg"
+        android:text="Register"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/log_btn"
+        tools:layout_editor_absoluteX="105dp"></Button>
 </androidx.constraintlayout.widget.ConstraintLayout>
