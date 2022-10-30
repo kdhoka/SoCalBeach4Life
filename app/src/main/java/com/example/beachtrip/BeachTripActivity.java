@@ -44,8 +44,9 @@ public class BeachTripActivity extends FragmentActivity implements OnMapReadyCal
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+        LatLng sydney = new LatLng(33.98673774844932, -118.45759921954799);
+
+        mMap.addMarker(new MarkerOptions().position(sydney).title("Marina Beach"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
 }
