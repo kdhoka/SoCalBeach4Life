@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Beach4Life</string>
+    <string name="curr_user_key">user0</string>
 </resources>

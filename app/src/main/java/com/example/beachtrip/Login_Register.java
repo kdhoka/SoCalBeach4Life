@@ -11,21 +11,40 @@ public class Login_Register extends AppCompatActivity {
         setContentView(R.layout.activity_login_register);
     }
 
-    public void onClickLog(android.view.View view){
+    private void onClickLog(android.view.View view){
         String name = findViewById(R.id.name).toString();
         String email = findViewById(R.id.email).toString();
         String password = findViewById(R.id.password).toString();
-        Review[] reviews = new Review[0];
 
-        User u = new User(name, email, password, reviews);
-        String reg_msg = toLog(u);
-        if (reg_msg.equals("success")){
-            //redirect to homepage with log in status
-        } else {
-            //display msg on current page
+        String msg = "";
+        if (name.equals("")){
+            msg = "empty name. Please enter again.";
+        } else if (email.equals("")){
+            msg = "empty email. Please enter again.";
+        } else if (password.equals("")){
+            msg = "empty password. Please enter again.";
+        }
+
+        if (!isValid(password)){
+            msg = "Invalid password. Password must be at least 8 characters and contains at least 1 number, 1 alphabet, and 1 special character in [! * .]";
         }
     }
 
+    //implements non-functional requirement 2
+    private boolean isValid(String pwd){
+        boolean res = pwd.length() >= 8;
+        if (res){
+            boolean hasNum  = false;
+            boolean hasAlpha = false;
+            boolean hasSpecialChar = false;
+            int i = 0;
+            while(!(hasNum && hasAlpha && hasSpecialChar) && i < pwd.length()){
+                    i++;
+            }
+        }
+        //TODO:
+        return false;
+    }
     public void onClickReg(android.view.View view){
         String name = findViewById(R.id.name).toString();
         String email = findViewById(R.id.email).toString();
