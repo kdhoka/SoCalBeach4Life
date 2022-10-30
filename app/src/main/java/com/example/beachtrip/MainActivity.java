@@ -13,7 +13,6 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.example.beachtrip.databinding.ActivityMainBinding;
-import com.google.firebase.FirebaseApp;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -34,7 +33,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     public void onClickLogReg(View view){
-        Intent intent = new Intent(this, Login_Register.class);
+        Intent intent = new Intent(this, LogInRegisterActivity.class);
         startActivity(intent);
     }
 
