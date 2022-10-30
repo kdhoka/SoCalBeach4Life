@@ -44,7 +44,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     public void onClickRestaurant(View view){
-
+        Intent intent = new Intent(this, RestaurantPage.class);
+        startActivity(intent);
     }
 
     /**

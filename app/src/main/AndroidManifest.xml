@@ -33,6 +33,9 @@
             android:value="YOUR_API_KEY" />
 
         <activity
+            android:name=".RestaurantPage"
+            android:exported="false" />
+        <activity
             android:name=".BeachTripActivity"
             android:exported="false"
             android:label="@string/title_activity_beach_trip" />
