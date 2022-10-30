@@ -38,6 +38,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         startActivity(intent);
     }
 
+    public void onClickBeach(View view){
+        Intent intent = new Intent(this, BeachTripActivity.class);
+        startActivity(intent);
+    }
+
+    public void onClickRestaurant(View view){
+
+    }
+
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.

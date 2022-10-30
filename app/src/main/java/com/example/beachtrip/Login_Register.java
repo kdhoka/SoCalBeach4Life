@@ -2,6 +2,7 @@ package com.example.beachtrip;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 
 public class Login_Register extends AppCompatActivity {
 
@@ -11,7 +12,7 @@ public class Login_Register extends AppCompatActivity {
         setContentView(R.layout.activity_login_register);
     }
 
-    private void onClickLog(android.view.View view){
+    public void onClickLog(View view){
         String name = findViewById(R.id.name).toString();
         String email = findViewById(R.id.email).toString();
         String password = findViewById(R.id.password).toString();
@@ -45,7 +46,7 @@ public class Login_Register extends AppCompatActivity {
         //TODO:
         return false;
     }
-    public void onClickReg(android.view.View view){
+    public void onClickReg(View view){
         String name = findViewById(R.id.name).toString();
         String email = findViewById(R.id.email).toString();
         String password = findViewById(R.id.password).toString();
