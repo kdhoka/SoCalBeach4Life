@@ -6,13 +6,23 @@ public class User {
     String password;
     Review[] reviews;
 
-    public User(String name, String email, String password, Review[] reviews) {
+    public User(){
 
+    }
+
+    public User(String name, String email, String password) {
         this.name = name;
         this.email = email;
         this.password = password;
-        this.reviews = reviews;
     }
+
+//    public User(String name, String email, String password, Review[] reviews) {
+//
+//        this.name = name;
+//        this.email = email;
+//        this.password = password;
+//        this.reviews = reviews;
+//    }
 
     public String getName() {
         return name;

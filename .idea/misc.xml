@@ -3,8 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../../layout/custom_preview.xml" value="0.1" />
         <entry key="..\:/Users/kriti/AndroidStudioProjects/CS-310-Group-Project/app/src/main/res/layout/activity_main.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/activity_login_register.xml" value="0.12424242424242424" />
+        <entry key="app/src/main/res/layout/activity_login_register.xml" value="0.335" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_user_review.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_first.xml" value="0.10104166666666667" />
