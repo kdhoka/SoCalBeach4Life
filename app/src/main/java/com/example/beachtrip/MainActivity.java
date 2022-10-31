@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     public void onClickBeach(View view){
-        Intent intent = new Intent(this, BeachTripActivity.class);
+        Intent intent = new Intent(this, BeachInfoActivity.class);
         startActivity(intent);
     }
 

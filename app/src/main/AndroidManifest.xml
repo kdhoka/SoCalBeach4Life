@@ -17,6 +17,9 @@
         android:theme="@style/Theme.BeachTrip"
         tools:targetApi="31">
         <activity
+            android:name=".BeachInfoActivity"
+            android:exported="false" />
+        <activity
             android:name=".UserReviewActivity"
             android:exported="false" />
         <!--
@@ -37,10 +40,6 @@
         <activity
             android:name=".RestaurantPage"
             android:exported="false" />
-        <activity
-            android:name=".BeachTripActivity"
-            android:exported="false"
-            android:label="@string/title_activity_beach_trip" />
         <activity
             android:name=".LogInRegisterActivity"
             android:exported="false" />
