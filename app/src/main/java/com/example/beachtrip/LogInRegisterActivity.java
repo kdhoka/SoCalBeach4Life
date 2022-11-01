@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -13,13 +14,15 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class LogInRegisterActivity extends AppCompatActivity {
+    private static final String TAG = "email password";
     private FirebaseAuth mAuth;
     private String name;
     private String email;
-    private String pwd;
+    private String password;
     private TextView nameView;
     private TextView emailView;
     private TextView pwdView;
@@ -28,14 +31,19 @@ public class LogInRegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_register);
-        mAuth = FirebaseAuth.getInstance();
         name = "";
         email = "";
-        pwd = "";
+        password = "";
 
         nameView = findViewById(R.id.name);
         emailView = findViewById(R.id.email);
         pwdView = findViewById(R.id.pwd);
+
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if(currentUser != null){
+            currentUser.reload();
+        }
     }
 
     public void onClickBack(android.view.View view){
@@ -47,58 +55,40 @@ public class LogInRegisterActivity extends AppCompatActivity {
 
         name = nameView.getText().toString();
         email = emailView.getText().toString();
-        pwd = pwdView.getText().toString();
+        password = pwdView.getText().toString();
 
-        if (name.isEmpty()) {
-            nameView.setError("Name is required!");
-            return;
+        if (isValid(name, email, password)){
+            signIn(email, password);
         }
+    }
 
-        if(email.isEmpty()){
-            emailView.setError("Email is required!");
-            return;
-        }
-
-        if(pwd.isEmpty()){
-            pwdView.setError("Password is required!");
-            return;
-        }
-
-        if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
-            emailView.setError("Please provide valid email");
-            return;
-        }
-
-        if(pwd.length() < 8){
-            pwdView.setError("Password must be at least 8 characters long!");
-            return;
-        }
-
-        mAuth.createUserWithEmailAndPassword(email, pwd)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+    private void signIn(String email, String password) {
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()){
-                            User user = new User(name, email, pwd);
-
-                            FirebaseDatabase.getInstance().getReference("Users")
-                                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                                    .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if(task.isSuccessful()){
-                                        Toast.makeText(LogInRegisterActivity.this, "User has been registered successfully!", Toast.LENGTH_LONG).show();
-                                        //user is registered, call log in, redirect to main page.
-                                    }else{
-                                        Toast.makeText(LogInRegisterActivity.this, "Failed to register! Try again!", Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            });
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d(TAG, "signInWithEmail:success");
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            updateUI(user);
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w(TAG, "signInWithEmail:failure", task.getException());
+                            Toast.makeText(LogInRegisterActivity.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                            updateUI(null);
                         }
                     }
                 });
-//        Intent intent = new Intent(this, UserReviewActivity.class);
-//        startActivity(intent);//send current user key to next page:D That's how page and page communicate!
     }
 
+    private void updateUI(FirebaseUser user) {
+        TextView textView = findViewById(R.id.title);
+        textView.setText("User " + user.getEmail() + "successfully signed in!");
+    }
+
+    private boolean isValid(String name, String email, String password) {
+        return true;
+    }
 }
