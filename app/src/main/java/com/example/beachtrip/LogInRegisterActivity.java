@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,6 +45,10 @@ public class LogInRegisterActivity extends AppCompatActivity {
         if(currentUser != null){
             currentUser.reload();
         }
+    }
+    public void onClickBeachReview(android.view.View view){
+        Intent intent = new Intent(this, BeachReviewActivity.class);
+        startActivity(new Intent());
     }
 
     public void onClickBack(android.view.View view){
@@ -84,11 +89,13 @@ public class LogInRegisterActivity extends AppCompatActivity {
     }
 
     private void updateUI(FirebaseUser user) {
-        TextView textView = findViewById(R.id.title);
-        textView.setText("User " + user.getEmail() + "successfully signed in!");
     }
 
     private boolean isValid(String name, String email, String password) {
-        return true;
+        return true;//TODO
+    }
+
+    public void onClickReview(View view) {
+        startActivity(new Intent(this, BeachReviewActivity.class));
     }
 }
