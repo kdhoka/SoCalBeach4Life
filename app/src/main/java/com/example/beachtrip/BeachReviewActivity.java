@@ -12,6 +12,12 @@ public class BeachReviewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_beach_review);
+        Intent intent = getIntent();
+        String beach = intent.getStringExtra("beach");
+        displayReview(beach);
+    }
+
+    private void displayReview(String beach) {
     }
 
     public void onClickBack(View view) {
