@@ -23,6 +23,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.example.beachtrip.databinding.ActivityMainBinding;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -40,6 +42,8 @@ public class MainActivity extends AppCompatActivity
     private Circle c;
     private int radius = 1000;
     private Marker current_marker;
+
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,7 +129,19 @@ public class MainActivity extends AppCompatActivity
         };
 
         beachRef.addValueEventListener(beachCredentialListener);
+
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if(currentUser != null){
+            currentUser.reload();
+//            sayHello(currentUser);
+        }
     }
+
+//    private void sayHello(FirebaseUser currentUser) {
+//        TextView helloText = findViewById(R.id.hello);
+//        helloText.setText("Hello, " + currentUser.getDisplayName());
+//    }
 
     public void onClickLogReg(View view){
         Intent intent = new Intent(this, LogInRegisterActivity.class);
