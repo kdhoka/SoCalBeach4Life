@@ -91,6 +91,9 @@ public class LogInRegisterActivity extends AppCompatActivity {
     }
 
     private void updateUI(FirebaseUser user) {
+        if (user != null){
+            startActivity(new Intent(this, MainActivity.class));
+        }
     }
 
     private boolean isValid(String name, String email, String password) {
