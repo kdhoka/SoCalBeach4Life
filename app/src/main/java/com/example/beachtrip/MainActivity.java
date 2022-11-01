@@ -31,6 +31,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -134,14 +136,15 @@ public class MainActivity extends AppCompatActivity
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser != null){
             currentUser.reload();
-//            sayHello(currentUser);
+            sayHello(currentUser);
         }
     }
 
-//    private void sayHello(FirebaseUser currentUser) {
-//        TextView helloText = findViewById(R.id.hello);
-//        helloText.setText("Hello, " + currentUser.getDisplayName());
-//    }
+    private void sayHello(FirebaseUser currentUser) {
+        TextView helloText = findViewById(R.id.hello);
+        StringBuilder builder = new StringBuilder("Hello, " + currentUser.getEmail());
+        helloText.setText(builder);
+    }
 
     public void onClickLogReg(View view){
         Intent intent = new Intent(this, LogInRegisterActivity.class);

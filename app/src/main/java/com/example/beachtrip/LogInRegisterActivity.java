@@ -82,7 +82,7 @@ public class LogInRegisterActivity extends AppCompatActivity {
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
-                            Toast.makeText(LogInRegisterActivity.this, "Authentication failed. User not exist.",
+                            Toast.makeText(LogInRegisterActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                             updateUI(null);
                         }
@@ -92,7 +92,9 @@ public class LogInRegisterActivity extends AppCompatActivity {
 
     private void updateUI(FirebaseUser user) {
         if (user != null){
-            startActivity(new Intent(this, MainActivity.class));
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.putExtra("Uid", user.getUid());
+            startActivity(intent);
         }
     }
 
