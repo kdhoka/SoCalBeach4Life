@@ -76,11 +76,13 @@ public class LogInRegisterActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
+                            Toast.makeText(LogInRegisterActivity.this, "Success. User is signed in by 310",
+                                    Toast.LENGTH_SHORT).show();
                             updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
-                            Toast.makeText(LogInRegisterActivity.this, "Authentication failed.",
+                            Toast.makeText(LogInRegisterActivity.this, "Authentication failed. User not exist.",
                                     Toast.LENGTH_SHORT).show();
                             updateUI(null);
                         }
@@ -92,7 +94,32 @@ public class LogInRegisterActivity extends AppCompatActivity {
     }
 
     private boolean isValid(String name, String email, String password) {
-        return true;//TODO
+        if(name.isEmpty()){
+            nameView.setError("Name is required!");
+            return false;
+        }
+
+        if(email.isEmpty()){
+            emailView.setError("Email is required!");
+            return false;
+        }
+
+        if(password.isEmpty()){
+            pwdView.setError("Password is required");
+            return false;
+        }
+
+        if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+            emailView.setError("Please provide valid email!");
+            return false;
+        }
+
+        if(password.length() < 6){
+            pwdView.setError("Password must have min length 6!");
+            return false;
+        }
+
+        return true;
     }
 
     public void onClickReview(View view) {
