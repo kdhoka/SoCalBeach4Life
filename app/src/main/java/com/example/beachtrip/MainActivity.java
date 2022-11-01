@@ -3,18 +3,24 @@ package com.example.beachtrip;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.Circle;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.example.beachtrip.databinding.ActivityMainBinding;
 import com.google.firebase.auth.FirebaseAuth;
@@ -28,10 +34,14 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class MainActivity extends AppCompatActivity
+        implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
     private GoogleMap mMap;
     private ActivityMainBinding binding;
+    private Circle c;
+    private int radius = 1000;
+    private Marker current_marker;
 
     private FirebaseAuth mAuth;
 
@@ -39,12 +49,35 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        //map basic settings
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+        //dropdown menu setting
+        Spinner rangeSpinner = findViewById(R.id.rangeChoice);
+        rangeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> arg0, View view, int arg2, long arg3) {
+
+                radius = Integer.valueOf(rangeSpinner.getSelectedItem().toString());
+                updateMarker();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+                // TODO Auto-generated method stub
+
+            }
+        });
+        rangeSpinner.setBackgroundColor(Color.CYAN);
+        ArrayAdapter<CharSequence>adapter = ArrayAdapter.createFromResource(this, R.array.ranges, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+        rangeSpinner.setAdapter(adapter);
+
+        //read and display beach markers
         FirebaseDatabase root = FirebaseDatabase.getInstance();
         DatabaseReference beachRef= root.getReference("beaches"); //pointer to the Beach tree
 
@@ -162,6 +195,32 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         */
         LatLng la = new LatLng(34.05, -118.24);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(la, 9));
+
+        mMap.setOnMarkerClickListener(this);
+    }
+
+    /** Called when the user clicks a marker. */
+    @Override
+    public boolean onMarkerClick(final Marker marker) {
+        current_marker = marker;
+        updateMarker();
+
+        return false;
+    }
+
+    public void updateMarker(){
+        if(current_marker == null){
+            return;
+        }
+        LatLng center = current_marker.getPosition();
+        if(c != null){
+            c.remove();
+        }
+        c = mMap.addCircle(new CircleOptions()
+                .center(center)
+                .radius(radius)
+                .strokeColor(Color.BLACK)
+                .fillColor(getResources().getColor(R.color.semi_blue)));
     }
 
 }
