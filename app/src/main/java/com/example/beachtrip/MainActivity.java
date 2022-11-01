@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -43,7 +44,8 @@ public class MainActivity extends AppCompatActivity
     private ActivityMainBinding binding;
     private Circle c;
     private int radius = 1000;
-    private Marker current_marker;
+    private Marker current_marker = null;
+    private ArrayList<Beach> beachList;
 
     private FirebaseAuth mAuth;
 
@@ -83,41 +85,21 @@ public class MainActivity extends AppCompatActivity
         FirebaseDatabase root = FirebaseDatabase.getInstance();
         DatabaseReference beachRef= root.getReference("beaches"); //pointer to the Beach tree
 
-        ArrayList<String> restaurantNames = new ArrayList<String>();
-        ArrayList<String> Lats = new ArrayList<String>();
-        ArrayList<String> Lngs = new ArrayList<String>();
-
         ValueEventListener beachCredentialListener = new ValueEventListener() {
             private static final String TAG = "Beach read.";
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // Get value of each attribute of a User ob
+                beachList = new ArrayList<>();
                 int size = 0;
                 for (DataSnapshot dsp : dataSnapshot.getChildren()) {
-                    String restName = dsp.child("name").getValue().toString();
-                    String lat = dsp.child("xpos").getValue().toString();
-                    String lng = dsp.child("ypos").getValue().toString();
-                    restaurantNames.add(restName);
-                    Lats.add(lat);
-                    Lngs.add(lng);
-                    size++;
+                    String id = dsp.getKey().toString();
+                    String Name = dsp.child("name").getValue().toString();
+                    Double lat = Double.valueOf(dsp.child("xpos").getValue().toString());
+                    Double lng = Double.valueOf(dsp.child("ypos").getValue().toString());
+                    beachList.add(new Beach(id, Name, new LatLng(lat, lng),new String[1][1], new ParkingLot[1], new Review[1]));
                 }
-                TextView tv = findViewById(R.id.text);
-
-                ListView lv = findViewById(R.id.list);
-                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, restaurantNames);
-                lv.setAdapter(arrayAdapter);
-
-                ListView lv2 = findViewById(R.id.list2);
-                ArrayAdapter<String> arrayAdapter2 = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, Lats);
-                lv2.setAdapter(arrayAdapter2);
-
-                ListView lv3 = findViewById(R.id.list3);
-                ArrayAdapter<String> arrayAdapter3 = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, Lngs);
-                lv3.setAdapter(arrayAdapter3);
-
-                tv.setText(String.valueOf(size));
 
                 onLoadFinished();
                 // ..
@@ -152,8 +134,16 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void onClickBeach(View view){
-        Intent intent = new Intent(this, BeachInfoActivity.class);
-        startActivity(intent);
+
+        if(current_marker != null){
+            Intent intent = new Intent(this, BeachInfoActivity.class);
+            String id = (String) current_marker.getTag();
+            intent.putExtra("id", id);
+            startActivity(intent);
+        } else {
+            Toast.makeText(MainActivity.this, "Please click on a marker before proceeding.",
+                    Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void onClickRestaurant(View view){
@@ -162,15 +152,10 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void onLoadFinished(){
-        TextView tv = findViewById(R.id.text);
-        ListView lv = findViewById(R.id.list);
-        ListView lv2 = findViewById(R.id.list2);
-        ListView lv3 = findViewById(R.id.list3);
-        for(int i = 0; i < Integer.valueOf((String)tv.getText()); ++i){
-            String name = (String) lv.getItemAtPosition(i);
-            Double la = Double.valueOf((String)lv2.getItemAtPosition(i));
-            Double ln = Double.valueOf((String)lv3.getItemAtPosition(i));
-            mMap.addMarker(new MarkerOptions().position(new LatLng(la, ln)).title(name));
+        Marker temp;
+        for(Beach b: beachList){
+            temp = mMap.addMarker(new MarkerOptions().position(b.getLocation()).title(b.getName()));
+            temp.setTag(b.getID());
         }
     }
 
