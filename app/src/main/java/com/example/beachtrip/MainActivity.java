@@ -114,19 +114,19 @@ public class MainActivity extends AppCompatActivity
 
         beachRef.addValueEventListener(beachCredentialListener);
 
-        mAuth = FirebaseAuth.getInstance();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if(currentUser != null){
-            currentUser.reload();
-            sayHello(currentUser);
-        }
+//        mAuth = FirebaseAuth.getInstance();
+//        FirebaseUser currentUser = mAuth.getCurrentUser();
+//        if(currentUser != null){
+//            currentUser.reload();
+//            sayHello(currentUser);
+//        }
     }
 
-    private void sayHello(FirebaseUser currentUser) {
-        TextView helloText = findViewById(R.id.hello);
-        StringBuilder builder = new StringBuilder("Hello, " + currentUser.getEmail());
-        helloText.setText(builder);
-    }
+//    private void sayHello(FirebaseUser currentUser) {
+//        TextView helloText = findViewById(R.id.hello);
+//        StringBuilder builder = new StringBuilder("Hello, " + currentUser.getEmail());
+//        helloText.setText(builder);
+//    }
 
     public void onClickLogReg(View view){
         Intent intent = new Intent(this, LogInRegisterActivity.class);
