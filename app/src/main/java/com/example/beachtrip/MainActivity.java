@@ -41,6 +41,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.android.libraries.places.api.Places;
+import com.google.gson.Gson;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
 
 import org.w3c.dom.Text;
 
@@ -140,6 +144,10 @@ public class MainActivity extends AppCompatActivity
 //            currentUser.reload();
 //            sayHello(currentUser);
 //        }
+
+        if (!Places.isInitialized()) {
+            Places.initialize(getApplicationContext(), BuildConfig.MAPS_API_KEY);
+        }
     }
 
 //    private void sayHello(FirebaseUser currentUser) {
@@ -151,6 +159,10 @@ public class MainActivity extends AppCompatActivity
     public void onClickLogReg(View view){
         Intent intent = new Intent(this, LogInRegisterActivity.class);
         startActivity(intent);
+    }
+
+    public  void onClickRoute(View view){
+
     }
 
     public void onClickBeach(View view){
