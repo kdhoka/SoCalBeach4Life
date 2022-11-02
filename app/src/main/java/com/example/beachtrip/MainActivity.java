@@ -11,6 +11,7 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -35,6 +36,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.example.beachtrip.databinding.ActivityMainBinding;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -43,13 +46,18 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.android.libraries.places.api.Places;
-import com.google.gson.Gson;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
 
+import org.json.JSONObject;
 import org.w3c.dom.Text;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity
@@ -63,9 +71,10 @@ public class MainActivity extends AppCompatActivity
     private int radius = 1000;
     private Marker current_marker = null;
     private Marker user_marker = null;
+    private Polyline current_route = null;
     private ArrayList<Beach> beachList;
     private ArrayList<Restaurant> restaurantList;
-    private ArrayList<Marker> restMarkers = new ArrayList<Marker>();
+    private ArrayList<Marker> restMarkers = new ArrayList();
 
     private FirebaseAuth mAuth;
 
@@ -112,7 +121,7 @@ public class MainActivity extends AppCompatActivity
                 beachList = new ArrayList<>();
                 int size = 0;
                 for (DataSnapshot dsp : dataSnapshot.getChildren()) {
-                    String id = dsp.getKey().toString();
+                    String id = dsp.getKey();
                     String Name = dsp.child("name").getValue().toString();
                     Double lat = Double.valueOf(dsp.child("xpos").getValue().toString());
                     Double lng = Double.valueOf(dsp.child("ypos").getValue().toString());
@@ -147,9 +156,6 @@ public class MainActivity extends AppCompatActivity
 //            sayHello(currentUser);
 //        }
 
-        if (!Places.isInitialized()) {
-            Places.initialize(getApplicationContext(), BuildConfig.MAPS_API_KEY);
-        }
     }
 
 //    private void sayHello(FirebaseUser currentUser) {
@@ -169,16 +175,15 @@ public class MainActivity extends AppCompatActivity
         } else if (current_marker == null) {
             Toast.makeText(MainActivity.this, "Please click on a marker before proceeding.", Toast.LENGTH_SHORT).show();
         } else {
-            if (!Places.isInitialized()) {
-                Places.initialize(getApplicationContext(), BuildConfig.MAPS_API_KEY);
-            }
-
+            String url = getRouteURL(user_marker.getPosition(), current_marker.getPosition(), "AIzaSyAbnF-bckeq1b-E-nzZTrUFEQqVhzncg_w");
+            DownloadTask downloadTask = new DownloadTask();
+            downloadTask.execute(url);
         }
     }
 
     public String getRouteURL(LatLng origin, LatLng dest, String key){
-        return "https://maps.googleapis.com/maps/api/directions/json?origin="+String.valueOf(origin.latitude)+","+String.valueOf(origin.longitude)+
-                "&destination="+String.valueOf(dest.latitude)+","+String.valueOf(dest.longitude)+
+        return "https://maps.googleapis.com/maps/api/directions/json?origin="+origin.latitude+","+origin.longitude+
+                "&destination="+dest.latitude+","+dest.longitude+
                 "&sensor=false" +
                 "&mode=driving" +
                 "&key="+key;
@@ -350,8 +355,6 @@ public class MainActivity extends AppCompatActivity
             user_marker.setVisible(true);
             System.out.println(user_marker.toString());
 
-        } else {
-            System.out.println("Latitude:" + location.getLatitude() + ", Longitude:" + location.getLongitude());
         }
     }
 
@@ -369,4 +372,121 @@ public class MainActivity extends AppCompatActivity
     public void onStatusChanged(String provider, int status, Bundle extras) {
         Log.d("Latitude","status");
     }
+
+    private class DownloadTask extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... url) {
+
+            String data = "";
+
+            try {
+                data = downloadUrl(url[0]);
+            } catch (Exception e) {
+                Log.d("Background Task", e.toString());
+            }
+            return data;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+
+            ParserTask parserTask = new ParserTask();
+
+
+            parserTask.execute(result);
+
+        }
+    }
+
+    private class ParserTask extends AsyncTask<String, Integer, List<List<HashMap<String, String>>>> {
+
+        @Override
+        protected List<List<HashMap<String, String>>> doInBackground(String... jsonData) {
+
+            JSONObject jObject;
+            List<List<HashMap<String, String>>> routes = null;
+
+            try {
+                jObject = new JSONObject(jsonData[0]);
+                DirectionsJSONParser parser = new DirectionsJSONParser();
+
+                routes = parser.parse(jObject);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return routes;
+        }
+
+        @Override
+        protected void onPostExecute(List<List<HashMap<String, String>>> result) {
+            ArrayList points = null;
+            PolylineOptions lineOptions = null;
+            MarkerOptions markerOptions = new MarkerOptions();
+
+            for (int i = 0; i < result.size(); i++) {
+                points = new ArrayList();
+                lineOptions = new PolylineOptions();
+
+                List<HashMap<String, String>> path = result.get(i);
+
+                for (int j = 0; j < path.size(); j++) {
+                    HashMap<String, String> point = path.get(j);
+
+                    double lat = Double.parseDouble(point.get("lat"));
+                    double lng = Double.parseDouble(point.get("lng"));
+                    LatLng position = new LatLng(lat, lng);
+
+                    points.add(position);
+                }
+
+                lineOptions.addAll(points);
+                lineOptions.width(12);
+                lineOptions.color(Color.RED);
+                lineOptions.geodesic(true);
+
+            }
+            if(current_route != null){
+                current_route.remove();
+            }
+            current_route = mMap.addPolyline(lineOptions);
+        }
+    }
+
+    private String downloadUrl(String strUrl) throws IOException {
+        String data = "";
+        InputStream iStream = null;
+        HttpURLConnection urlConnection = null;
+        try {
+            URL url = new URL(strUrl);
+
+            urlConnection = (HttpURLConnection) url.openConnection();
+
+            urlConnection.connect();
+
+            iStream = urlConnection.getInputStream();
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(iStream));
+
+            StringBuffer sb = new StringBuffer();
+
+            String line = "";
+            while ((line = br.readLine()) != null) {
+                sb.append(line);
+            }
+
+            data = sb.toString();
+
+            br.close();
+
+        } catch (Exception e) {
+            Log.d("Exception", e.toString());
+        } finally {
+            iStream.close();
+            urlConnection.disconnect();
+        }
+        return data;
+    }
+
 }

@@ -4,14 +4,12 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../../../layout/custom_preview.xml" value="0.1" />
+        <entry key="..\:/Users/kriti/AndroidStudioProjects/CS-310-Group-Project/app/src/main/res/layout/activity_beach_info.xml" value="0.22333333333333336" />
         <entry key="..\:/Users/kriti/AndroidStudioProjects/CS-310-Group-Project/app/src/main/res/layout/activity_main.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/activity_beach_info.xml" value="0.26132246376811596" />
-        <entry key="app/src/main/res/layout/activity_beach_review.xml" value="0.335" />
-        <entry key="app/src/main/res/layout/activity_login_register.xml" value="0.2641509433962264" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.16176470588235295" />
+        <entry key="app/src/main/res/layout/activity_login_register.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_user_review.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_first.xml" value="0.10104166666666667" />
-        <entry key="app/src/main/res/layout/restaurant_info.xml" value="0.13956433637284701" />
       </map>
     </option>
   </component>
