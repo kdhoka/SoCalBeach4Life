@@ -64,6 +64,8 @@ public class MainActivity extends AppCompatActivity
     private Marker current_marker = null;
     private Marker user_marker = null;
     private ArrayList<Beach> beachList;
+    private ArrayList<Restaurant> restaurantList;
+    private ArrayList<Marker> restMarkers = new ArrayList<Marker>();
 
     private FirebaseAuth mAuth;
 
@@ -82,7 +84,6 @@ public class MainActivity extends AppCompatActivity
         rangeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> arg0, View view, int arg2, long arg3) {
-
                 radius = Integer.valueOf(rangeSpinner.getSelectedItem().toString());
                 updateMarker();
             }
@@ -167,7 +168,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void onClickBeach(View view){
-
         if(current_marker != null){
             Intent intent = new Intent(this, BeachInfoActivity.class);
             String id = (String) current_marker.getTag();
@@ -191,6 +191,7 @@ public class MainActivity extends AppCompatActivity
             temp.setTag(b.getID());
         }
     }
+
     public Marker makeUserMarker(LatLng loc){
         return mMap.addMarker(new MarkerOptions().position(loc).title("Your current location").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
     }
@@ -217,8 +218,10 @@ public class MainActivity extends AppCompatActivity
         mMap.addMarker(new MarkerOptions().position(la02).title("Marker in LA 02"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(la01));
         */
+        /*
         LatLng la01 = new LatLng(33.983993723959344, -118.4572885881826);
         mMap.addMarker(new MarkerOptions().position(la01).title("Restaurant"));
+         */
 
         LatLng la = new LatLng(34.05, -118.24);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(la, 9));
@@ -229,8 +232,14 @@ public class MainActivity extends AppCompatActivity
     /** Called when the user clicks a marker. */
     @Override
     public boolean onMarkerClick(final Marker marker) {
-        current_marker = marker;
-        updateMarker();
+        if(restMarkers.contains(marker)){
+            TextView tv = (TextView) findViewById(R.id.text);
+            tv.setText(marker.getTitle());
+        }
+        else{
+            current_marker = marker;
+            updateMarker();
+        }
 
         return false;
     }
@@ -249,13 +258,69 @@ public class MainActivity extends AppCompatActivity
                 .strokeColor(Color.BLACK)
                 .fillColor(getResources().getColor(R.color.semi_blue)));
 
+        displayRestaurants();
+
+        /*
         LatLng la01 = new LatLng(33.983993723959344, -118.4572885881826);
         float[] results = new float[1];
         Location.distanceBetween(center.latitude, center.longitude,
                 la01.latitude, la01.longitude, results);
 
         TextView tv = (TextView) findViewById(R.id.text);
-        tv.setText(String.valueOf(results[0] * 3.28084));
+        tv.setText(String.valueOf(results[0] * 3.28084));*/
+    }
+
+    private void displayRestaurants(){
+        if(current_marker == null){
+            return;
+        }
+        LatLng cur = current_marker.getPosition();
+
+        for(Marker m : restMarkers){
+            m.remove();
+        }
+        restMarkers = new ArrayList<Marker>();
+
+        FirebaseDatabase root = FirebaseDatabase.getInstance();
+        DatabaseReference restRef= root.getReference("Restaurants"); //pointer to the Restaurant tree
+        restaurantList = new ArrayList<Restaurant>();
+        ValueEventListener restaurantCredentialListener = new ValueEventListener() {
+            private static final String TAG = "Restaurant read.";
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // Get value of each attribute of a User ob
+                for (DataSnapshot dsp : dataSnapshot.getChildren()) {
+                    Double Lat = (Double) dsp.child("Lat").getValue();
+                    Double Lng = (Double) dsp.child("Lng").getValue();
+                    float[] results = new float[1];
+                    Location.distanceBetween(cur.latitude, cur.longitude,
+                            Lat, Lng, results);
+                    if(results[0] * 3.28084 <= radius){
+                        String restName = dsp.child("name").getValue().toString();
+                        Restaurant r = new Restaurant(restName, null, null, new LatLng(Lat, Lng));
+                        restaurantList.add(r);
+                    }
+                }
+                drawRestaurants();
+                // ..
+            }
+
+            @Override //trigger when the client(us) doesn't have permission to read from the DB
+            public void onCancelled(DatabaseError databaseError) {
+                // Getting Post failed, log a message
+                Log.w(TAG, "loadPost:onCancelled", databaseError.toException());
+            }
+        };
+
+        restRef.addValueEventListener(restaurantCredentialListener);
+    }
+
+    private void drawRestaurants(){
+        for(Restaurant r : restaurantList){
+            Marker rMarker = mMap.addMarker(new MarkerOptions().position(r.getLocation()).title(r.getName()));
+            restMarkers.add(rMarker);
+        }
     }
 
     @Override
