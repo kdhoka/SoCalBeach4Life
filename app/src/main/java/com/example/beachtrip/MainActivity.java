@@ -239,11 +239,11 @@ public class MainActivity extends AppCompatActivity
         if(mMap != null){
             if(user_marker != null){
                 user_marker.remove();
-            } else {
+            }
             user_marker = makeUserMarker(new LatLng(location.getLatitude(),location.getLongitude()));
             user_marker.setVisible(true);
             System.out.println(user_marker.toString());
-            }
+
         } else {
             System.out.println("Latitude:" + location.getLatitude() + ", Longitude:" + location.getLongitude());
         }
