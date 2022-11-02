@@ -1,8 +1,14 @@
 package com.example.beachtrip;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.Context;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,11 +19,15 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
@@ -38,13 +48,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity
-        implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
-
+        implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener, LocationListener {
+    private LocationManager locationManager;
+    private LocationListener locationListener;
+    private Context context;
     private GoogleMap mMap;
     private ActivityMainBinding binding;
     private Circle c;
     private int radius = 1000;
     private Marker current_marker = null;
+    private Marker user_marker = null;
     private ArrayList<Beach> beachList;
 
     private FirebaseAuth mAuth;
@@ -52,7 +65,6 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         //map basic settings
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -114,6 +126,14 @@ public class MainActivity extends AppCompatActivity
 
         beachRef.addValueEventListener(beachCredentialListener);
 
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+        while (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+        }
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 60000, 0, this);
+
+
 //        mAuth = FirebaseAuth.getInstance();
 //        FirebaseUser currentUser = mAuth.getCurrentUser();
 //        if(currentUser != null){
@@ -157,6 +177,9 @@ public class MainActivity extends AppCompatActivity
             temp = mMap.addMarker(new MarkerOptions().position(b.getLocation()).title(b.getName()));
             temp.setTag(b.getID());
         }
+    }
+    public Marker makeUserMarker(LatLng loc){
+        return mMap.addMarker(new MarkerOptions().position(loc).title("Your current location").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
     }
 
     /**
@@ -211,4 +234,33 @@ public class MainActivity extends AppCompatActivity
                 .fillColor(getResources().getColor(R.color.semi_blue)));
     }
 
+    @Override
+    public void onLocationChanged(@NonNull Location location) {
+        if(mMap != null){
+            if(user_marker != null){
+                user_marker.remove();
+            } else {
+            user_marker = makeUserMarker(new LatLng(location.getLatitude(),location.getLongitude()));
+            user_marker.setVisible(true);
+            System.out.println(user_marker.toString());
+            }
+        } else {
+            System.out.println("Latitude:" + location.getLatitude() + ", Longitude:" + location.getLongitude());
+        }
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+        Log.d("Latitude","disable");
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+        Log.d("Latitude","enable");
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+        Log.d("Latitude","status");
+    }
 }
