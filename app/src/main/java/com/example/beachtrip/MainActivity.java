@@ -163,8 +163,25 @@ public class MainActivity extends AppCompatActivity
         startActivity(intent);
     }
 
-    public  void onClickRoute(View view){
+    public void onClickRoute(View view){
+        if(user_marker == null){
+            Toast.makeText(MainActivity.this, "Please update your current location before proceeding.", Toast.LENGTH_SHORT).show();
+        } else if (current_marker == null) {
+            Toast.makeText(MainActivity.this, "Please click on a marker before proceeding.", Toast.LENGTH_SHORT).show();
+        } else {
+            if (!Places.isInitialized()) {
+                Places.initialize(getApplicationContext(), BuildConfig.MAPS_API_KEY);
+            }
 
+        }
+    }
+
+    public String getRouteURL(LatLng origin, LatLng dest, String key){
+        return "https://maps.googleapis.com/maps/api/directions/json?origin="+String.valueOf(origin.latitude)+","+String.valueOf(origin.longitude)+
+                "&destination="+String.valueOf(dest.latitude)+","+String.valueOf(dest.longitude)+
+                "&sensor=false" +
+                "&mode=driving" +
+                "&key="+key;
     }
 
     public void onClickBeach(View view){
