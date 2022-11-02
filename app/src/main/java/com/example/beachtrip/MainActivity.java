@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -181,6 +182,9 @@ public class MainActivity extends AppCompatActivity
         mMap.addMarker(new MarkerOptions().position(la02).title("Marker in LA 02"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(la01));
         */
+        LatLng la01 = new LatLng(33.983993723959344, -118.4572885881826);
+        mMap.addMarker(new MarkerOptions().position(la01).title("Restaurant"));
+
         LatLng la = new LatLng(34.05, -118.24);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(la, 9));
 
@@ -206,9 +210,17 @@ public class MainActivity extends AppCompatActivity
         }
         c = mMap.addCircle(new CircleOptions()
                 .center(center)
-                .radius(radius)
+                .radius(radius / 3.28084)
                 .strokeColor(Color.BLACK)
                 .fillColor(getResources().getColor(R.color.semi_blue)));
+
+        LatLng la01 = new LatLng(33.983993723959344, -118.4572885881826);
+        float[] results = new float[1];
+        Location.distanceBetween(center.latitude, center.longitude,
+                la01.latitude, la01.longitude, results);
+
+        TextView tv = (TextView) findViewById(R.id.text);
+        tv.setText(String.valueOf(results[0] * 3.28084));
     }
 
 }
