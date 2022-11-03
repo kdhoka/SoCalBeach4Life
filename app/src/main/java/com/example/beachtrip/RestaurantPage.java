@@ -21,7 +21,15 @@ public class RestaurantPage extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.restaurant_info);
+
+        String name = getIntent().getStringExtra("restaurantName");
+        TextView tv = (TextView) findViewById(R.id.restaurant1);
+        if(name != null) {
+            tv.setText(name);
+        }
+
         FirebaseDatabase root = FirebaseDatabase.getInstance();
         DatabaseReference restRef= root.getReference("Restaurants"); //pointer to the Restaurant tree
 
@@ -40,7 +48,7 @@ public class RestaurantPage extends AppCompatActivity {
                     restaurantNames.add(restName);
                 }
                 TextView tv = findViewById(R.id.restaurant1);
-                tv.setText(restaurantNames.get(1));
+                //tv.setText(restaurantNames.get(1));
                 // ..
             }
 
@@ -52,13 +60,6 @@ public class RestaurantPage extends AppCompatActivity {
         };
 
         restRef.addValueEventListener(restaurantCredentialListener);
-
-        //tv.setText(rests.get(0).getName());
-
-        /*
-        for(Restaurant rest : rests){
-            //TODO
-        }*/
     }
 
     public void onReturn(View view){

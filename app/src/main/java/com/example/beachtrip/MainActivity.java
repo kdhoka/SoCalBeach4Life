@@ -76,6 +76,7 @@ public class MainActivity extends AppCompatActivity
     private ArrayList<Beach> beachList;
     private ArrayList<Restaurant> restaurantList;
     private ArrayList<Marker> restMarkers = new ArrayList();
+    private Marker curRestMarker;
 
     private FirebaseAuth mAuth;
 
@@ -197,14 +198,21 @@ public class MainActivity extends AppCompatActivity
             intent.putExtra("id", id);
             startActivity(intent);
         } else {
-            Toast.makeText(MainActivity.this, "Please click on a marker before proceeding.",
+            Toast.makeText(MainActivity.this, "Please click on a Beach before proceeding.",
                     Toast.LENGTH_SHORT).show();
         }
     }
 
     public void onClickRestaurant(View view){
-        Intent intent = new Intent(this, RestaurantPage.class);
-        startActivity(intent);
+        if(curRestMarker == null){
+            Toast.makeText(MainActivity.this, "Please click on a Restaurant before proceeding.",
+                    Toast.LENGTH_SHORT).show();
+        }
+        else{
+            Intent intent = new Intent(this, RestaurantPage.class);
+            intent.putExtra("restaurantName", (String) curRestMarker.getTitle());
+            startActivity(intent);
+        }
     }
 
     public void onLoadFinished(){
@@ -257,6 +265,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onMarkerClick(final Marker marker) {
         if(restMarkers.contains(marker)){
+            curRestMarker = marker;
             TextView tv = (TextView) findViewById(R.id.text);
             tv.setText(marker.getTitle());
         }
@@ -301,6 +310,9 @@ public class MainActivity extends AppCompatActivity
         LatLng cur = current_marker.getPosition();
 
         for(Marker m : restMarkers){
+            if(curRestMarker == m){
+                curRestMarker = null;
+            }
             m.remove();
         }
         restMarkers = new ArrayList<Marker>();
