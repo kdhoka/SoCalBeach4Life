@@ -18,13 +18,15 @@ import java.util.ArrayList;
 
 public class RestaurantPage extends AppCompatActivity {
 
+    String name;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.restaurant_info);
 
-        String name = getIntent().getStringExtra("restaurantName");
+        this.name = getIntent().getStringExtra("restaurantName");
         TextView tv = (TextView) findViewById(R.id.restaurant1);
         if(name != null) {
             tv.setText(name);
@@ -33,8 +35,6 @@ public class RestaurantPage extends AppCompatActivity {
         FirebaseDatabase root = FirebaseDatabase.getInstance();
         DatabaseReference restRef= root.getReference("Restaurants"); //pointer to the Restaurant tree
 
-        ArrayList<String> restaurantNames = new ArrayList<String>();
-
         ValueEventListener restaurantCredentialListener = new ValueEventListener() {
             private static final String TAG = "Restaurant read.";
 
@@ -42,13 +42,15 @@ public class RestaurantPage extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // Get value of each attribute of a User ob
                 for (DataSnapshot dsp : dataSnapshot.getChildren()) {
-                    //System.out.println("here");
-                    //String userkey  = dsp.getKey();
                     String restName = dsp.child("name").getValue().toString();
-                    restaurantNames.add(restName);
+                    if(restName.equals(name)){
+                        String hours = dsp.child("hours").getValue().toString();
+                        TextView hoursTv = findViewById(R.id.hours);
+                        System.out.println(hours);
+                        hoursTv.setText("Hours: " + hours);
+                        break;
+                    }
                 }
-                TextView tv = findViewById(R.id.restaurant1);
-                //tv.setText(restaurantNames.get(1));
                 // ..
             }
 
