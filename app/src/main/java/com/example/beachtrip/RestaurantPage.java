@@ -2,6 +2,7 @@ package com.example.beachtrip;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -31,6 +32,8 @@ public class RestaurantPage extends AppCompatActivity {
         if(name != null) {
             tv.setText(name);
         }
+        TextView menuTv = findViewById(R.id.menu);
+        menuTv.setMovementMethod(new ScrollingMovementMethod());
 
         FirebaseDatabase root = FirebaseDatabase.getInstance();
         DatabaseReference restRef= root.getReference("Restaurants"); //pointer to the Restaurant tree
@@ -48,6 +51,14 @@ public class RestaurantPage extends AppCompatActivity {
                         TextView hoursTv = findViewById(R.id.hours);
                         System.out.println(hours);
                         hoursTv.setText("Hours: " + hours);
+                        Object menuObj = dsp.child("menu").getValue();
+                        TextView menuTv = findViewById(R.id.menu);
+                        if(menuObj == null){
+                            menuTv.setText("no menu available");
+                        }
+                        else{
+                            menuTv.setText(menuObj.toString());
+                        }
                         break;
                     }
                 }
