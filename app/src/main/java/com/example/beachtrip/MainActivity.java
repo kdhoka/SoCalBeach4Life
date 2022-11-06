@@ -127,7 +127,17 @@ public class MainActivity extends AppCompatActivity
                     String Name = dsp.child("name").getValue().toString();
                     Double lat = Double.valueOf(dsp.child("xpos").getValue().toString());
                     Double lng = Double.valueOf(dsp.child("ypos").getValue().toString());
-                    beachList.add(new Beach(id, Name, new LatLng(lat, lng),new String[1][1], new ParkingLot[1], new Review[1]));
+                    String hours = dsp.child("hours").getValue().toString();
+                    ArrayList<ParkingLot> parking = new ArrayList<>();
+                    for(DataSnapshot lots : dsp.child("lots").getChildren()){
+                        String lot_key = lots.getKey();
+                        System.out.println(lot_key);
+                        String lot_name = lots.child("name").getValue().toString();
+                        Double lot_lat = Double.valueOf(lots.child("xpos").getValue().toString());
+                        Double lot_lng = Double.valueOf(lots.child("ypos").getValue().toString());
+                        parking.add(new ParkingLot(lot_key,lot_name,new LatLng(lot_lat, lot_lng)));
+                    }
+                    beachList.add(new Beach(id, Name, new LatLng(lat, lng),hours, parking, new ArrayList<>()));
                 }
 
                 onLoadFinished();
@@ -171,17 +181,17 @@ public class MainActivity extends AppCompatActivity
         startActivity(intent);
     }
 
-    public void onClickRoute(View view){
-        if(user_marker == null){
-            Toast.makeText(MainActivity.this, "Please update your current location before proceeding.", Toast.LENGTH_SHORT).show();
-        } else if (current_marker == null) {
-            Toast.makeText(MainActivity.this, "Please click on a marker before proceeding.", Toast.LENGTH_SHORT).show();
-        } else {
-            String url = getRouteURL(user_marker.getPosition(), current_marker.getPosition(), "AIzaSyAbnF-bckeq1b-E-nzZTrUFEQqVhzncg_w");
-            DownloadTask downloadTask = new DownloadTask();
-            downloadTask.execute(url);
-        }
-    }
+//    public void onClickRoute(View view){
+//        if(user_marker == null){
+//            Toast.makeText(MainActivity.this, "Please update your current location before proceeding.", Toast.LENGTH_SHORT).show();
+//        } else if (current_marker == null) {
+//            Toast.makeText(MainActivity.this, "Please click on a marker before proceeding.", Toast.LENGTH_SHORT).show();
+//        } else {
+//            String url = getRouteURL(user_marker.getPosition(), current_marker.getPosition(), "AIzaSyAbnF-bckeq1b-E-nzZTrUFEQqVhzncg_w");
+//            DownloadTask downloadTask = new DownloadTask();
+//            downloadTask.execute(url);
+//        }
+//    }
 
     public String getRouteURL(LatLng origin, LatLng dest, String key){
         return "https://maps.googleapis.com/maps/api/directions/json?origin="+origin.latitude+","+origin.longitude+
@@ -220,6 +230,11 @@ public class MainActivity extends AppCompatActivity
         for(Beach b: beachList){
             temp = mMap.addMarker(new MarkerOptions().position(b.getLocation()).title(b.getName()));
             temp.setTag(b.getID());
+            for(ParkingLot p: b.getParkingLots()){
+                temp = mMap.addMarker(new MarkerOptions().position(p.getLocation()).title(p.getName()));
+                temp.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+                temp.setTag(p.getId());
+            }
         }
     }
 
@@ -268,8 +283,14 @@ public class MainActivity extends AppCompatActivity
             curRestMarker = marker;
             TextView tv = (TextView) findViewById(R.id.text);
             tv.setText(marker.getTitle());
-        }
-        else{
+            String url = getRouteURL(current_marker.getPosition(), marker.getPosition(), "AIzaSyAbnF-bckeq1b-E-nzZTrUFEQqVhzncg_w");
+            DownloadTask downloadTask = new DownloadTask();
+            downloadTask.execute(url);
+        } else if(marker.getTag().toString().contains("lot")) {
+            String url = getRouteURL(user_marker.getPosition(), marker.getPosition(), "AIzaSyAbnF-bckeq1b-E-nzZTrUFEQqVhzncg_w");
+            DownloadTask downloadTask = new DownloadTask();
+            downloadTask.execute(url);
+        } else {
             current_marker = marker;
             updateMarker();
         }
@@ -356,6 +377,7 @@ public class MainActivity extends AppCompatActivity
         for(Restaurant r : restaurantList){
             Marker rMarker = mMap.addMarker(new MarkerOptions().position(r.getLocation()).title(r.getName()));
             restMarkers.add(rMarker);
+            rMarker.setTag(r.getName());
         }
     }
 

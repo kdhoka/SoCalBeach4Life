@@ -1,23 +1,25 @@
 package com.example.beachtrip;
 import com.google.android.gms.maps.model.LatLng;
 
+import java.util.ArrayList;
+
 public class Beach {
     String id;
     String name;
     LatLng location;
-    String[][] hours;
-    ParkingLot[] parkingLots;
-    Review[] reviews;
+    String hours;
+    ArrayList<ParkingLot> parkingLots;
+    ArrayList<Review> reviews;
 
     public Beach(){
         id = "";
         this.name = "Null Beach";
-        hours = new String[2][7];
-        parkingLots = new ParkingLot[5];
-        reviews = new Review[10];
+        hours = "0-0";
+        parkingLots = new ArrayList<>();
+        reviews = new ArrayList<>();
     }
 
-    public Beach(String id, String name, LatLng location, String[][] hours, ParkingLot[] parkingLots, Review[] reviews) {
+    public Beach(String id, String name, LatLng location, String hours, ArrayList<ParkingLot> parkingLots, ArrayList<Review> reviews) {
         this.id = id;
         this.name = name;
         this.location = location;
@@ -39,15 +41,15 @@ public class Beach {
     }
 
 
-    public String[][] getHours() {
+    public String getHours() {
         return hours;
     }
 
-    public ParkingLot[] getParkingLots() {
+    public ArrayList<ParkingLot> getParkingLots() {
         return parkingLots;
     }
 
-    public Review[] getReviews() {
+    public ArrayList<Review> getReviews() {
         return reviews;
     }
 
