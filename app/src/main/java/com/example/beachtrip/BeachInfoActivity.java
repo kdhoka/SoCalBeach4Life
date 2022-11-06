@@ -40,7 +40,9 @@ public class BeachInfoActivity extends AppCompatActivity {
                     if(id.equals(InfoId)){
                       TextView nV = findViewById(R.id.nameFieldView);
                       TextView lV = findViewById(R.id.locationFieldView);
+                      TextView hV = findViewById(R.id.hoursFieldView);
                       nV.setText(dsp.child("name").getValue().toString());
+                      hV.setText(dsp.child("hours").getValue().toString());
                       String xpos = dsp.child("xpos").getValue().toString();
                       String ypos =dsp.child("ypos").getValue().toString();
                       String location = ""+xpos.substring(0,xpos.indexOf('.')+3)+", "+ypos.substring(0,ypos.indexOf('.')+3);
