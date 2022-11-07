@@ -396,6 +396,7 @@ public class MainActivity extends AppCompatActivity
         for(Restaurant r : restaurantList){
             Marker rMarker = mMap.addMarker(new MarkerOptions().position(r.getLocation()).title(r.getName()));
             restMarkers.add(rMarker);
+            rMarker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
             rMarker.setTag(r.getName());
         }
     }

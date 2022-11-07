@@ -57,7 +57,7 @@ public class RestaurantPage extends AppCompatActivity {
                             menuTv.setText("no menu available");
                         }
                         else{
-                            menuTv.setText(menuObj.toString());
+                            menuTv.setText(menuObj.toString().replace("\\n", "\n"));
                         }
                         break;
                     }
