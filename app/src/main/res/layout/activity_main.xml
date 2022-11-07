@@ -108,12 +108,12 @@
         android:layout_height="40dp"
         android:layout_marginStart="40dp"
         android:backgroundTint="@color/common_google_signin_btn_text_dark"
-        android:text="logMsg"
-        android:textColor="#FF018786"
+        android:text=""
+        android:textColor="@color/teal_200"
         app:layout_constraintBottom_toTopOf="@+id/restaurantButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.157"
-        app:layout_constraintStart_toEndOf="@+id/log_reg_btn"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/log_out_button"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.026" />
 

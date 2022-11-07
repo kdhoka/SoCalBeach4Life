@@ -167,13 +167,25 @@ public class MainActivity extends AppCompatActivity
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
         TextView logMsg = findViewById(R.id.logMsg);
-        if(currentUser != null){
+        if(currentUser != null) {
             currentUser.reload();
-            logMsg.setText("Hello, " + currentUser.getEmail());
-        } else {
-            logMsg.setText("no user signed in yet.");
-        }
+            String[] name_val = {""};
+            DatabaseReference name = root.getReference().child("Users").child(currentUser.getUid()).child("name");
+            name.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    name_val[0] = snapshot.getValue(String.class);
+                    logMsg.setText("Hi, " + name_val[0] + "!");
+                }
 
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Log.w("read user name", "Failed to read current user name from DB", error.toException());
+                }
+            });
+        } else {
+            logMsg.setText("Please sign in to start");
+        }
     }
 
     public void onClickLogReg(View view){
@@ -187,10 +199,10 @@ public class MainActivity extends AppCompatActivity
             //check if sign out successfully, display toast
             if(mAuth.getCurrentUser() == null){
                 Log.d(TAG, "Logout:success");
-                Toast.makeText(MainActivity.this, "Logged out successfully.",
+                Toast.makeText(MainActivity.this, "Logged out successfully",
                         Toast.LENGTH_SHORT).show();
                 TextView logOutMsg = findViewById(R.id.logMsg);
-                logOutMsg.setText("Logged out successfully");
+                logOutMsg.setText("Please sign in to start");
             } else {
                 TextView logOutMsg = findViewById(R.id.logMsg);
                 logOutMsg.setText("Failed to log out");

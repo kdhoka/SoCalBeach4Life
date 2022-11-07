@@ -16,6 +16,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.SignInMethodQueryResult;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class LogInRegisterActivity extends AppCompatActivity {
@@ -27,6 +30,8 @@ public class LogInRegisterActivity extends AppCompatActivity {
     private TextView nameView;
     private TextView emailView;
     private TextView pwdView;
+    private FirebaseDatabase root;
+    private DatabaseReference Users;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +44,9 @@ public class LogInRegisterActivity extends AppCompatActivity {
         nameView = findViewById(R.id.name);
         emailView = findViewById(R.id.email);
         pwdView = findViewById(R.id.pwd);
+
+        root = FirebaseDatabase.getInstance();
+        Users = root.getReference("Users");
 
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
@@ -76,13 +84,13 @@ public class LogInRegisterActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            Toast.makeText(LogInRegisterActivity.this, "Success. User" + user.getEmail() +"is signed in.",
+                            Toast.makeText(LogInRegisterActivity.this, "Success. User " + user.getEmail() +"is signed in.",
                                     Toast.LENGTH_SHORT).show();
                             updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
-                            Toast.makeText(LogInRegisterActivity.this, "Authentication failed.",
+                            Toast.makeText(LogInRegisterActivity.this, "User not exist or wrong credentials.",
                                     Toast.LENGTH_SHORT).show();
                             updateUI(null);
                         }
@@ -124,10 +132,77 @@ public class LogInRegisterActivity extends AppCompatActivity {
             return false;
         }
 
+        //TODO: check pwd pattern
+
         return true;
     }
 
     public void onClickReview(View view) {
         startActivity(new Intent(this, BeachReviewActivity.class));
+    }
+
+    public void onClickRegister(View view) {
+        name = nameView.getText().toString();
+        email = emailView.getText().toString();
+        password = pwdView.getText().toString();
+
+        if (isValid(name, email, password)){
+            Register(name, email, password);
+        }
+    }
+
+    private void Register(String name, String email, String password) {
+        final boolean[] isNotRegistered = {true};
+        mAuth.fetchSignInMethodsForEmail(email)
+                .addOnCompleteListener(new OnCompleteListener<SignInMethodQueryResult>() {
+                                           @Override
+                                           public void onComplete(@NonNull Task<SignInMethodQueryResult> task) {
+
+                                               isNotRegistered[0] = task.getResult().getSignInMethods().isEmpty();
+
+                                               if (!isNotRegistered[0]){
+                                                    Toast.makeText(LogInRegisterActivity.this, "User already exists!", Toast.LENGTH_SHORT).show();
+                                               }
+                                           }
+                                       });
+
+            mAuth.createUserWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                // Sign in success, update UI with the signed-in user's information
+                                FirebaseUser user = mAuth.getCurrentUser();
+                                registerInDB(name, email, password, user.getUid());
+                                Log.d(TAG, "createUserWithEmail:success. Automatically signed in.");
+                                Toast.makeText(LogInRegisterActivity.this, "Success! Auto-sign in...",
+                                        Toast.LENGTH_SHORT).show();
+                                updateUI(user);
+                            } else {
+                                // If sign in fails, display a message to the user.
+                                Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                                Toast.makeText(LogInRegisterActivity.this, "Registration failed.",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+
+
+    }
+
+    private void registerInDB(String name, String email, String password, String uid) {
+        //create new user node in DB
+        //create a new child node with register
+        Users.child(uid).push();
+        DatabaseReference user = Users.child(uid);
+        //insert attributes name, email, password into the new child
+        user.child("name").push();
+        user.child("name").setValue(name);
+
+        user.child("email").push();
+        user.child("email").setValue(email);
+
+        user.child("password").push();
+        user.child("password").setValue(password);
     }
 }
