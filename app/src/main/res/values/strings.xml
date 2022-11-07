@@ -7,5 +7,6 @@
         <item>2000</item>
         <item>3000</item>
     </string-array>
-    <string name = "welcome"><i><b>Welcome!</b></i></string>
+    <string name="welcome"><i><b>Welcome!</b></i></string>
+    <string name="profile"><i><b>__My Profile__</b></i></string>
 </resources>

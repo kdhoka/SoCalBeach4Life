@@ -441,6 +441,13 @@ public class MainActivity extends AppCompatActivity
         Log.d("Latitude","status");
     }
 
+    public void onClickProfile(View view) {
+        if (currentUser != null){
+            Intent intent = new Intent(this, userProfileActivity.class);
+            startActivity(intent);
+        }
+    }
+
 
     private class DownloadTask extends AsyncTask<String, Void, String> {
 

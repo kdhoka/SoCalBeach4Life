@@ -137,10 +137,6 @@ public class LogInRegisterActivity extends AppCompatActivity {
         return true;
     }
 
-    public void onClickReview(View view) {
-        startActivity(new Intent(this, BeachReviewActivity.class));
-    }
-
     public void onClickRegister(View view) {
         name = nameView.getText().toString();
         email = emailView.getText().toString();

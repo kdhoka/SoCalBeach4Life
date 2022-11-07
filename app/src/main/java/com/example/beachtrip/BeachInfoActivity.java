@@ -19,13 +19,13 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 public class BeachInfoActivity extends AppCompatActivity {
-
+    private String beachID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_beach_info);
         Intent intent = getIntent();
-        String InfoId = intent.getStringExtra("id");
+        beachID = intent.getStringExtra("id");
         FirebaseDatabase root = FirebaseDatabase.getInstance();
         DatabaseReference beachRef = root.getReference("beaches");
         ValueEventListener beachCredentialListener = new ValueEventListener() {
@@ -37,7 +37,7 @@ public class BeachInfoActivity extends AppCompatActivity {
                 int size = 0;
                 for (DataSnapshot dsp : dataSnapshot.getChildren()) {
                     String id = dsp.getKey().toString();
-                    if(id.equals(InfoId)){
+                    if(id.equals(beachID)){
                       TextView nV = findViewById(R.id.nameFieldView);
                       TextView lV = findViewById(R.id.locationFieldView);
                       TextView hV = findViewById(R.id.hoursFieldView);
@@ -63,7 +63,7 @@ public class BeachInfoActivity extends AppCompatActivity {
 
             public void onClickReviews(View view) {
         Intent intent = new Intent(this, BeachReviewActivity.class);
-        intent.putExtra("name", "beach0");
+        intent.putExtra("id", beachID);
         startActivity(intent);
     }
 }

@@ -18,6 +18,9 @@
         android:theme="@style/Theme.BeachTrip"
         tools:targetApi="31">
         <activity
+            android:name=".userProfileActivity"
+            android:exported="false" />
+        <activity
             android:name=".BeachReviewActivity"
             android:exported="false" />
         <activity
