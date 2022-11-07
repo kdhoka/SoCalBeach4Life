@@ -63,6 +63,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener, LocationListener {
+    private static final String TAG = "log out from main page";
     private LocationManager locationManager;
     private LocationListener locationListener;
     private Context context;
@@ -79,6 +80,7 @@ public class MainActivity extends AppCompatActivity
     private Marker curRestMarker;
 
     private FirebaseAuth mAuth;
+    private FirebaseUser currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -161,24 +163,41 @@ public class MainActivity extends AppCompatActivity
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 60000, 0, this);
 
 
-//        mAuth = FirebaseAuth.getInstance();
-//        FirebaseUser currentUser = mAuth.getCurrentUser();
-//        if(currentUser != null){
-//            currentUser.reload();
-//            sayHello(currentUser);
-//        }
+        //static user profile and log off button. Only activate activity is user is logged in.
+        mAuth = FirebaseAuth.getInstance();
+        currentUser = mAuth.getCurrentUser();
+        TextView logMsg = findViewById(R.id.logMsg);
+        if(currentUser != null){
+            currentUser.reload();
+            logMsg.setText("Hello, " + currentUser.getEmail());
+        } else {
+            logMsg.setText("no user signed in yet.");
+        }
 
     }
-
-//    private void sayHello(FirebaseUser currentUser) {
-//        TextView helloText = findViewById(R.id.hello);
-//        StringBuilder builder = new StringBuilder("Hello, " + currentUser.getEmail());
-//        helloText.setText(builder);
-//    }
 
     public void onClickLogReg(View view){
         Intent intent = new Intent(this, LogInRegisterActivity.class);
         startActivity(intent);
+    }
+
+    public void onClickLogOut(View view) {
+        if (currentUser != null){
+            mAuth.signOut();
+            //check if sign out successfully, display toast
+            if(mAuth.getCurrentUser() == null){
+                Log.d(TAG, "Logout:success");
+                Toast.makeText(MainActivity.this, "Logged out successfully.",
+                        Toast.LENGTH_SHORT).show();
+                TextView logOutMsg = findViewById(R.id.logMsg);
+                logOutMsg.setText("Logged out successfully");
+            } else {
+                TextView logOutMsg = findViewById(R.id.logMsg);
+                logOutMsg.setText("Failed to log out");
+                Toast.makeText(MainActivity.this, "Logged out fails.",
+                        Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
 //    public void onClickRoute(View view){
@@ -408,6 +427,7 @@ public class MainActivity extends AppCompatActivity
     public void onStatusChanged(String provider, int status, Bundle extras) {
         Log.d("Latitude","status");
     }
+
 
     private class DownloadTask extends AsyncTask<String, Void, String> {
 

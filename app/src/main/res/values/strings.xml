@@ -2,6 +2,7 @@
     <string name="app_name">Beach4Life</string>
     <string name="curr_user_key">user0</string>
     <string name="title_activity_beach_trip">BeachTripActivity</string>
+    <string name="logMsg" />
     <string-array name="ranges">
         <item>1000</item>
         <item>2000</item>
