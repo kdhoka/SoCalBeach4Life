@@ -80,6 +80,7 @@ public class MainActivity extends AppCompatActivity
     private ArrayList<Marker> restMarkers = new ArrayList();
     private Marker curRestMarker;
     private String ETA;
+    private String[] route_details = null;
 
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
@@ -194,11 +195,27 @@ public class MainActivity extends AppCompatActivity
         startActivity(intent);
     }
 
+    public void onClickSave(View view){
+        if(current_route == null){
+            Toast.makeText(MainActivity.this, "Please make a route before saving.",
+                    Toast.LENGTH_SHORT).show();
+        } else if(currentUser == null) {
+            Toast.makeText(MainActivity.this, "Please login before saving.",
+                    Toast.LENGTH_SHORT).show();
+        } else if(route_details[3] != null){
+            Toast.makeText(MainActivity.this, "This route has already been saved.",
+                    Toast.LENGTH_SHORT).show();
+        } else {
+            
+        }
+    }
+
     public void onClickLogOut(View view) {
         if (currentUser != null){
             mAuth.signOut();
             //check if sign out successfully, display toast
             if(mAuth.getCurrentUser() == null){
+                currentUser = null;
                 Log.d(TAG, "Logout:success");
                 Toast.makeText(MainActivity.this, "Logged out successfully",
                         Toast.LENGTH_SHORT).show();
@@ -318,10 +335,20 @@ public class MainActivity extends AppCompatActivity
             String url = getRouteURL(current_marker.getPosition(), marker.getPosition(), "AIzaSyAbnF-bckeq1b-E-nzZTrUFEQqVhzncg_w", "walking");
             DownloadTask downloadTask = new DownloadTask();
             downloadTask.execute(url);
+            route_details = new String[4];
+            route_details[0] = current_marker.getTitle();
+            route_details[1] = marker.getTitle();
+            route_details[2] = "Walking";
+            route_details[3] = null;
         } else if(marker.getTag().toString().contains("lot")) {
             String url = getRouteURL(user_marker.getPosition(), marker.getPosition(), "AIzaSyAbnF-bckeq1b-E-nzZTrUFEQqVhzncg_w","driving");
             DownloadTask downloadTask = new DownloadTask();
             downloadTask.execute(url);
+            route_details = new String[4];
+            route_details[0] = user_marker.getTitle();
+            route_details[1] = marker.getTitle();
+            route_details[2] = "Driving";
+            route_details[3] = null;
         } else {
             current_marker = marker;
             updateMarker();
