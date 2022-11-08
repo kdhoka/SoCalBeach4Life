@@ -23,6 +23,7 @@ public class BeachReviewActivity extends AppCompatActivity {
     private DatabaseReference Reviews;
     private ArrayList<Review> beach_reviews;
     int index;
+    private String curUsername;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +33,7 @@ public class BeachReviewActivity extends AppCompatActivity {
         Intent intent = getIntent();
         beachID = intent.getStringExtra("id");
 
-        FirebaseDatabase root = FirebaseDatabase.getInstance();
+        root = FirebaseDatabase.getInstance();
         DatabaseReference reviewRef= root.getReference("Reviews"); //pointer to the Review tree
 
         ValueEventListener reviewCredentialListener = new ValueEventListener() {
@@ -47,9 +48,9 @@ public class BeachReviewActivity extends AppCompatActivity {
                     if(beachKey.equals(beachID)){
                         String content = dsp.child("content").getValue().toString();
                         double rate = (double) dsp.child("rate").getValue();
-                        boolean isAnynomous = (boolean) dsp.child("isAnynomous").getValue();
+                        boolean isAnonymous = (boolean) dsp.child("isAnonymous").getValue();
                         String username = dsp.child("uID").getValue().toString();
-                        Review r = new Review(username, beachKey, isAnynomous, rate, content);
+                        Review r = new Review(username, beachKey, isAnonymous, rate, content);
                         beach_reviews.add(r);
                     }
                 }
@@ -78,8 +79,45 @@ public class BeachReviewActivity extends AppCompatActivity {
     }
 
     private void displayReview() {
-        TextView tv = findViewById(R.id.review);
-        tv.setText(beach_reviews.get(index).getContent());
+        TextView contentTv = findViewById(R.id.review);
+        TextView nameTv = findViewById(R.id.username);
+        Review r = beach_reviews.get(index);
+        contentTv.setText(r.getContent());
+        TextView rateTv = findViewById(R.id.rating);
+        rateTv.setText(String.valueOf(r.getRating()) + " stars");
+        if(!r.getIs_anonymous()){
+            displayUsername();
+        }
+        else{
+            nameTv.setText("Anonymous review");
+        }
+    }
+
+    private void displayUsername(){
+        root = FirebaseDatabase.getInstance();
+        DatabaseReference reviewRef= root.getReference("Users"); //pointer to the Review tree
+
+        ValueEventListener reviewCredentialListener = new ValueEventListener() {
+            private static final String TAG = "User read.";
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // Get value of each attribute of a User ob
+                Review r = beach_reviews.get(index);
+                String name = dataSnapshot.child(r.getUser_name()).child("name").getValue().toString();
+                TextView tv = findViewById(R.id.username);
+                tv.setText(name + "'s review");
+                // ..
+            }
+
+            @Override //trigger when the client(us) doesn't have permission to read from the DB
+            public void onCancelled(DatabaseError databaseError) {
+                // Getting Post failed, log a message
+                Log.w(TAG, "loadPost:onCancelled", databaseError.toException());
+            }
+        };
+
+        reviewRef.addValueEventListener(reviewCredentialListener);
     }
 
     public void onClickNextReview(View view){
