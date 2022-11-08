@@ -485,6 +485,15 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    public void onClickTrips(View view) {
+        if (currentUser != null){
+            String uid = currentUser.getUid();
+            Intent intent = new Intent(this, TripListActvity.class);
+            intent.putExtra("uid", uid);
+            startActivity(intent);
+        }
+    }
+
     private class DownloadTask extends AsyncTask<String, Void, String> {
 
         @Override
