@@ -9,4 +9,7 @@
     </string-array>
     <string name="welcome"><i><b>Welcome!</b></i></string>
     <string name="profile"><i><b>__My Profile__</b></i></string>
+    <string name="name_prompt"><i><b>Name</b></i></string>
+    <string name="email_prompt"><i><b>Email</b></i></string>
+    <string name="pwd_prompt"><i><b>Password</b></i></string>
 </resources>
