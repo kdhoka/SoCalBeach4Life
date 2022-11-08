@@ -18,6 +18,14 @@ public class Trip {
         this.mode = mode;
     }
 
+    public Trip() {
+        this.user = "";
+        this.origin_name = "";
+        this.dest_name = "";
+        this.ETA = "";
+        this.mode = "";
+    }
+
     public String getUser() {
         return user;
     }
@@ -36,5 +44,29 @@ public class Trip {
 
     public String getMode(){
         return mode;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
+    }
+
+    public void setOrigin_name(String origin_name) {
+        this.origin_name = origin_name;
+    }
+
+    public void setDest_name(String dest_name) {
+        this.dest_name = dest_name;
+    }
+
+    public void setETA(String ETA) {
+        this.ETA = ETA;
+    }
+
+    public void setMode(String mode) {
+        this.mode = mode;
+    }
+
+    public String toString(){
+        return "Origin: "+origin_name+"\nDestination: "+dest_name+"\nETA: "+ETA+"\nMode: "+mode;
     }
 }
