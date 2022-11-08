@@ -4,7 +4,7 @@ public class Review {
     String user_name;
     String beach_name;
     Boolean is_anonymous;
-    int rating;
+    double rating;
     String content;
     //img[] pictures;
 
@@ -12,11 +12,11 @@ public class Review {
         this.user_name = "user";
         this.beach_name = "Null Beach";
         is_anonymous = false;
-        rating = 0;
+        rating = 0.0;
         content = "this is a review";
     }
 
-    public Review(String user_name, String beach_name, Boolean is_anonymous, int rating, String content) {
+    public Review(String user_name, String beach_name, Boolean is_anonymous, double rating, String content) {
         this.user_name = user_name;
         this.beach_name = beach_name;
         this.is_anonymous = is_anonymous;
@@ -36,7 +36,7 @@ public class Review {
         return is_anonymous;
     }
 
-    public int getRating() {
+    public double getRating() {
         return rating;
     }
 
@@ -48,7 +48,7 @@ public class Review {
         this.is_anonymous = is_anonymous;
     }
 
-    public void setRating(int rating) {
+    public void setRating(double rating) {
         this.rating = rating;
     }
 

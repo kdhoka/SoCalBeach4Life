@@ -61,7 +61,7 @@ public class BeachInfoActivity extends AppCompatActivity {
         beachRef.addValueEventListener(beachCredentialListener);
     }
 
-            public void onClickReviews(View view) {
+    public void onClickReviews(View view) {
         Intent intent = new Intent(this, BeachReviewActivity.class);
         intent.putExtra("id", beachID);
         startActivity(intent);

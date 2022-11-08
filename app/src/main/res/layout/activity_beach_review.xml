@@ -7,14 +7,16 @@
     tools:context=".BeachReviewActivity">
 
     <TextView
-        android:id="@+id/beach_review0"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/review"
+        android:layout_width="366dp"
+        android:layout_height="309dp"
         android:text="Beach0 review"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.511"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.362" />
 
     <Button
         android:id="@+id/beach_review_back"
@@ -30,4 +32,26 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.937" />
+
+    <Button
+        android:id="@+id/previous"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="18dp"
+        android:text="previous"
+        android:onClick="onClickPrevReview"
+        app:layout_constraintBottom_toBottomOf="@+id/next"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/next" />
+
+    <Button
+        android:id="@+id/next"
+        android:layout_width="96dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="23dp"
+        android:layout_marginBottom="171dp"
+        android:text="next"
+        android:onClick="onClickNextReview"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
