@@ -340,7 +340,7 @@ public class MainActivity extends AppCompatActivity
         c = mMap.addCircle(new CircleOptions()
                 .center(center)
                 .radius(radius / 3.28084)
-                .strokeColor(Color.BLACK)
+                .strokeColor(Color.CYAN)
                 .fillColor(getResources().getColor(R.color.semi_blue)));
 
         displayRestaurants();
@@ -450,7 +450,6 @@ public class MainActivity extends AppCompatActivity
             startActivity(intent);
         }
     }
-
 
     private class DownloadTask extends AsyncTask<String, Void, String> {
 

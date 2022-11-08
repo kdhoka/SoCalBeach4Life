@@ -48,6 +48,9 @@
             android:name=".LogInRegisterActivity"
             android:exported="false" />
         <activity
+            android:name=".UserReviewPage"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>

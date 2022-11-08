@@ -24,6 +24,7 @@ public class BeachReviewActivity extends AppCompatActivity {
     private ArrayList<Review> beach_reviews;
     int index;
     private String curUsername;
+    private double totalRate = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,11 +44,13 @@ public class BeachReviewActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // Get value of each attribute of a User ob
                 beach_reviews = new ArrayList<Review>();
+                totalRate = 0;
                 for (DataSnapshot dsp : dataSnapshot.getChildren()) {
                     String beachKey = dsp.child("beach").getValue().toString();
                     if(beachKey.equals(beachID)){
                         String content = dsp.child("content").getValue().toString();
                         double rate = (double) dsp.child("rate").getValue();
+                        totalRate += rate;
                         boolean isAnonymous = (boolean) dsp.child("isAnonymous").getValue();
                         String username = dsp.child("uID").getValue().toString();
                         Review r = new Review(username, beachKey, isAnonymous, rate, content);
@@ -91,6 +94,9 @@ public class BeachReviewActivity extends AppCompatActivity {
         else{
             nameTv.setText("Anonymous review");
         }
+        TextView average = findViewById(R.id.averageRating);
+        int average1 = (int) (totalRate * 10 / beach_reviews.size());
+        average.setText("average rate: " + String.valueOf(((double) average1) / 10.0));
     }
 
     private void displayUsername(){
@@ -136,5 +142,10 @@ public class BeachReviewActivity extends AppCompatActivity {
 
     public void onClickBack(View view) {
         startActivity(new Intent(this, MainActivity.class));
+    }
+
+    public void onMyReview(View view){
+        Intent intent = new Intent(this, UserReviewPage.class);
+        startActivity(intent);
     }
 }
