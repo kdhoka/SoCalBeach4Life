@@ -48,6 +48,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.android.libraries.places.api.Places;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
 
@@ -78,6 +79,7 @@ public class MainActivity extends AppCompatActivity
     private ArrayList<Restaurant> restaurantList;
     private ArrayList<Marker> restMarkers = new ArrayList();
     private Marker curRestMarker;
+    private String ETA;
 
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
@@ -133,7 +135,6 @@ public class MainActivity extends AppCompatActivity
                     ArrayList<ParkingLot> parking = new ArrayList<>();
                     for(DataSnapshot lots : dsp.child("lots").getChildren()){
                         String lot_key = lots.getKey();
-                        System.out.println(lot_key);
                         String lot_name = lots.child("name").getValue().toString();
                         Double lot_lat = Double.valueOf(lots.child("xpos").getValue().toString());
                         Double lot_lng = Double.valueOf(lots.child("ypos").getValue().toString());
@@ -224,11 +225,11 @@ public class MainActivity extends AppCompatActivity
 //        }
 //    }
 
-    public String getRouteURL(LatLng origin, LatLng dest, String key){
+    public String getRouteURL(LatLng origin, LatLng dest, String key, String mode){
         return "https://maps.googleapis.com/maps/api/directions/json?origin="+origin.latitude+","+origin.longitude+
                 "&destination="+dest.latitude+","+dest.longitude+
                 "&sensor=false" +
-                "&mode=driving" +
+                "&mode="+mode +
                 "&key="+key;
     }
 
@@ -314,11 +315,11 @@ public class MainActivity extends AppCompatActivity
             curRestMarker = marker;
             TextView tv = (TextView) findViewById(R.id.text);
             tv.setText(marker.getTitle());
-            String url = getRouteURL(current_marker.getPosition(), marker.getPosition(), "AIzaSyAbnF-bckeq1b-E-nzZTrUFEQqVhzncg_w");
+            String url = getRouteURL(current_marker.getPosition(), marker.getPosition(), "AIzaSyAbnF-bckeq1b-E-nzZTrUFEQqVhzncg_w", "walking");
             DownloadTask downloadTask = new DownloadTask();
             downloadTask.execute(url);
         } else if(marker.getTag().toString().contains("lot")) {
-            String url = getRouteURL(user_marker.getPosition(), marker.getPosition(), "AIzaSyAbnF-bckeq1b-E-nzZTrUFEQqVhzncg_w");
+            String url = getRouteURL(user_marker.getPosition(), marker.getPosition(), "AIzaSyAbnF-bckeq1b-E-nzZTrUFEQqVhzncg_w","driving");
             DownloadTask downloadTask = new DownloadTask();
             downloadTask.execute(url);
         } else {
@@ -422,7 +423,6 @@ public class MainActivity extends AppCompatActivity
             user_marker = makeUserMarker(new LatLng(location.getLatitude(),location.getLongitude()));
             user_marker.setVisible(true);
             user_marker.setTag("user");
-            System.out.println(user_marker.toString());
 
         }
     }
@@ -488,6 +488,10 @@ public class MainActivity extends AppCompatActivity
 
             try {
                 jObject = new JSONObject(jsonData[0]);
+                JSONArray jLegs = ( (JSONObject)jObject.getJSONArray("routes").get(0)).getJSONArray("legs");
+                JSONObject DurAray = jLegs.getJSONObject(0);
+                JSONObject durationObj = new JSONObject(DurAray.get("duration").toString());
+                ETA = durationObj.getString("text");
                 DirectionsJSONParser parser = new DirectionsJSONParser();
 
                 routes = parser.parse(jObject);
@@ -529,6 +533,8 @@ public class MainActivity extends AppCompatActivity
                 current_route.remove();
             }
             current_route = mMap.addPolyline(lineOptions);
+            Toast.makeText(MainActivity.this, "ETA: " + ETA,
+                    Toast.LENGTH_SHORT).show();
         }
     }
 
