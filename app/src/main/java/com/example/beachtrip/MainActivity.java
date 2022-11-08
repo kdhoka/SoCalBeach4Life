@@ -421,6 +421,7 @@ public class MainActivity extends AppCompatActivity
             }
             user_marker = makeUserMarker(new LatLng(location.getLatitude(),location.getLongitude()));
             user_marker.setVisible(true);
+            user_marker.setTag("user");
             System.out.println(user_marker.toString());
 
         }
