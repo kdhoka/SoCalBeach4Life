@@ -444,7 +444,9 @@ public class MainActivity extends AppCompatActivity
 
     public void onClickProfile(View view) {
         if (currentUser != null){
+            String uid = currentUser.getUid();
             Intent intent = new Intent(this, userProfileActivity.class);
+            intent.putExtra("uid", uid);
             startActivity(intent);
         }
     }
