@@ -16,4 +16,5 @@
     <string name="IsAnonymous">IsAnonymous</string>
     <string name="rating">Rating</string>
     <string name="Content">Content</string>
+    <string name="star">U+2605</string>
 </resources>

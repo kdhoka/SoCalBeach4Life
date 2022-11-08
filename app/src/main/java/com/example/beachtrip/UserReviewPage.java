@@ -96,10 +96,10 @@ public class UserReviewPage extends AppCompatActivity {
                 isAnonStr = "true";
             }
             content = review.getContent();
-            delete_btn.setVisibility(View.VISIBLE);}
-//        } else {
-//            delete_btn.setVisibility(View.INVISIBLE);
-//        }
+            delete_btn.setVisibility(View.VISIBLE);
+        } else {
+            delete_btn.setVisibility(View.INVISIBLE);
+        }
 
         beachName_view.setText(beachName);
         rating_view.setText(rating);
@@ -109,7 +109,7 @@ public class UserReviewPage extends AppCompatActivity {
 
 
     public void onClickBackFromMyReview(View view) {
-        Intent intent = new Intent(this, BeachReviewActivity.class);
+        Intent intent = new Intent(this, BeachInfoActivity.class);
         intent.putExtra("id", beachID);
         startActivity(intent);
     }
