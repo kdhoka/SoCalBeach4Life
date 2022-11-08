@@ -7,19 +7,29 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 public class userProfileActivity extends AppCompatActivity {
+    private FirebaseAuth mAuth;
+    private FirebaseUser currUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
-        TextView tv = findViewById(R.id.profile_name);
-        String uid = getIntent().getStringExtra("uid");
-        tv.setText(uid);
+        setText();
     }
 
     public void onClickBack(View view) {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
+    }
+
+    private void setText(){
+        mAuth = FirebaseAuth.getInstance();
+        String uID = mAuth.getCurrentUser().getUid();
+
+
     }
 }
