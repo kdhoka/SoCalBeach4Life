@@ -61,6 +61,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity
         implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener, LocationListener {
@@ -206,7 +207,10 @@ public class MainActivity extends AppCompatActivity
             Toast.makeText(MainActivity.this, "This route has already been saved.",
                     Toast.LENGTH_SHORT).show();
         } else {
-            
+            Trip t = new Trip(currentUser.getUid(), route_details[0], route_details[1], ETA, route_details[2]);
+            FirebaseDatabase root = FirebaseDatabase.getInstance();
+            DatabaseReference tripsRef= root.getReference("trips");
+            tripsRef.push().setValue(t);
         }
     }
 
