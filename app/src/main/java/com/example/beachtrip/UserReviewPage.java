@@ -33,6 +33,7 @@ public class UserReviewPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_review);
 
+        beachID = getIntent().getStringExtra("beachID");
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
         userID = user.getUid();
@@ -57,6 +58,7 @@ public class UserReviewPage extends AppCompatActivity {
                         Boolean isAnonymous = (Boolean)dsp.child("isAnonymous").getValue();
                         String imageLink = dsp.child("image").getValue().toString();
                         review = new Review(reviewID, userKey, beachKey, isAnonymous, rate, content);
+                        break;
                     }
                 }
                 onFinishLoading();
