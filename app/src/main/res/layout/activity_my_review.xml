@@ -59,8 +59,7 @@
         android:id="@+id/rating"
         android:layout_width="120dp"
         android:layout_height="40dp"
-        android:hint="rating"
-        android:text="enter 0-5 double"
+        android:hint="enter 0-5 double"
         android:textSize="14dp"
         android:textColor="@color/quantum_grey"
         app:layout_constraintBottom_toTopOf="@+id/anon_btn"
@@ -72,12 +71,14 @@
 
     <Button
         android:id="@+id/anon_btn"
-        android:layout_width="120dp"
+        android:layout_width="75dp"
         android:layout_height="40dp"
         android:layout_marginStart="20dp"
         android:layout_marginBottom="52dp"
         android:onClick="onClickAnon"
         android:text="false"
+        android:textSize="14dp"
+        android:backgroundTint="@color/black"
         app:layout_constraintBottom_toTopOf="@+id/content_tv"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.444"
@@ -91,7 +92,7 @@
         android:lines="5"
         android:maxLines="15"
         android:scrollbars="vertical"
-        android:text="Content of review.."
+        android:hint="Enter your review content here"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.409"
@@ -113,8 +114,10 @@
         app:layout_constraintVertical_bias="0.798" />
 
     <Button
-        android:layout_width="100dp"
-        android:layout_height="40dp"
+        android:id="@+id/button2"
+        android:layout_width="95dp"
+        android:layout_height="50dp"
+        android:backgroundTint="@color/green"
         android:onClick="onClickConfirm"
         android:text="Confirm"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -139,16 +142,32 @@
     <TextView
         android:id="@+id/beach_name_val"
         android:layout_width="120dp"
-        android:layout_height="20dp"
+        android:layout_height="40dp"
         android:text="Beach name"
-        android:textColor="@color/teal_700"
         android:textAlignment="center"
+        android:textColor="@color/teal_700"
         android:textSize="14dp"
         app:layout_constraintBottom_toTopOf="@+id/textView4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.52"
         app:layout_constraintStart_toEndOf="@+id/beach_name"
-        app:layout_constraintTop_toBottomOf="@+id/review" />
+        app:layout_constraintTop_toBottomOf="@+id/review"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <Button
+        android:id="@+id/delete"
+        android:layout_width="80dp"
+        android:layout_height="45dp"
+        android:backgroundTint="@color/red"
+        android:onClick="onClickDelete"
+        android:text="Delete"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/button2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.486"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/content_tv"
+        app:layout_constraintVertical_bias="0.197" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

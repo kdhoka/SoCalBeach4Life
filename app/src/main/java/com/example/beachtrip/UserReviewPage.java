@@ -74,17 +74,18 @@ public class UserReviewPage extends AppCompatActivity {
     }
 
     private void onFinishLoading() {
-        String beachName = "";
-        String rating = "enter 0 to 5 double";
+        String beachName = "Beach to be reviewed";
+        String rating = "Enter rating 0-5";
         String isAnonStr = "false";
         isAnon = false;
-        String content = "Enter your content here. It's optional";
+        String content = "No existing review content for this beach by you...";
         String imageLink = "";
 
         TextView beachName_view = findViewById(R.id.beach_name_val);
         TextView rating_view = findViewById(R.id.rating);
         TextView isAnon_btn = findViewById(R.id.anon_btn);
         TextView content_view = findViewById(R.id.content_tv);
+        TextView delete_btn = findViewById(R.id.delete);
         if (review != null){
             beachName = review.getBeach_name();
             rating = String.valueOf(review.getRating());
@@ -93,7 +94,10 @@ public class UserReviewPage extends AppCompatActivity {
                 isAnonStr = "true";
             }
             content = review.getContent();
-        }
+            delete_btn.setVisibility(View.VISIBLE);}
+//        } else {
+//            delete_btn.setVisibility(View.INVISIBLE);
+//        }
 
         beachName_view.setText(beachName);
         rating_view.setText(rating);
@@ -123,6 +127,9 @@ public class UserReviewPage extends AppCompatActivity {
             isAnonymous_tv.setText("true");
             isAnon = true;
         }
+    }
+
+    public void onClickDelete(View view) {
     }
 
 //    DatabaseReference Beaches = root.getReference("Beaches");
