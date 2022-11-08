@@ -211,6 +211,9 @@ public class MainActivity extends AppCompatActivity
             FirebaseDatabase root = FirebaseDatabase.getInstance();
             DatabaseReference tripsRef= root.getReference("trips");
             tripsRef.push().setValue(t);
+            Toast.makeText(MainActivity.this, "Successfully saved trip.",
+                    Toast.LENGTH_SHORT).show();
+            route_details[3] = "";
         }
     }
 
