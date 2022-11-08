@@ -107,7 +107,12 @@ public class BeachReviewActivity extends AppCompatActivity {
         }
         if(r.getImage() != null){
             ImageView iv = findViewById(R.id.image);
+            iv.setVisibility(View.VISIBLE);
             iv.setImageURI(r.getImage());
+        }
+        else{
+            ImageView iv = findViewById(R.id.image);
+            iv.setVisibility(View.INVISIBLE);
         }
         TextView average = findViewById(R.id.averageRating);
         int average1 = (int) (totalRate * 10 / beach_reviews.size());
