@@ -6,6 +6,7 @@ public class Review {
     Boolean is_anonymous;
     double rating;
     String content;
+    String reviewID;
     //img[] pictures;
 
     public Review(){
@@ -14,15 +15,19 @@ public class Review {
         is_anonymous = false;
         rating = 0.0;
         content = "this is a review";
+        this.reviewID = "";
     }
 
-    public Review(String user_name, String beach_name, Boolean is_anonymous, double rating, String content) {
+    public Review(String reviewID, String user_name, String beach_name, Boolean is_anonymous, double rating, String content) {
+        this.reviewID = reviewID;
         this.user_name = user_name;
         this.beach_name = beach_name;
         this.is_anonymous = is_anonymous;
         this.rating = rating;
         this.content = content;
     }
+
+    public String getReviewID(){return reviewID;}
 
     public String getUser_name() {
         return user_name;

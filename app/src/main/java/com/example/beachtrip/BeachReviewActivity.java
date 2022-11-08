@@ -55,7 +55,8 @@ public class BeachReviewActivity extends AppCompatActivity {
                         totalRate += rate;
                         boolean isAnonymous = (boolean) dsp.child("isAnonymous").getValue();
                         String username = dsp.child("uID").getValue().toString();
-                        Review r = new Review(username, beachKey, isAnonymous, rate, content);
+                        String reviewId = dsp.getKey().toString();
+                        Review r = new Review(reviewId, username, beachKey, isAnonymous, rate, content);
                         beach_reviews.add(r);
                     }
                 }

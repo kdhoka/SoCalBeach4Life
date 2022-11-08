@@ -55,36 +55,40 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
-    <TextView
+    <EditText
         android:id="@+id/rating"
         android:layout_width="120dp"
-        android:layout_height="20dp"
+        android:layout_height="40dp"
         android:hint="rating"
+        android:text="enter 0-5 double"
+        android:textSize="14dp"
+        android:textColor="@color/quantum_grey"
         app:layout_constraintBottom_toTopOf="@+id/anon_btn"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.568"
+        app:layout_constraintHorizontal_bias="0.52"
         app:layout_constraintStart_toEndOf="@+id/textView4"
-        app:layout_constraintTop_toBottomOf="@+id/review"
-        app:layout_constraintVertical_bias="0.833" />
+        app:layout_constraintTop_toBottomOf="@+id/beach_name_val"
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/anon_btn"
         android:layout_width="120dp"
         android:layout_height="40dp"
         android:layout_marginStart="20dp"
-        android:layout_marginBottom="60dp"
+        android:layout_marginBottom="52dp"
         android:onClick="onClickAnon"
         android:text="false"
-        app:layout_constraintBottom_toTopOf="@+id/edit_tv"
+        app:layout_constraintBottom_toTopOf="@+id/content_tv"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.444"
         app:layout_constraintStart_toEndOf="@+id/textView5" />
 
     <EditText
-        android:id="@+id/edit_tv"
+        android:id="@+id/content_tv"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:gravity="top|left"
-        android:lines="10"
+        android:lines="5"
         android:maxLines="15"
         android:scrollbars="vertical"
         android:text="Content of review.."
@@ -105,20 +109,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.08"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_tv"
+        app:layout_constraintTop_toBottomOf="@+id/content_tv"
         app:layout_constraintVertical_bias="0.798" />
 
     <Button
         android:layout_width="100dp"
         android:layout_height="40dp"
+        android:onClick="onClickConfirm"
         android:text="Confirm"
-        android:onClick = "onClickConfirm"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.806"
+        app:layout_constraintHorizontal_bias="0.758"
         app:layout_constraintStart_toEndOf="@+id/button3"
-        app:layout_constraintTop_toBottomOf="@+id/edit_tv"
-        app:layout_constraintVertical_bias="0.798" />
+        app:layout_constraintTop_toBottomOf="@+id/content_tv"
+        app:layout_constraintVertical_bias="0.799" />
 
     <TextView
         android:id="@+id/beach_name"
@@ -132,19 +136,19 @@
         app:layout_constraintTop_toBottomOf="@+id/review"
         app:layout_constraintVertical_bias="1.0" />
 
-    <EditText
+    <TextView
         android:id="@+id/beach_name_val"
         android:layout_width="120dp"
-        android:layout_height="40dp"
-        android:gravity="bottom"
-        android:text="insert beach id"
+        android:layout_height="20dp"
+        android:text="Beach name"
+        android:textColor="@color/teal_700"
+        android:textAlignment="center"
         android:textSize="14dp"
         app:layout_constraintBottom_toTopOf="@+id/textView4"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.568"
+        app:layout_constraintHorizontal_bias="0.52"
         app:layout_constraintStart_toEndOf="@+id/beach_name"
-        app:layout_constraintTop_toBottomOf="@+id/review"
-        app:layout_constraintVertical_bias="0.65" />
+        app:layout_constraintTop_toBottomOf="@+id/review" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
