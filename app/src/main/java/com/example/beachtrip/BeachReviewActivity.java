@@ -1,5 +1,6 @@
 package com.example.beachtrip;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -22,6 +23,7 @@ public class BeachReviewActivity extends AppCompatActivity {
     private FirebaseDatabase root;
     private DatabaseReference Reviews;
     private ArrayList<Review> beach_reviews;
+    String beachName;
     int index;
     private String curUsername;
     private double totalRate = 0;
@@ -35,7 +37,7 @@ public class BeachReviewActivity extends AppCompatActivity {
         beachID = intent.getStringExtra("id");
 
         root = FirebaseDatabase.getInstance();
-        DatabaseReference reviewRef= root.getReference("Reviews"); //pointer to the Review tree
+        DatabaseReference reviewRef = root.getReference("Reviews"); //pointer to the Review tree
 
         ValueEventListener reviewCredentialListener = new ValueEventListener() {
             private static final String TAG = "Review read.";
@@ -47,7 +49,7 @@ public class BeachReviewActivity extends AppCompatActivity {
                 totalRate = 0;
                 for (DataSnapshot dsp : dataSnapshot.getChildren()) {
                     String beachKey = dsp.child("beach").getValue().toString();
-                    if(beachKey.equals(beachID)){
+                    if (beachKey.equals(beachID)) {
                         String content = dsp.child("content").getValue().toString();
                         double rate = (double) dsp.child("rate").getValue();
                         totalRate += rate;
@@ -69,8 +71,34 @@ public class BeachReviewActivity extends AppCompatActivity {
         };
 
         reviewRef.addValueEventListener(reviewCredentialListener);
-    }
 
+        DatabaseReference Beaches = root.getReference("Beaches");
+
+        ValueEventListener beachCredentialListener = new ValueEventListener() {
+            private static final String TAG = "Beach read.";
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // Get value of each attribute of a User ob
+                int size = 0;
+                for (DataSnapshot dsp : dataSnapshot.getChildren()) {
+                    String id = dsp.getKey().toString();
+                    if (id.equals(beachID)) {
+                        TextView title_tv = findViewById(R.id.beachReviewTitle);
+                        title_tv.setText(dsp.child("name").getValue().toString());
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+
+        };
+        Beaches.addValueEventListener(beachCredentialListener);
+    }
     private void onFinishLoading(){
         if(this.beach_reviews.size() == 0){
             return;
@@ -146,6 +174,7 @@ public class BeachReviewActivity extends AppCompatActivity {
 
     public void onMyReview(View view){
         Intent intent = new Intent(this, UserReviewPage.class);
+        intent.putExtra("beachID", beachID);
         startActivity(intent);
     }
 }
