@@ -1,5 +1,7 @@
 package com.example.beachtrip;
 
+import android.net.Uri;
+
 public class Review {
     String user_name;
     String beach_name;
@@ -7,7 +9,7 @@ public class Review {
     double rating;
     String content;
     String reviewID;
-    //img[] pictures;
+    Uri image;
 
     public Review(){
         this.user_name = "user";
@@ -61,11 +63,11 @@ public class Review {
         this.content = content;
     }
 
-    public void addPicture(){
-        //TODO
+    public void addImage(Uri img){
+        this.image = img;
     }
 
-    public void deletePicture(){
-        //TODO
+    public Uri getImage(){
+        return this.image;
     }
 }
