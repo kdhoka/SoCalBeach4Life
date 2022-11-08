@@ -71,33 +71,6 @@ public class BeachReviewActivity extends AppCompatActivity {
         };
 
         reviewRef.addValueEventListener(reviewCredentialListener);
-
-        DatabaseReference Beaches = root.getReference("Beaches");
-
-        ValueEventListener beachCredentialListener = new ValueEventListener() {
-            private static final String TAG = "Beach read.";
-
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // Get value of each attribute of a User ob
-                int size = 0;
-                for (DataSnapshot dsp : dataSnapshot.getChildren()) {
-                    String id = dsp.getKey().toString();
-                    if (id.equals(beachID)) {
-                        TextView title_tv = findViewById(R.id.beachReviewTitle);
-                        title_tv.setText(dsp.child("name").getValue().toString());
-                        break;
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-
-        };
-        Beaches.addValueEventListener(beachCredentialListener);
     }
     private void onFinishLoading(){
         if(this.beach_reviews.size() == 0){

@@ -26,10 +26,10 @@
         android:id="@+id/textView4"
         android:layout_width="120dp"
         android:layout_height="40dp"
-        android:layout_marginTop="56dp"
+        android:layout_marginTop="60dp"
         android:text="@string/rating"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.089"
+        app:layout_constraintHorizontal_bias="0.085"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/review" />
 
@@ -58,22 +58,23 @@
     <TextView
         android:id="@+id/rating"
         android:layout_width="120dp"
-        android:layout_height="40dp"
+        android:layout_height="20dp"
         android:hint="rating"
-        app:layout_constraintBottom_toTopOf="@+id/button2"
+        app:layout_constraintBottom_toTopOf="@+id/anon_btn"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.565"
+        app:layout_constraintHorizontal_bias="0.568"
         app:layout_constraintStart_toEndOf="@+id/textView4"
         app:layout_constraintTop_toBottomOf="@+id/review"
-        app:layout_constraintVertical_bias="0.933" />
+        app:layout_constraintVertical_bias="0.833" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/anon_btn"
         android:layout_width="120dp"
         android:layout_height="40dp"
         android:layout_marginStart="20dp"
-        android:layout_marginBottom="48dp"
-        android:text="test"
+        android:layout_marginBottom="60dp"
+        android:onClick="onClickAnon"
+        android:text="false"
         app:layout_constraintBottom_toTopOf="@+id/edit_tv"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView5" />
@@ -118,6 +119,30 @@
         app:layout_constraintStart_toEndOf="@+id/button3"
         app:layout_constraintTop_toBottomOf="@+id/edit_tv"
         app:layout_constraintVertical_bias="0.798" />
+
+    <TextView
+        android:id="@+id/beach_name"
+        android:layout_width="120dp"
+        android:layout_height="40dp"
+        android:text="Beach name"
+        app:layout_constraintBottom_toTopOf="@+id/textView4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.085"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/review"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/beach_name_val"
+        android:layout_width="120dp"
+        android:layout_height="40dp"
+        android:text="Name of the beach being reviewed"
+        app:layout_constraintBottom_toTopOf="@+id/textView4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.568"
+        app:layout_constraintStart_toEndOf="@+id/beach_name"
+        app:layout_constraintTop_toBottomOf="@+id/review"
+        app:layout_constraintVertical_bias="1.0" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
