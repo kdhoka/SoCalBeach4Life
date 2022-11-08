@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -27,6 +28,7 @@ public class UserReviewPage extends AppCompatActivity {
     String userID;
     Boolean isAnon = false;
     Review review = null;
+    String image;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +39,11 @@ public class UserReviewPage extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
         userID = user.getUid();
+        image = getIntent().getStringExtra("image");
+        Button b = findViewById(R.id.imageUpload);
+        if(image != null){
+            System.out.println(image);
+        }
         
         root = FirebaseDatabase.getInstance();
         DatabaseReference reviewRef = root.getReference("Reviews"); //pointer to the Review tree
@@ -56,7 +63,7 @@ public class UserReviewPage extends AppCompatActivity {
                         String content = dsp.child("content").getValue().toString();
                         Double rate = (double)dsp.child("rate").getValue();
                         Boolean isAnonymous = (Boolean)dsp.child("isAnonymous").getValue();
-                        String imageLink = dsp.child("image").getValue().toString();
+                        //String imageLink = dsp.child("image").getValue().toString();
                         review = new Review(reviewID, userKey, beachKey, isAnonymous, rate, content);
                         break;
                     }
@@ -81,7 +88,7 @@ public class UserReviewPage extends AppCompatActivity {
         String isAnonStr = "false";
         isAnon = false;
         String content = "No existing review content for this beach by you...";
-        String imageLink = "";
+        //String imageLink = "";
 
         TextView beachName_view = findViewById(R.id.beach_name_val);
         TextView rating_view = findViewById(R.id.rating);
@@ -132,6 +139,12 @@ public class UserReviewPage extends AppCompatActivity {
     }
 
     public void onClickDelete(View view) {
+    }
+
+    public void onClickImageUpload(View view){
+        Intent intent = new Intent(this, imageUploadPage.class);
+        intent.putExtra("beachID", beachID);
+        startActivity(intent);
     }
 
 //    DatabaseReference Beaches = root.getReference("Beaches");

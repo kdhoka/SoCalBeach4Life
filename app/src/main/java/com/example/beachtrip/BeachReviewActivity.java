@@ -4,9 +4,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.firebase.FirebaseApp;
@@ -57,6 +59,13 @@ public class BeachReviewActivity extends AppCompatActivity {
                         String username = dsp.child("uID").getValue().toString();
                         String reviewId = dsp.getKey().toString();
                         Review r = new Review(reviewId, username, beachKey, isAnonymous, rate, content);
+                        Object imageobj = dsp.child("image").getValue();
+                        if(imageobj != null){
+                            String image = imageobj.toString();
+                            Uri img = Uri.parse(image);
+                            r.addImage(img);
+                        }
+
                         beach_reviews.add(r);
                     }
                 }
@@ -95,6 +104,15 @@ public class BeachReviewActivity extends AppCompatActivity {
         }
         else{
             nameTv.setText("Anonymous review");
+        }
+        if(r.getImage() != null){
+            ImageView iv = findViewById(R.id.image);
+            iv.setVisibility(View.VISIBLE);
+            iv.setImageURI(r.getImage());
+        }
+        else{
+            ImageView iv = findViewById(R.id.image);
+            iv.setVisibility(View.INVISIBLE);
         }
         TextView average = findViewById(R.id.averageRating);
         int average1 = (int) (totalRate * 10 / beach_reviews.size());
