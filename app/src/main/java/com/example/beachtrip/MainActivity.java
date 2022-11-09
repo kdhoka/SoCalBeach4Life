@@ -118,8 +118,26 @@ public class MainActivity extends AppCompatActivity
 
         //read and display beach markers
         FirebaseDatabase root = FirebaseDatabase.getInstance();
-        DatabaseReference beachRef= root.getReference("beaches"); //pointer to the Beach tree
+        //NOTE: debug check DB connection
+        DatabaseReference connectedRef = FirebaseDatabase.getInstance().getReference(".info/connected");
+        connectedRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                boolean connected = snapshot.getValue(Boolean.class);
+                if (connected) {
+                    System.out.println("DB connected");
+                } else {
+                    System.out.println("DB not connected");
+                }
+            }
 
+            @Override
+            public void onCancelled(DatabaseError error) {
+                System.err.println("Listener was cancelled");
+            }
+        });
+
+        DatabaseReference beachRef= root.getReference("beaches"); //pointer to the Beach tree
         ValueEventListener beachCredentialListener = new ValueEventListener() {
             private static final String TAG = "Beach read.";
 
@@ -141,10 +159,12 @@ public class MainActivity extends AppCompatActivity
                         Double lot_lat = Double.valueOf(lots.child("xpos").getValue().toString());
                         Double lot_lng = Double.valueOf(lots.child("ypos").getValue().toString());
                         parking.add(new ParkingLot(lot_key,lot_name,new LatLng(lot_lat, lot_lng)));
+                        Log.i("database check", "Inserted lot!");
                     }
                     beachList.add(new Beach(id, Name, new LatLng(lat, lng),hours, parking, new ArrayList<>()));
                 }
 
+                Log.i("Check in", "Stepping into onLoadFinished()");
                 onLoadFinished();
                 // ..
             }
