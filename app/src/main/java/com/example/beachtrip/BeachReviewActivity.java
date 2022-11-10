@@ -21,14 +21,19 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
 public class BeachReviewActivity extends AppCompatActivity {
     private String beachID;
     private FirebaseDatabase root;
-    private DatabaseReference Reviews;
+    private DatabaseReference reviewRef;
+    private ValueEventListener reviewCredentialListener;
+    private ValueEventListener beachCredentialListener;
+    private DatabaseReference beachRef;
+
     private ArrayList<Review> beach_reviews;
-    String beachName;
     int index;
     private String curUsername;
     private double totalRate = 0;
@@ -42,9 +47,9 @@ public class BeachReviewActivity extends AppCompatActivity {
         beachID = intent.getStringExtra("id");
 
         root = FirebaseDatabase.getInstance();
-        DatabaseReference reviewRef = root.getReference("Reviews"); //pointer to the Review tree
+        reviewRef = root.getReference("Reviews"); //pointer to the Review tree
 
-        ValueEventListener reviewCredentialListener = new ValueEventListener() {
+        reviewCredentialListener = new ValueEventListener() {
             private static final String TAG = "Review read.";
 
             @Override
@@ -86,6 +91,36 @@ public class BeachReviewActivity extends AppCompatActivity {
         reviewRef.addValueEventListener(reviewCredentialListener);
     }
     private void onFinishLoading(){
+        //dynamically get beach name from beach DB tree, no other way.
+        if (reviewCredentialListener != null){
+            reviewRef.removeEventListener(reviewCredentialListener);
+            beachRef = root.getReference("beaches");
+        }
+
+        ValueEventListener beachCredentialListener = new ValueEventListener() {
+            private static final String TAG = "Beach read.";
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot dsp : dataSnapshot.getChildren()) {
+                    String id = dsp.getKey().toString();
+                    if(id.equals(beachID)){
+                        String beachName = dsp.child("name").getValue().toString();
+                        TextView review_title = findViewById(R.id.beach_review_title);
+                        review_title.setText(beachName);
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Getting Post failed, log a message
+                Log.w(TAG, "loadPost:onCancelled", databaseError.toException());
+            }
+        };
+        beachRef.addValueEventListener(beachCredentialListener);
+
         if(this.beach_reviews.size() == 0){
             return;
         }
@@ -96,6 +131,9 @@ public class BeachReviewActivity extends AppCompatActivity {
     }
 
     private void displayReview() {
+        if (beachCredentialListener != null){
+            beachRef.removeEventListener(beachCredentialListener);
+        }
         TextView contentTv = findViewById(R.id.review);
         TextView nameTv = findViewById(R.id.username);
         Review r = beach_reviews.get(index);
@@ -133,7 +171,7 @@ public class BeachReviewActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // Get value of each attribute of a User ob
                 Review r = beach_reviews.get(index);
-                String name = dataSnapshot.child(r.getUser_name()).child("name").getValue().toString();
+                String name = dataSnapshot.child(r.getUser_ID()).child("name").getValue().toString();
                 TextView tv = findViewById(R.id.username);
                 tv.setText(name + "'s review");
                 // ..
@@ -170,7 +208,7 @@ public class BeachReviewActivity extends AppCompatActivity {
     public void onMyReview(View view){
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
-        //FIXME: only send an intent is there's a user logged in
+
         if (user != null){
             Intent intent = new Intent(this, UserReviewPage.class);
             intent.putExtra("beachID", beachID);

@@ -28,6 +28,10 @@ import java.util.ArrayList;
 
 public class UserReviewPage extends AppCompatActivity {
     FirebaseDatabase root;
+    DatabaseReference reviewRef;
+    ValueEventListener reviewCredentialListener;
+    long childCount;
+
     FirebaseAuth mAuth;
     FirebaseUser user;
     String beachID;
@@ -66,7 +70,7 @@ public class UserReviewPage extends AppCompatActivity {
                         String beachName = dsp.child("name").getValue().toString();
                         TextView beachName_tv = findViewById(R.id.beach_name_val);
                         beachName_tv.setText(beachName);
-                        loadRestContent();
+                        getReviewFromDB();
                         break;
                     }
                 }
@@ -81,26 +85,28 @@ public class UserReviewPage extends AppCompatActivity {
         beachRef.addValueEventListener(beachCredentialListener);
     }
 
-    private void loadRestContent() {
+    private void getReviewFromDB() {
         root = FirebaseDatabase.getInstance();
-        DatabaseReference reviewRef = root.getReference("Reviews"); //pointer to the Review tree
+        reviewRef = root.getReference("Reviews"); //pointer to the Review tree
 
-        ValueEventListener reviewCredentialListener = new ValueEventListener() {
+        reviewCredentialListener = new ValueEventListener() {
             private static final String TAG = "Review read.";
+            //attempt to find a review whose ID is "current_beach current_user"
+            String target_review_id = beachID + " " + userID;
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                // Get value of each attribute of a User ob
                 for (DataSnapshot dsp : dataSnapshot.getChildren()) {
                     String beachKey = dsp.child("beach").getValue().toString();
                     String userKey = dsp.child("uID").getValue().toString();
                     //if found a review for selected beach by current user, display it.
-                    if (beachKey.equals(beachID) && userKey.equals(userID)) {
-                        String reviewID = dsp.getKey().toString();//used to identify if this is a new review
+                    if (dsp.getKey().equals(target_review_id)) {
+                        String reviewID = dsp.getKey();//used to identify if this is a new review
                         String content = dsp.child("content").getValue().toString();
                         Double rate = Double.parseDouble(dsp.child("rate").getValue().toString());
                         Boolean isAnonymous = (Boolean)dsp.child("isAnonymous").getValue();
                         //String imageLink = dsp.child("image").getValue().toString();
+                        //TODO: update Review class constructor to support image
                         review = new Review(reviewID, userKey, beachKey, isAnonymous, rate, content);
                         break;
                     }
@@ -120,6 +126,8 @@ public class UserReviewPage extends AppCompatActivity {
     }
 
     private void onFinishLoading() {
+        reviewRef.removeEventListener(reviewCredentialListener);
+
         String rating = "";
         String isAnonStr = "false";
         isAnon = false;
@@ -152,7 +160,6 @@ public class UserReviewPage extends AppCompatActivity {
 
     }
 
-
     public void onClickBackFromMyReview(View view) {
         //TODO: clear all text fields
         Intent intent = new Intent(this, BeachInfoActivity.class);
@@ -162,7 +169,8 @@ public class UserReviewPage extends AppCompatActivity {
 
     public void onClickConfirm(View view) {
         root = FirebaseDatabase.getInstance();
-        DatabaseReference reviewRef = root.getReference("Reviews");
+        reviewRef = root.getReference("Reviews");
+
         TextView rating_view = findViewById(R.id.rating);
         TextView isAnon_btn = findViewById(R.id.anon_btn);
         TextView content_view = findViewById(R.id.content_tv);
@@ -173,7 +181,6 @@ public class UserReviewPage extends AppCompatActivity {
         Double rate_double;
 
         try {
-            //TODO: check for valid rating input.
             rate_double = Double.parseDouble(rating);
 
             if (!(0 <= rate_double) && (rate_double <= 5)) {
@@ -189,46 +196,38 @@ public class UserReviewPage extends AppCompatActivity {
             throw e;
         }
 
-        if (review == null){
-            //create a new review obj, assign its data field input text, and push it to database
-            ValueEventListener newReviewListener = new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        Log.d(TAG, "onClick database listener activated");
-                        // Get value of each attribute of a User ob
-                        long reviewIndex = snapshot.getChildrenCount() + 1;
-                        String reviewID = "Review" + reviewIndex;
+        if (review == null){//create new review. Update reviw object, update child count
+            reviewRef = root.getReference("Reviews");
 
-                        reviewRef.child(reviewID).push();
-                        DatabaseReference newReview = reviewRef.child(reviewID);
+            String reviewID = beachID + " " + userID;
 
-                        newReview.child("beach").push();
-                        newReview.child("beach").setValue(beachID);
+            review = new Review(reviewID, userID, beachID, isAnon, rate_double, content);
+            reviewRef.child(reviewID).push();
+            DatabaseReference newReview = reviewRef.child(reviewID);
 
-                        newReview.child("uID").push();
-                        newReview.child("uID").setValue(userID);
+            newReview.child("beach").push();
+            newReview.child("beach").setValue(review.getBeach_name());
 
-                        newReview.child("rate").push();
-                        newReview.child("rate").setValue(rating);
+            newReview.child("uID").push();
+            newReview.child("uID").setValue(review.getUser_ID());
 
-                        newReview.child("content").push();
-                        newReview.child("content").setValue(content);
+            newReview.child("rate").push();
+            newReview.child("rate").setValue(review.getRating());
 
-                        newReview.child("isAnonymous").push();
-                        newReview.child("isAnonymous").setValue(isAnon);
-                        Log.d(TAG, "onClick database listener finished.");
-                        Toast.makeText(UserReviewPage.this, "Review updated!", Toast.LENGTH_SHORT).show();
-                        //TODO: add after image upload feature is fully functional
-//                    newReview.child("image").push();
-//                    newReview.child("image").setValue(imageLink);
-                }
+            newReview.child("content").push();
+            newReview.child("content").setValue(review.getContent());
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-                    Log.d(TAG, "push new review to DB failed.");
-                }
-            };
-            reviewRef.addValueEventListener(newReviewListener);
+            newReview.child("isAnonymous").push();
+            newReview.child("isAnonymous").setValue(review.isAnonymous);
+            Log.d(TAG, "onClick database listener finished.");
+            Toast.makeText(UserReviewPage.this, "Review created!", Toast.LENGTH_SHORT).show();
+            //TODO: add after image upload feature is fully functional
+            newReview.child("image").push();
+            newReview.child("image").setValue("");
+
+            //TODO: update review obj, and deletion button visibility to allow immediate deletion after creation
+            TextView delete_btn = findViewById(R.id.delete);
+            delete_btn.setVisibility(View.VISIBLE);
         } else {
             //else update existing review's data in DB.
             String reviewID = review.getReviewID();
@@ -236,9 +235,9 @@ public class UserReviewPage extends AppCompatActivity {
             currReview.child("rate").setValue(rating);
             currReview.child("content").setValue(content);
             currReview.child("isAnonymous").setValue(isAnon);
+            Toast.makeText(UserReviewPage.this, "Review updated!", Toast.LENGTH_SHORT).show();
         }
     }
-
 
     public void onClickAnon(View view) {
         TextView isAnonymous_tv = findViewById(R.id.anon_btn);
@@ -254,23 +253,16 @@ public class UserReviewPage extends AppCompatActivity {
     }
 
     public void onClickDelete(View view) {
-        /*get a reference on the node to be deleted
-        *implement a single value event listener
-        *add the listener to the reference
-        *in onDataChange, call removeValue() on the ref of the node*/
-        DatabaseReference reviewRef = root.getReference("Reviews");
+        reviewRef = root.getReference("Reviews");
         Query query = reviewRef.child(review.getReviewID());
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 snapshot.getRef().removeValue();
-//                TextView rating_view = findViewById(R.id.rating);
-//                TextView isAnon_btn = findViewById(R.id.anon_btn);
-//                TextView content_view = findViewById(R.id.content_tv);
-//                rating_view.setText("");
-//                isAnon_btn.setText("false");
-//                isAnon = false;
-//                content_view.setText("");
+                review = null;
+                Toast.makeText(UserReviewPage.this, "Deleted!", Toast.LENGTH_SHORT).show();
+                TextView delete_btn = findViewById(R.id.delete);
+                delete_btn.setVisibility(View.INVISIBLE);
             }
 
             @Override
@@ -278,8 +270,6 @@ public class UserReviewPage extends AppCompatActivity {
                 System.out.println("delete failed");
             }
         });
-
-        Toast.makeText(UserReviewPage.this, "Deleted!", Toast.LENGTH_SHORT).show();
     }
 
     public void onClickImageUpload(View view){
