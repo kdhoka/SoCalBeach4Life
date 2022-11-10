@@ -69,4 +69,10 @@ public class userProfileActivity extends AppCompatActivity {
 
         Users.addValueEventListener(credentialListener);
     }
+
+    public void onClickProfileToMyReview(View view) {
+        Intent intent = new Intent(this, UserReviewPage.class);
+        intent.putExtra("beachID", "beach4");//TODO: make it dynamic on run time
+        startActivity(intent);
+    }
 }

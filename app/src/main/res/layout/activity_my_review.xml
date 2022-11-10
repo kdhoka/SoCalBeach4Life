@@ -60,14 +60,14 @@
         android:layout_width="120dp"
         android:layout_height="40dp"
         android:hint="enter 0-5 double"
-        android:textSize="14dp"
         android:textColor="@color/quantum_grey"
+        android:textSize="14dp"
         app:layout_constraintBottom_toTopOf="@+id/anon_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.52"
         app:layout_constraintStart_toEndOf="@+id/textView4"
         app:layout_constraintTop_toBottomOf="@+id/beach_name_val"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.084" />
 
     <Button
         android:id="@+id/anon_btn"
@@ -75,11 +75,11 @@
         android:layout_height="40dp"
         android:layout_marginStart="20dp"
         android:layout_marginBottom="52dp"
+        android:backgroundTint="@color/black"
         android:onClick="onClickAnon"
         android:text="false"
         android:textSize="14dp"
-        android:backgroundTint="@color/black"
-        app:layout_constraintBottom_toTopOf="@+id/content_tv"
+        app:layout_constraintBottom_toBottomOf="@+id/textView6"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.444"
         app:layout_constraintStart_toEndOf="@+id/textView5" />
@@ -89,10 +89,10 @@
         android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:gravity="top|left"
+        android:hint="You have no review written for this beach. Write a new one here..."
         android:lines="5"
         android:maxLines="15"
         android:scrollbars="vertical"
-        android:hint="Enter your review content here"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.409"
@@ -102,30 +102,29 @@
 
     <Button
         android:id="@+id/button3"
-        android:layout_width="100dp"
+        android:layout_width="80dp"
         android:layout_height="40dp"
+        android:onClick="onClickBackFromMyReview"
         android:text="Back"
-        android:onClick = "onClickBackFromMyReview"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.08"
+        app:layout_constraintHorizontal_bias="0.075"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/content_tv"
-        app:layout_constraintVertical_bias="0.798" />
+        app:layout_constraintTop_toBottomOf="@+id/imageUpload"
+        app:layout_constraintVertical_bias="0.764" />
 
     <Button
         android:id="@+id/button2"
         android:layout_width="95dp"
         android:layout_height="50dp"
+        android:layout_marginTop="20dp"
         android:backgroundTint="@color/green"
         android:onClick="onClickConfirm"
         android:text="Confirm"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.758"
-        app:layout_constraintStart_toEndOf="@+id/button3"
-        app:layout_constraintTop_toBottomOf="@+id/content_tv"
-        app:layout_constraintVertical_bias="0.799" />
+        app:layout_constraintHorizontal_bias="0.83"
+        app:layout_constraintStart_toEndOf="@+id/delete"
+        app:layout_constraintTop_toBottomOf="@+id/content_tv" />
 
     <TextView
         android:id="@+id/beach_name"
@@ -143,7 +142,7 @@
         android:id="@+id/beach_name_val"
         android:layout_width="120dp"
         android:layout_height="40dp"
-        android:text="Beach name"
+        android:hint="Beach name"
         android:textAlignment="center"
         android:textColor="@color/teal_700"
         android:textSize="14dp"
@@ -158,28 +157,27 @@
         android:id="@+id/delete"
         android:layout_width="80dp"
         android:layout_height="45dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="20dp"
         android:backgroundTint="@color/red"
         android:onClick="onClickDelete"
         android:text="Delete"
         android:visibility="visible"
-        app:layout_constraintBottom_toTopOf="@+id/button2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.486"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/content_tv"
-        app:layout_constraintVertical_bias="0.197" />
+        app:layout_constraintTop_toBottomOf="@+id/content_tv" />
 
     <Button
         android:id="@+id/imageUpload"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="52dp"
         android:onClick="onClickImageUpload"
         android:text="image"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.473"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.074"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/delete"
+        app:layout_constraintVertical_bias="0.0" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

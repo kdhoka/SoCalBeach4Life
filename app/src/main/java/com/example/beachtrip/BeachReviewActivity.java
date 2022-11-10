@@ -56,7 +56,7 @@ public class BeachReviewActivity extends AppCompatActivity {
                     String beachKey = dsp.child("beach").getValue().toString();
                     if (beachKey.equals(beachID)) {
                         String content = dsp.child("content").getValue().toString();
-                        double rate = (double) dsp.child("rate").getValue();
+                        double rate = Double.parseDouble(dsp.child("rate").getValue().toString());
                         totalRate += rate;
                         boolean isAnonymous = (boolean) dsp.child("isAnonymous").getValue();
                         String username = dsp.child("uID").getValue().toString();
