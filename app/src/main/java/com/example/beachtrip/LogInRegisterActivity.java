@@ -18,8 +18,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.SignInMethodQueryResult;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class LogInRegisterActivity extends AppCompatActivity {
     private static final String TAG = "email password";
@@ -187,18 +189,36 @@ public class LogInRegisterActivity extends AppCompatActivity {
     }
 
     private void registerInDB(String name, String email, String password, String uid) {
-        //create new user node in DB
-        //create a new child node with register
-        Users.child(uid).push();
-        DatabaseReference user = Users.child(uid);
-        //insert attributes name, email, password into the new child
-        user.child("name").push();
-        user.child("name").setValue(name);
+        root = FirebaseDatabase.getInstance();
+        Users = root.getReference("Users");
 
-        user.child("email").push();
-        user.child("email").setValue(email);
+        DatabaseReference connectedRef = FirebaseDatabase.getInstance().getReference(".info/connected");
+        connectedRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                boolean connected = snapshot.getValue(Boolean.class);
+                if (connected) {
+                    System.out.println("Register DB connected");
+                    Users.child(uid).push();
+                    DatabaseReference newUser = Users.child(uid);
+                    //insert attributes name, email, password into the new child
+                    newUser.child("name").push();
+                    newUser.child("name").setValue(name);
 
-        user.child("password").push();
-        user.child("password").setValue(password);
+                    newUser.child("email").push();
+                    newUser.child("email").setValue(email);
+
+                    newUser.child("password").push();
+                    newUser.child("password").setValue(password);
+                } else {
+                    System.out.println("Cannot connect to database. Please try again later");
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                System.err.println("Listener was cancelled");
+            }
+        });
     }
 }

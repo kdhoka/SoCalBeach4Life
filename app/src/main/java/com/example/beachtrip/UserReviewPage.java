@@ -264,6 +264,13 @@ public class UserReviewPage extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 snapshot.getRef().removeValue();
+//                TextView rating_view = findViewById(R.id.rating);
+//                TextView isAnon_btn = findViewById(R.id.anon_btn);
+//                TextView content_view = findViewById(R.id.content_tv);
+//                rating_view.setText("");
+//                isAnon_btn.setText("false");
+//                isAnon = false;
+//                content_view.setText("");
             }
 
             @Override
@@ -272,7 +279,7 @@ public class UserReviewPage extends AppCompatActivity {
             }
         });
 
-        //set text field to be empty on display
+        Toast.makeText(UserReviewPage.this, "Deleted!", Toast.LENGTH_SHORT).show();
     }
 
     public void onClickImageUpload(View view){
