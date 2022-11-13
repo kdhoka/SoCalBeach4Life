@@ -1,18 +1,29 @@
 package com.example.beachtrip;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.renderscript.Sampler;
 import android.util.Log;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.material.tabs.TabLayout;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -21,6 +32,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import org.w3c.dom.Text;
 
@@ -30,7 +45,6 @@ public class UserReviewPage extends AppCompatActivity {
     FirebaseDatabase root;
     DatabaseReference reviewRef;
     ValueEventListener reviewCredentialListener;
-    long childCount;
 
     FirebaseAuth mAuth;
     FirebaseUser user;
@@ -38,22 +52,27 @@ public class UserReviewPage extends AppCompatActivity {
     String userID;
     Boolean isAnon = false;
     Review review = null;
-    String image;
+
+    private Button uploadBtn, showallbtn;
+    private ImageView imageView;
+    private ProgressBar progressBar;
+
+    private DatabaseReference imageDBRef = FirebaseDatabase.getInstance().getReference("Image");
+    private com.google.firebase.storage.StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+
+    private Uri imageUri;
+
     private static final String TAG = "Create Review.";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_review);
 
+        //initialize constants and references to DB and storage
         beachID = getIntent().getStringExtra("beachID");
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
         userID = user.getUid();
-        image = getIntent().getStringExtra("image");
-        Button b = findViewById(R.id.imageUpload);
-        if(image != null){
-            System.out.println(image);
-        }
 
         root = FirebaseDatabase.getInstance();
         DatabaseReference beachRef = root.getReference("beaches");
@@ -83,7 +102,95 @@ public class UserReviewPage extends AppCompatActivity {
             }
         };
         beachRef.addValueEventListener(beachCredentialListener);
+
+        //initialization of data members for image uploading
+        uploadBtn = findViewById(R.id.upload_btn);
+        showallbtn = findViewById(R.id.show_all_btn);
+        progressBar = findViewById(R.id.progressBar);
+        imageView = findViewById(R.id.review_image_upload_view);
+        progressBar.setVisibility(View.INVISIBLE);
+
+        View.OnClickListener imageOnClickListener = new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent galleryIntent = new Intent();
+                galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
+                galleryIntent.setType("image/*");
+                diyActivityResultLauncher.launch(galleryIntent);
+            }
+        };
+
+        imageView.setOnClickListener(imageOnClickListener);
+
+
+        View.OnClickListener uploadOnClickListener = new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                if (imageUri != null){
+                    uploadToFirebase(imageUri);
+                } else {
+                    Toast.makeText(UserReviewPage.this, "Please select an image", Toast.LENGTH_SHORT).show();
+                }
+            }
+        };
+        uploadBtn.setOnClickListener(uploadOnClickListener);
     }
+
+    private void uploadToFirebase(Uri uri) {
+        StorageReference fileRef =  storageReference.child(System.currentTimeMillis()+"."+getFileExtension(uri));
+
+        fileRef.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>(){
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot){
+                //store imageUri to realtime
+                fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        Model model = new Model(uri.toString());
+                        String modelId = imageDBRef.push().getKey();
+                        imageDBRef.child(modelId).setValue(model);
+                        //update review image uri
+                        Toast.makeText(UserReviewPage.this, "image uploaded successfully", Toast.LENGTH_SHORT).show();
+                        progressBar.setVisibility(View.INVISIBLE);
+                    }
+                });
+            }
+        }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+                progressBar.setVisibility(View.VISIBLE);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                progressBar.setVisibility(View.INVISIBLE);
+                Toast.makeText(UserReviewPage.this, "Image uploading failed", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private String getFileExtension(Uri mUri){
+        ContentResolver cr = getContentResolver();
+        MimeTypeMap mime = MimeTypeMap.getSingleton();
+        //return the
+        return mime.getExtensionFromMimeType(cr.getType(mUri));
+    }
+    // You can do the assignment inside onAttach or onCreate, i.e, before the activity is displayed
+    ActivityResultLauncher<Intent> diyActivityResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        // There are no request codes
+                        Intent data = result.getData();
+                        imageUri = data.getData();
+                        imageView.setImageURI(imageUri);
+                    }
+                }
+            });
 
     private void getReviewFromDB() {
         root = FirebaseDatabase.getInstance();
@@ -105,7 +212,7 @@ public class UserReviewPage extends AppCompatActivity {
                         String content = dsp.child("content").getValue().toString();
                         Double rate = Double.parseDouble(dsp.child("rate").getValue().toString());
                         Boolean isAnonymous = (Boolean)dsp.child("isAnonymous").getValue();
-                        //String imageLink = dsp.child("image").getValue().toString();
+                        //String imageUri = dsp.child("image").getValue().toString();
                         //TODO: update Review class constructor to support image
                         review = new Review(reviewID, userKey, beachKey, isAnonymous, rate, content);
                         break;
@@ -132,12 +239,11 @@ public class UserReviewPage extends AppCompatActivity {
         String isAnonStr = "false";
         isAnon = false;
         String content = "";
-        //String imageLink = "";
 
         TextView rating_view = findViewById(R.id.rating);
         TextView isAnon_btn = findViewById(R.id.anon_btn);
         TextView content_view = findViewById(R.id.content_tv);
-        TextView delete_btn = findViewById(R.id.delete);
+        TextView delete_btn = findViewById(R.id.delete_btn);
         if (review != null){
             rating = String.valueOf(review.getRating());
             isAnon = review.getIs_anonymous();
@@ -158,6 +264,7 @@ public class UserReviewPage extends AppCompatActivity {
             content_view.setText(content);
         }
 
+        //TODO: load uploaded image to image view
     }
 
     public void onClickBackFromMyReview(View view) {
@@ -177,7 +284,6 @@ public class UserReviewPage extends AppCompatActivity {
 
         String rating = rating_view.getText().toString();
         String content = content_view.getText().toString();
-        String imageLink = "";
         Double rate_double;
 
         try {
@@ -223,10 +329,10 @@ public class UserReviewPage extends AppCompatActivity {
             Toast.makeText(UserReviewPage.this, "Review created!", Toast.LENGTH_SHORT).show();
             //TODO: add after image upload feature is fully functional
             newReview.child("image").push();
-            newReview.child("image").setValue("");
+            newReview.child("image").setValue(imageUri.toString());
 
             //TODO: update review obj, and deletion button visibility to allow immediate deletion after creation
-            TextView delete_btn = findViewById(R.id.delete);
+            TextView delete_btn = findViewById(R.id.delete_btn);
             delete_btn.setVisibility(View.VISIBLE);
         } else {
             //else update existing review's data in DB.
@@ -235,6 +341,7 @@ public class UserReviewPage extends AppCompatActivity {
             currReview.child("rate").setValue(rating);
             currReview.child("content").setValue(content);
             currReview.child("isAnonymous").setValue(isAnon);
+            currReview.child("image").setValue(imageUri.toString());//TODO: only 1 image/review, and 1 review/user/beach
             Toast.makeText(UserReviewPage.this, "Review updated!", Toast.LENGTH_SHORT).show();
         }
     }
@@ -259,9 +366,10 @@ public class UserReviewPage extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 snapshot.getRef().removeValue();
+                //TODO: delete image in storage and image DB
                 review = null;
                 Toast.makeText(UserReviewPage.this, "Deleted!", Toast.LENGTH_SHORT).show();
-                TextView delete_btn = findViewById(R.id.delete);
+                TextView delete_btn = findViewById(R.id.delete_btn);
                 delete_btn.setVisibility(View.INVISIBLE);
             }
 

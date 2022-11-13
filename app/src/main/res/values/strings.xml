@@ -13,8 +13,8 @@
     <string name="name_prompt"><i><b>Name</b></i></string>
     <string name="email_prompt"><i><b>Email</b></i></string>
     <string name="pwd_prompt"><i><b>Password</b></i></string>
-    <string name="IsAnonymous">IsAnonymous</string>
-    <string name="rating">Rating</string>
+    <string name="IsAnonymous">Is Anonymous:</string>
+    <string name="rating">Rating:</string>
     <string name="Content">Content</string>
     <string name="star">\u2605</string>
     <string name = "half_star">\u2BEA</string>
