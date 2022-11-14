@@ -61,6 +61,7 @@ public class UserReviewPage extends AppCompatActivity {
     private com.google.firebase.storage.StorageReference storageReference = FirebaseStorage.getInstance().getReference();
 
     private Uri imageUri;
+    private Model model;
 
     private static final String TAG = "Create Review.";
     @Override
@@ -109,6 +110,7 @@ public class UserReviewPage extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
         imageView = findViewById(R.id.review_image_upload_view);
         progressBar.setVisibility(View.INVISIBLE);
+        model = null;
 
         View.OnClickListener imageOnClickListener = new View.OnClickListener() {
 
@@ -148,11 +150,12 @@ public class UserReviewPage extends AppCompatActivity {
                 fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
-                        Model model = new Model(uri.toString());
+                        model = new Model(uri.toString());//model always contains the lastly upload image URL in fire storage
+                        System.out.println("new uri " + uri.toString());
+                        //push a new node in "Image" with auto-generated random key
                         String modelId = imageDBRef.push().getKey();
                         imageDBRef.child(modelId).setValue(model);
-                        //update review image uri
-                        Toast.makeText(UserReviewPage.this, "image uploaded successfully", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(UserReviewPage.this, "Image uploaded successfully!", Toast.LENGTH_SHORT).show();
                         progressBar.setVisibility(View.INVISIBLE);
                     }
                 });
@@ -212,9 +215,9 @@ public class UserReviewPage extends AppCompatActivity {
                         String content = dsp.child("content").getValue().toString();
                         Double rate = Double.parseDouble(dsp.child("rate").getValue().toString());
                         Boolean isAnonymous = (Boolean)dsp.child("isAnonymous").getValue();
-                        //String imageUri = dsp.child("image").getValue().toString();
+                        String imageURL = dsp.child("image").getValue().toString();
                         //TODO: update Review class constructor to support image
-                        review = new Review(reviewID, userKey, beachKey, isAnonymous, rate, content);
+                        review = new Review(reviewID, userKey, beachKey, isAnonymous, rate, content, imageURL);
                         break;
                     }
                 }
@@ -263,8 +266,6 @@ public class UserReviewPage extends AppCompatActivity {
         if(!content.isEmpty()){//only load content is there is one, else display hint
             content_view.setText(content);
         }
-
-        //TODO: load uploaded image to image view
     }
 
     public void onClickBackFromMyReview(View view) {
@@ -302,12 +303,18 @@ public class UserReviewPage extends AppCompatActivity {
             throw e;
         }
 
-        if (review == null){//create new review. Update reviw object, update child count
+        if (review == null){//create new review. Update review object, update child count
             reviewRef = root.getReference("Reviews");
 
             String reviewID = beachID + " " + userID;
+            String imageURL = "nullURL";
+            if (model != null){
+                imageURL = model.getImageUri();
+            }
 
-            review = new Review(reviewID, userID, beachID, isAnon, rate_double, content);
+            review = new Review(reviewID, userID, beachID, isAnon, rate_double, content, imageURL);
+            System.out.println("onClickConfirm, new review obj contains imageURL: " + review.getImageURL());
+
             reviewRef.child(reviewID).push();
             DatabaseReference newReview = reviewRef.child(reviewID);
 
@@ -325,11 +332,12 @@ public class UserReviewPage extends AppCompatActivity {
 
             newReview.child("isAnonymous").push();
             newReview.child("isAnonymous").setValue(review.isAnonymous);
+
+            newReview.child("image").push();
+            newReview.child("image").setValue(review.getImageURL());
+
             Log.d(TAG, "onClick database listener finished.");
             Toast.makeText(UserReviewPage.this, "Review created!", Toast.LENGTH_SHORT).show();
-            //TODO: add after image upload feature is fully functional
-            newReview.child("image").push();
-            newReview.child("image").setValue(imageUri.toString());
 
             //TODO: update review obj, and deletion button visibility to allow immediate deletion after creation
             TextView delete_btn = findViewById(R.id.delete_btn);
@@ -341,7 +349,14 @@ public class UserReviewPage extends AppCompatActivity {
             currReview.child("rate").setValue(rating);
             currReview.child("content").setValue(content);
             currReview.child("isAnonymous").setValue(isAnon);
-            currReview.child("image").setValue(imageUri.toString());//TODO: only 1 image/review, and 1 review/user/beach
+
+            if (model != null){//update imageURL in DB if new image is uploaded.\
+                System.out.println("onClickConfirm, model is not null, update curr_review image to:  " + model.getImageUri());
+                currReview.child("image").setValue(model.getImageUri());
+            } else {
+                System.out.println("onClickConfirm, model is null, keep curr_review image as it is: " + review.getImageURL());
+            }
+
             Toast.makeText(UserReviewPage.this, "Review updated!", Toast.LENGTH_SHORT).show();
         }
     }

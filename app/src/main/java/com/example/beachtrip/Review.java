@@ -9,24 +9,26 @@ public class Review {
     double rate;
     String content;
     String reviewID;
-    Uri image;
+    String imageURL;
 
     public Review(){
-        this.uID = "user";
-        this.beach = "Null Beach";
+        this.uID = null;
+        this.beach = null;
         isAnonymous = false;
         rate = 0.0;
-        content = "this is a review";
-        this.reviewID = "";
+        content = null;
+        this.reviewID = null;
+        this.imageURL = null;
     }
 
-    public Review(String reviewID, String user_name, String beach_name, Boolean is_anonymous, double rating, String content) {
+    public Review(String reviewID, String user_name, String beach_name, Boolean is_anonymous, double rating, String content, String imageURL) {
         this.reviewID = reviewID;
         this.uID = user_name;
         this.beach = beach_name;
         this.isAnonymous = is_anonymous;
         this.rate = rating;
         this.content = content;
+        this.imageURL = imageURL;
     }
 
     public Review(String user_name, String beach_name, Boolean is_anonymous, double rating, String content) {
@@ -72,11 +74,11 @@ public class Review {
         this.content = content;
     }
 
-    public void addImage(Uri img){
-        this.image = img;
+    public void setImageURL(String img){
+        this.imageURL = img;
     }
 
-    public Uri getImage(){
-        return this.image;
+    public String getImageURL(){
+        return this.imageURL;
     }
 }

@@ -72,7 +72,7 @@ public class userProfileActivity extends AppCompatActivity {
 
     public void onClickProfileToMyReview(View view) {
         Intent intent = new Intent(this, UserReviewPage.class);
-        intent.putExtra("beachID", "beach4");//TODO: make it dynamic on run time
+        intent.putExtra("beachID", "beach1");//TODO: make it dynamic on run time
         startActivity(intent);
     }
 }

@@ -66,13 +66,14 @@ public class BeachReviewActivity extends AppCompatActivity {
                         boolean isAnonymous = (boolean) dsp.child("isAnonymous").getValue();
                         String username = dsp.child("uID").getValue().toString();
                         String reviewId = dsp.getKey().toString();
-                        Review r = new Review(reviewId, username, beachKey, isAnonymous, rate, content);
-                        Object imageobj = dsp.child("image").getValue();
-                        if(imageobj != null){
-                            String image = imageobj.toString();
-                            Uri img = Uri.parse(image);
-                            r.addImage(img);
-                        }
+                        String imageURL = dsp.child("image").getValue().toString();
+                        Review r = new Review(reviewId, username, beachKey, isAnonymous, rate, content, imageURL);
+//                        Object imageobj = dsp.child("image").getValue();
+//                        if(imageobj != null){
+//                            String image = imageobj.toString();
+//                            Uri img = Uri.parse(image);
+//                            r.setImageURL(img);
+//                        }
 
                         beach_reviews.add(r);
                     }
@@ -146,10 +147,11 @@ public class BeachReviewActivity extends AppCompatActivity {
         else{
             nameTv.setText("Anonymous review");
         }
-        if(r.getImage() != null){
-            ImageView iv = findViewById(R.id.image);
-            iv.setVisibility(View.VISIBLE);
-            iv.setImageURI(r.getImage());
+        if(r.getImageURL() != null){
+            //TODO: handle it using Picasso library
+//            ImageView iv = findViewById(R.id.image);
+//            iv.setVisibility(View.VISIBLE);
+//            iv.setImageURI(r.getImageURL());
         }
         else{
             ImageView iv = findViewById(R.id.image);
