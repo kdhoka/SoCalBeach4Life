@@ -36,6 +36,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
@@ -138,6 +139,38 @@ public class UserReviewPage extends AppCompatActivity {
             }
         };
         uploadBtn.setOnClickListener(uploadOnClickListener);
+
+//        testPicasso();
+//        testPicassoWithProgressBar();
+    }
+
+    private void testPicassoWithProgressBar() {
+        ImageView image_v = findViewById(R.id.review_image_upload_view);
+        String link = "https://firebasestorage.googleapis.com/v0/b/cs310-beach4life.appspot.com/o/1668464376752.jpg?alt=media&token=253e3d79-2318-41b7-b62f-a22e5581d563";
+
+        ProgressBar progressBar = findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.VISIBLE);
+        // Hide progress bar on successful load
+        Picasso.get().load(link)
+                .into(image_v, new com.squareup.picasso.Callback() {
+                    @Override
+                    public void onSuccess() {
+                        if (progressBar != null) {
+                            progressBar.setVisibility(View.GONE);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
+                        System.out.println("Picasso load image failed");
+                    }
+                });
+    }
+
+    private void testPicasso() {
+        ImageView image_v = findViewById(R.id.review_image_upload_view);
+        String link = "https://firebasestorage.googleapis.com/v0/b/cs310-beach4life.appspot.com/o/1668464376752.jpg?alt=media&token=253e3d79-2318-41b7-b62f-a22e5581d563";
+        Picasso.get().load(link).into(image_v);
     }
 
     private void uploadToFirebase(Uri uri) {
@@ -254,6 +287,31 @@ public class UserReviewPage extends AppCompatActivity {
                 isAnonStr = "true";
             }
             content = review.getContent();
+
+            //load image from old review if exists
+            String link = review.getImageURL();
+            if (!link.equals("nullURL")){
+                ImageView image_v = findViewById(R.id.review_image_upload_view);
+                ProgressBar progressBar = findViewById(R.id.progressBar);
+                progressBar.setVisibility(View.VISIBLE);
+                // Hide progress bar on successful load
+                Picasso.get().load(link)
+                        .into(image_v, new com.squareup.picasso.Callback() {
+                            @Override
+                            public void onSuccess() {
+                                if (progressBar != null) {
+                                    progressBar.setVisibility(View.GONE);
+                                }
+                            }
+
+                            @Override
+                            public void onError(Exception e) {
+                                System.out.println("Picasso load image failed");
+                            }
+                        });
+            }
+
+            //hide delete button
             delete_btn.setVisibility(View.VISIBLE);
         } else {
             delete_btn.setVisibility(View.INVISIBLE);

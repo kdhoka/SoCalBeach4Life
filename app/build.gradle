@@ -51,4 +51,10 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth'
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
     implementation "androidx.cardview:cardview:1.0.0"
+
+    //Add the dependency for the picasso library to handle downloading image from firebase cloud storage given imageURL, and displays
+    //the image in an imageview directly.
+    implementation 'com.squareup.picasso:picasso:2.71828'
+
+
 }
