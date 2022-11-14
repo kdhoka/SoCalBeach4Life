@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,6 +21,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
@@ -60,26 +62,21 @@ public class BeachReviewActivity extends AppCompatActivity {
                 for (DataSnapshot dsp : dataSnapshot.getChildren()) {
                     String beachKey = dsp.child("beach").getValue().toString();
                     if (beachKey.equals(beachID)) {
+
                         String content = dsp.child("content").getValue().toString();
                         double rate = Double.parseDouble(dsp.child("rate").getValue().toString());
-                        totalRate += rate;
                         boolean isAnonymous = (boolean) dsp.child("isAnonymous").getValue();
                         String username = dsp.child("uID").getValue().toString();
                         String reviewId = dsp.getKey().toString();
                         String imageURL = dsp.child("image").getValue().toString();
+
                         Review r = new Review(reviewId, username, beachKey, isAnonymous, rate, content, imageURL);
-//                        Object imageobj = dsp.child("image").getValue();
-//                        if(imageobj != null){
-//                            String image = imageobj.toString();
-//                            Uri img = Uri.parse(image);
-//                            r.setImageURL(img);
-//                        }
 
                         beach_reviews.add(r);
+                        totalRate += rate;
                     }
                 }
                 onFinishLoading();
-                // ..
             }
 
             @Override //trigger when the client(us) doesn't have permission to read from the DB
@@ -135,6 +132,7 @@ public class BeachReviewActivity extends AppCompatActivity {
         if (beachCredentialListener != null){
             beachRef.removeEventListener(beachCredentialListener);
         }
+
         TextView contentTv = findViewById(R.id.review);
         TextView nameTv = findViewById(R.id.username);
         Review r = beach_reviews.get(index);
@@ -147,14 +145,30 @@ public class BeachReviewActivity extends AppCompatActivity {
         else{
             nameTv.setText("Anonymous review");
         }
-        if(r.getImageURL() != null){
-            //TODO: handle it using Picasso library
-//            ImageView iv = findViewById(R.id.image);
-//            iv.setVisibility(View.VISIBLE);
-//            iv.setImageURI(r.getImageURL());
+
+        ImageView iv = findViewById(R.id.image);
+        if(!r.getImageURL().equals("nullURL")){
+            iv.setVisibility(View.VISIBLE);
+            String link = r.getImageURL();
+            ProgressBar progressBar = findViewById(R.id.beach_review_progressBar);
+            progressBar.setVisibility(View.VISIBLE);
+            // Hide progress bar on successful load
+            Picasso.get().load(link)
+                    .into(iv, new com.squareup.picasso.Callback() {
+                        @Override
+                        public void onSuccess() {
+                            if (progressBar != null) {
+                                progressBar.setVisibility(View.GONE);
+                            }
+                        }
+
+                        @Override
+                        public void onError(Exception e) {
+                            System.out.println("Picasso load image failed");
+                        }
+                    });
         }
         else{
-            ImageView iv = findViewById(R.id.image);
             iv.setVisibility(View.INVISIBLE);
         }
         TextView average = findViewById(R.id.averageRating);
