@@ -66,4 +66,9 @@ public class BeachInfoActivity extends AppCompatActivity {
         intent.putExtra("id", beachID);
         startActivity(intent);
     }
+
+    public void onClickBackFromBeachInfo(View view) {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
 }
