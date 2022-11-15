@@ -69,8 +69,8 @@ public class BeachReviewActivity extends AppCompatActivity {
                         String username = dsp.child("uID").getValue().toString();
                         String reviewId = dsp.getKey().toString();
                         String imageURL = dsp.child("image").getValue().toString();
-
-                        Review r = new Review(reviewId, username, beachKey, isAnonymous, rate, content, imageURL);
+                        String imagePath = dsp.child("imagePath").getValue().toString();
+                        Review r = new Review(reviewId, username, beachKey, isAnonymous, rate, content, imageURL, imagePath);
 
                         beach_reviews.add(r);
                         totalRate += rate;

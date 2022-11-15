@@ -10,6 +10,7 @@ public class Review {
     String content;
     String reviewID;
     String imageURL;
+    String imagePath;
 
     public Review(){
         this.uID = null;
@@ -19,9 +20,10 @@ public class Review {
         content = null;
         this.reviewID = null;
         this.imageURL = null;
+        this.imagePath = null;
     }
 
-    public Review(String reviewID, String user_name, String beach_name, Boolean is_anonymous, double rating, String content, String imageURL) {
+    public Review(String reviewID, String user_name, String beach_name, Boolean is_anonymous, double rating, String content, String imageURL, String imagePath) {
         this.reviewID = reviewID;
         this.uID = user_name;
         this.beach = beach_name;
@@ -29,15 +31,25 @@ public class Review {
         this.rate = rating;
         this.content = content;
         this.imageURL = imageURL;
+        this.imagePath = imagePath;
     }
 
-    public Review(String user_name, String beach_name, Boolean is_anonymous, double rating, String content) {
+    public Review(String user_name, String beach_name, Boolean is_anonymous, double rating, String content, String imagePath) {
         this.reviewID = "";
         this.uID = user_name;
         this.beach = beach_name;
         this.isAnonymous = is_anonymous;
         this.rate = rating;
         this.content = content;
+        this.imagePath = imagePath;
+    }
+
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
     }
 
     public String getReviewID(){return reviewID;}

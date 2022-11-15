@@ -183,11 +183,7 @@ public class UserReviewPage extends AppCompatActivity {
                 fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
-                        model = new Model(uri.toString());//model always contains the lastly upload image URL in fire storage
-                        System.out.println("new uri " + uri.toString());
-                        //push a new node in "Image" with auto-generated random key
-                        String modelId = imageDBRef.push().getKey();
-                        imageDBRef.child(modelId).setValue(model);
+                        model = new Model(uri.toString(), fileRef.getPath());//model always contains the lastly upload image URL in fire storage
                         Toast.makeText(UserReviewPage.this, "Image uploaded successfully!", Toast.LENGTH_SHORT).show();
                         progressBar.setVisibility(View.INVISIBLE);
                     }
@@ -249,8 +245,10 @@ public class UserReviewPage extends AppCompatActivity {
                         Double rate = Double.parseDouble(dsp.child("rate").getValue().toString());
                         Boolean isAnonymous = (Boolean)dsp.child("isAnonymous").getValue();
                         String imageURL = dsp.child("image").getValue().toString();
+                        String imagePath = dsp.child("imagePath").getValue().toString();
+
                         //TODO: update Review class constructor to support image
-                        review = new Review(reviewID, userKey, beachKey, isAnonymous, rate, content, imageURL);
+                        review = new Review(reviewID, userKey, beachKey, isAnonymous, rate, content, imageURL, imagePath);
                         break;
                     }
                 }
@@ -366,11 +364,13 @@ public class UserReviewPage extends AppCompatActivity {
 
             String reviewID = beachID + " " + userID;
             String imageURL = "nullURL";
+            String imagePath = "nullPath";
             if (model != null){
                 imageURL = model.getImageUri();
+                imagePath = model.getImagePath();
             }
 
-            review = new Review(reviewID, userID, beachID, isAnon, rate_double, content, imageURL);
+            review = new Review(reviewID, userID, beachID, isAnon, rate_double, content, imageURL, imagePath);
             System.out.println("onClickConfirm, new review obj contains imageURL: " + review.getImageURL());
 
             reviewRef.child(reviewID).push();
@@ -394,6 +394,9 @@ public class UserReviewPage extends AppCompatActivity {
             newReview.child("image").push();
             newReview.child("image").setValue(review.getImageURL());
 
+            newReview.child("imagePath").push();
+            newReview.child("imagePath").setValue(review.getImagePath());
+
             Log.d(TAG, "onClick database listener finished.");
             Toast.makeText(UserReviewPage.this, "Review created!", Toast.LENGTH_SHORT).show();
 
@@ -411,8 +414,9 @@ public class UserReviewPage extends AppCompatActivity {
             if (model != null){//update imageURL in DB if new image is uploaded.\
                 System.out.println("onClickConfirm, model is not null, update curr_review image to:  " + model.getImageUri());
                 currReview.child("image").setValue(model.getImageUri());
+                currReview.child("imagePath").setValue(model.getImagePath());
             } else {
-                System.out.println("onClickConfirm, model is null, keep curr_review image as it is: " + review.getImageURL());
+                System.out.println("onClickConfirm, model is null, keep curr_review image and imagePath as it is: " + review.getImageURL());
             }
 
             Toast.makeText(UserReviewPage.this, "Review updated!", Toast.LENGTH_SHORT).show();
@@ -439,7 +443,6 @@ public class UserReviewPage extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 snapshot.getRef().removeValue();
-                //TODO: delete image in storage and image DB
                 review = null;
                 Toast.makeText(UserReviewPage.this, "Deleted!", Toast.LENGTH_SHORT).show();
                 TextView delete_btn = findViewById(R.id.delete_btn);
@@ -451,6 +454,25 @@ public class UserReviewPage extends AppCompatActivity {
                 System.out.println("delete failed");
             }
         });
+
+        String imagePath = review.getImagePath();
+        if (!imagePath.equals("nullPath")){
+            // Create a reference to the file to delete
+            StorageReference desertRef = storageReference.child(imagePath);
+
+            // Delete the file
+            desertRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                   Toast.makeText(UserReviewPage.this, "image deletion in storage sucesses", Toast.LENGTH_SHORT).show();
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    Toast.makeText(UserReviewPage.this, "image deletion in storage failed", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 
     public void onClickImageUpload(View view){
