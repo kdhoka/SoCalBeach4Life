@@ -106,15 +106,6 @@ public class RestaurantEspressoTest {
 
     @Test
     public void BeachInfoNavigateTest() {
-        // Type text and then press the button.
-        //onView(withId(R.id.beachButton)).perform(click());
-        //intended(hasComponent(MainActivity.class.getName()));
-
-        //onView(withId(R.id.changeTextBt)).perform(click());
-
-        // Check that the text was changed.
-        //onView(withId(R.id.restaurantButton)).check(matches(withText("Restaurant")));
-        //1080 1794
         UiDevice device = UiDevice.getInstance(getInstrumentation());
         UiObject marker = device.findObject(new UiSelector().descriptionContains("Manhattan Beach"));
         try {
