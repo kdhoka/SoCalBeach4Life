@@ -8,18 +8,31 @@ import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
+import android.widget.TextView;
+
 
 import androidx.test.espresso.intent.Intents;
+import androidx.test.espresso.intent.rule.IntentsTestRule;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.espresso.ViewAction;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static org.junit.Assert.*;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -28,6 +41,22 @@ import static org.junit.Assert.*;
  */
 @RunWith(AndroidJUnit4.class)
 public class LogInRegisterEspressoTest {
+
+    private class Credential{
+        private String email;
+        Credential(){
+            email = "";
+        }
+
+        void setEmail(String email){
+            this.email = email;
+        }
+
+        String getEmail(){
+            return email;
+        }
+    }
+
     private static void pause(int length){
         long startTime = System.currentTimeMillis();
         long endTime = startTime + length;
@@ -46,10 +75,8 @@ public class LogInRegisterEspressoTest {
     public ActivityScenarioRule<LogInRegisterActivity> activityScenarioRule
             = new ActivityScenarioRule<>(LogInRegisterActivity.class);
 
-
     @Test
     public void register_success_Test(){
-        Intents.init();
         //navigate to log in / register page
 
         String name = "espresso";
@@ -64,10 +91,36 @@ public class LogInRegisterEspressoTest {
         pause(500);
 
         onView(withId(R.id.register)).perform(click());
-        pause(500);
-
+//        //check if database if new user is registered
+//        FirebaseDatabase root = FirebaseDatabase.getInstance();
+//        DatabaseReference Users = root.getReference("Users");
+//        Credential credential = new Credential();
+//        ValueEventListener registerListener =
+//        new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                for (DataSnapshot dsp : dataSnapshot.getChildren()) {
+//                    String curr_email = dsp.child("email").getValue().toString();
+//                    if (curr_email.equals(email)){
+//                        credential.setEmail(curr_email);
+//                        break;
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//            }
+//        };
+//        Users.addValueEventListener(registerListener);
+//        Users.removeEventListener(registerListener);
+//        assertEquals(email, credential.getEmail());
 
         intended(hasComponent(MainActivity.class.getName()));
     }
 
+    @After
+    public void tearDown() throws Exception{
+        Intents.release();
+    }
 }
