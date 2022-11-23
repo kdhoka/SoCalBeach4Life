@@ -3,8 +3,11 @@ package com.example.beachtrip;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Point;
+import android.graphics.Rect;
+import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.View;
+import android.view.WindowMetrics;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -85,13 +88,21 @@ public class RestaurantEspressoTest {
                 Press.FINGER);
     }
 
+    //private static ViewAction zoomIn(){ return clickXY(1002, 1530); }
     private static ViewAction zoomIn(){
-        return clickXY(1002, 1530);
+        return clickXY(500, 1000);
     }
 
-    private static void properZoomIn(){
+    private static void properZoomIn(UiObject marker){
         for(int i = 0; i < 6; ++i){
             onView(withId(R.id.map)).perform(zoomIn());
+            onView(withId(R.id.map)).perform(zoomIn());
+            try{
+                marker.click();
+            } catch (UiObjectNotFoundException e) {
+                e.printStackTrace();
+            }
+            pause(200);
         }
         pause(100);
     }
@@ -144,6 +155,7 @@ public class RestaurantEspressoTest {
     public void RestaurantDisplayTestRange1000() {
         UiDevice device = UiDevice.getInstance(getInstrumentation());
         UiObject beach = device.findObject(new UiSelector().descriptionContains("Manhattan Beach"));
+
         try {
             beach.click();
         } catch (UiObjectNotFoundException e) {
@@ -151,7 +163,14 @@ public class RestaurantEspressoTest {
         }
         pause(200);
 
-        properZoomIn();
+        properZoomIn(beach);
+
+        try {
+            beach.click();
+        } catch (UiObjectNotFoundException e) {
+            e.printStackTrace();
+        }
+        pause(200);
 
         UiObject restaurant1 = device.findObject(new UiSelector().descriptionContains("Mangiamo Ristorante"));
         try {
@@ -184,7 +203,14 @@ public class RestaurantEspressoTest {
         }
         pause(200);
 
-        properZoomIn();
+        properZoomIn(beach);
+
+        try {
+            beach.click();
+        } catch (UiObjectNotFoundException e) {
+            e.printStackTrace();
+        }
+        pause(200);
 
         UiObject restaurant1 = device.findObject(new UiSelector().descriptionContains("RICE Healthy Japanese Dining"));
         try {
@@ -218,7 +244,7 @@ public class RestaurantEspressoTest {
         }
         pause(100);
 
-        properZoomIn();
+        properZoomIn(beach);
 
         try {
             beach.click();
