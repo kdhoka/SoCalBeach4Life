@@ -75,6 +75,11 @@ public class LogInRegisterEspressoTest {
     public ActivityScenarioRule<LogInRegisterActivity> activityScenarioRule
             = new ActivityScenarioRule<>(LogInRegisterActivity.class);
 
+    @Before
+    public void setup(){
+        Intents.init();
+    }
+
     @Test
     public void register_success_Test(){
         //navigate to log in / register page
@@ -91,30 +96,6 @@ public class LogInRegisterEspressoTest {
         pause(500);
 
         onView(withId(R.id.register)).perform(click());
-//        //check if database if new user is registered
-//        FirebaseDatabase root = FirebaseDatabase.getInstance();
-//        DatabaseReference Users = root.getReference("Users");
-//        Credential credential = new Credential();
-//        ValueEventListener registerListener =
-//        new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                for (DataSnapshot dsp : dataSnapshot.getChildren()) {
-//                    String curr_email = dsp.child("email").getValue().toString();
-//                    if (curr_email.equals(email)){
-//                        credential.setEmail(curr_email);
-//                        break;
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//            }
-//        };
-//        Users.addValueEventListener(registerListener);
-//        Users.removeEventListener(registerListener);
-//        assertEquals(email, credential.getEmail());
 
         intended(hasComponent(MainActivity.class.getName()));
     }
