@@ -316,16 +316,20 @@ public class UserReviewPage extends AppCompatActivity {
             }
             //hide delete button
             delete_btn.setVisibility(View.VISIBLE);
+
+            if (!rating.isEmpty()){//only load rating is there is one, else display hint
+                rating_view.setText(rating);
+            }
+
+            isAnon_btn.setText(isAnonStr);
+            if(!content.isEmpty()){//only load content is there is one, else display hint
+                content_view.setText(content);
+            } else {
+                String review_no_comment_hint = "You left no comment on your last edit of this review!";
+                content_view.setHint(review_no_comment_hint);
+            }
         } else {
             delete_btn.setVisibility(View.INVISIBLE);
-        }
-
-        if (!rating.isEmpty()){//only load rating is there is one, else display hint
-            rating_view.setText(rating);
-        }
-        isAnon_btn.setText(isAnonStr);
-        if(!content.isEmpty()){//only load content is there is one, else display hint
-            content_view.setText(content);
         }
     }
 

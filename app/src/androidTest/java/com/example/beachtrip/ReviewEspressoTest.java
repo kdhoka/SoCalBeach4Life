@@ -95,16 +95,20 @@ public class ReviewEspressoTest {
         onView(withId(R.id.review_button)).perform(click());
         pause(1000);
 
-        String expectedText = "4.99 stars";
-        onView(withId(R.id.rating)).check(matches(withText(expectedText)));
-        pause(1000);
-        //jump from beach review page to userReviewPage
-//        onView(withId(R.id.button)).perform(click());
+//        String expectedText = "4.99 stars";
+//        onView(withId(R.id.rating)).check(matches(withText(expectedText)));
 //        pause(1000);
-//
-//        //check if rating view shows the rating uploaded
-//        onView(withId(R.id.rating)).check(matches(withText(rating)));
-//        pause(1500);
+        //jump from beach review page to userReviewPage
+        onView(withId(R.id.button)).perform(click());
+        pause(1000);
+
+        //check if rating view shows the rating uploaded
+        onView(withId(R.id.rating)).check(matches(withText(rating)));
+        pause(1500);
+
+        //TODO: delete this test review
+        onView(withId(R.id.delete_btn)).perform(click());
+        pause(200);
     }
 
     @Test
@@ -154,29 +158,151 @@ public class ReviewEspressoTest {
 
         //navigate from beach info page to beach review page
         onView(withId(R.id.review_button)).perform(click());
-        pause(1500);
+        pause(500);
 
-        String expectedRatingText = "0.21 stars";
+        //beach review -> my review
+        onView(withId(R.id.button)).perform(click());
+        pause(500);
+
+        //on my review page, check if rating and comments are correct
+        String expectedRatingText = "0.21";
         onView(withId(R.id.rating)).check(matches(withText(expectedRatingText)));
 
         String expectedCommentText = "Happy Thanksgiving! Test written on Nov 24:D";
-        onView(withId(R.id.review)).check(matches(withText(expectedCommentText)));
+        onView(withId(R.id.content_tv)).check(matches(withText(expectedCommentText)));
         pause(1000);
+
+        //TODO: delete this test review
+        onView(withId(R.id.delete_btn)).perform(click());
+        pause(200);
     }
 
-//
+
 //    @Test
 //    public void with_picture_review_test(){
+//        String name = "espressoReview";
+//        String email  = "review@usc.edu";
+//        String pwd = "review123";
 //
+//        onView(withId(R.id.name)).perform(typeText(name), closeSoftKeyboard());
+//        pause(250);
+//        onView(withId(R.id.email)).perform(typeText(email), closeSoftKeyboard());
+//        pause(250);
+//        onView((withId(R.id.pwd))).perform((typeText(pwd)), closeSoftKeyboard());
+//        pause(250);
+//
+//        onView(withId(R.id.signIn)).perform(click());
+//        pause(1000);
+//
+//        //main->profile
+//        onView(withId(R.id.profile_btn)).perform(click());
+//        pause(1000);
+//
+//        //click on Spinner to select Marina beach to see my review
+//        onView(withId(R.id.beachChoice)).perform(click());
+//        pause(500);
+//        onData(allOf(is(instanceOf(String.class)), is("Cabrillo Beach"))).perform(click());
+//        pause(500);
+//
+//        //My profile -> my review
+//        onView(withId(R.id.button2)).perform(click());
+//        pause(500);
+//
+//        //write rating
+//        String rating = "2.4";
+//        onView(withId(R.id.rating)).perform(typeText(rating), closeSoftKeyboard());
+//        pause(200);
+//
+//        //upload image
+//
+//        //Now at UserReviewPage, navigate back to beach info page
+//        onView(withId(R.id.user_review_back_btn)).perform(click());
+//        pause(800);
+//
+//        //navigate from beach info page to beach review page
+//        onView(withId(R.id.review_button)).perform(click());
+//        pause(1500);
+//
+//        String expectedRatingText = "2.4 stars";
+//        onView(withId(R.id.rating)).check(matches(withText(expectedRatingText)));
+//
+//
+//        //show image, as long as image is not null it's fine
+//
+//        //TODO: delete this test review
 //    }
+
+
+    @Test
+    public void new_anonymous_review_and_delete_test(){
+        String name = "espressoReview";
+        String email  = "review@usc.edu";
+        String pwd = "review123";
+
+        onView(withId(R.id.name)).perform(typeText(name), closeSoftKeyboard());
+        pause(250);
+        onView(withId(R.id.email)).perform(typeText(email), closeSoftKeyboard());
+        pause(250);
+        onView((withId(R.id.pwd))).perform((typeText(pwd)), closeSoftKeyboard());
+        pause(250);
+
+        onView(withId(R.id.signIn)).perform(click());
+        pause(1000);
+
+        //main->profile
+        onView(withId(R.id.profile_btn)).perform(click());
+        pause(1000);
+
+        //click on Spinner to select Marina beach to see my review
+        onView(withId(R.id.beachChoice)).perform(click());
+        pause(500);
+        onData(allOf(is(instanceOf(String.class)), is("Alamitos Beach"))).perform(click());
+        pause(500);
+
+        //My profile -> my review
+        onView(withId(R.id.button2)).perform(click());
+        pause(500);
+
+        //write rating
+        String rating = "3.14";
+        onView(withId(R.id.rating)).perform(typeText(rating), closeSoftKeyboard());
+        pause(200);
+
+        //Set is anonymous to true
+        onView(withId(R.id.anon_btn)).perform(click());
+        pause(200);
+
+        //confirm review creation
+        onView(withId(R.id.confirm_btn)).perform(click());
+        pause(200);
+
+        //Now at UserReviewPage, navigate back to beach info page
+        onView(withId(R.id.user_review_back_btn)).perform(click());
+        pause(1500);
+
+        //navigate from beach info page to beach review page
+        onView(withId(R.id.review_button)).perform(click());
+        pause(1500);
+
+        //beach review -> my review
+        onView(withId(R.id.button)).perform(click());
+        pause(200);
+
+        //on my review page, check if rating and is Anonymous are correct
+        String expectedRatingText = "3.14";
+        onView(withId(R.id.rating)).check(matches(withText(expectedRatingText)));
+
+        String expectedAnonBtnText = "true";
+        onView(withId(R.id.anon_btn)).check(matches(withText(expectedAnonBtnText)));
+        pause(1500);
+
+        //TODO: delete this test review
+        onView(withId(R.id.delete_btn)).perform(click());
+        pause(200);
+    }
 //
 //    @Test
-//    public void anonymous_review_test(){
-//
-//    }
-//
-//    @Test
-//    public void review_delete_test(){
+//    public void update_review_test(){
 //
 //    }
 
