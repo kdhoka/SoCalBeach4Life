@@ -39,7 +39,7 @@ public class BeachReviewActivity extends AppCompatActivity {
     int index;
     private String curUsername;
     private double totalRate = 0;
-
+    private ProgressBar progressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -165,11 +165,17 @@ public class BeachReviewActivity extends AppCompatActivity {
                         @Override
                         public void onError(Exception e) {
                             System.out.println("Picasso load image failed");
+                            if (progressBar != null) {
+                                progressBar.setVisibility(View.GONE);
+                            }
                         }
                     });
         }
         else{
             iv.setVisibility(View.INVISIBLE);
+            if (progressBar != null) {
+                progressBar.setVisibility(View.GONE);
+            }
         }
         TextView average = findViewById(R.id.averageRating);
         int average1 = (int) (totalRate * 10 / beach_reviews.size());

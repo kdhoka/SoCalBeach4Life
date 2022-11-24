@@ -291,7 +291,7 @@ public class UserReviewPage extends AppCompatActivity {
             String link = review.getImageURL();
             if (!link.equals("nullURL")){
                 ImageView image_v = findViewById(R.id.review_image_upload_view);
-                ProgressBar progressBar = findViewById(R.id.progressBar);
+                progressBar = findViewById(R.id.progressBar);
                 progressBar.setVisibility(View.VISIBLE);
                 // Hide progress bar on successful load
                 Picasso.get().load(link)
@@ -306,10 +306,12 @@ public class UserReviewPage extends AppCompatActivity {
                             @Override
                             public void onError(Exception e) {
                                 System.out.println("Picasso load image failed");
+                                progressBar.setVisibility(View.GONE);
                             }
                         });
+            } else {
+                progressBar.setVisibility(View.GONE);
             }
-
             //hide delete button
             delete_btn.setVisibility(View.VISIBLE);
         } else {
