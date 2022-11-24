@@ -42,8 +42,13 @@ public class BeachReviewActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //hid progressbar initially. Only show it while loading an image
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_beach_review);
+
+        //can only find view after contentView is set
+        progressBar = findViewById(R.id.beach_review_progressBar);
+        progressBar.setVisibility(View.GONE);
 
         Intent intent = getIntent();
         beachID = intent.getStringExtra("id");
@@ -150,7 +155,7 @@ public class BeachReviewActivity extends AppCompatActivity {
         if(!r.getImageURL().equals("nullURL")){
             iv.setVisibility(View.VISIBLE);
             String link = r.getImageURL();
-            ProgressBar progressBar = findViewById(R.id.beach_review_progressBar);
+            //TODO: uncomment for 2.5
             progressBar.setVisibility(View.VISIBLE);
             // Hide progress bar on successful load
             Picasso.get().load(link)
@@ -170,12 +175,9 @@ public class BeachReviewActivity extends AppCompatActivity {
                             }
                         }
                     });
-        }
-        else{
+        } else{
             iv.setVisibility(View.INVISIBLE);
-            if (progressBar != null) {
-                progressBar.setVisibility(View.GONE);
-            }
+            progressBar.setVisibility(View.GONE);
         }
         TextView average = findViewById(R.id.averageRating);
         int average1 = (int) (totalRate * 10 / beach_reviews.size());

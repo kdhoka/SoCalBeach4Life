@@ -70,6 +70,9 @@ public class UserReviewPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_review);
 
+        progressBar = findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.GONE);
+
         //initialize constants and references to DB and storage
         beachID = this.getIntent().getStringExtra("beachID");
 
@@ -186,14 +189,14 @@ public class UserReviewPage extends AppCompatActivity {
                     public void onSuccess(Uri uri) {
                         model = new Model(uri.toString(), fileRef.getPath());//model always contains the lastly upload image URL in fire storage
                         Toast.makeText(UserReviewPage.this, "Image uploaded successfully!", Toast.LENGTH_SHORT).show();
-                        progressBar.setVisibility(View.INVISIBLE);
+                        progressBar.setVisibility(View.GONE);
                     }
                 });
             }
         }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
-                progressBar.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.GONE);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -291,7 +294,6 @@ public class UserReviewPage extends AppCompatActivity {
             String link = review.getImageURL();
             if (!link.equals("nullURL")){
                 ImageView image_v = findViewById(R.id.review_image_upload_view);
-                progressBar = findViewById(R.id.progressBar);
                 progressBar.setVisibility(View.VISIBLE);
                 // Hide progress bar on successful load
                 Picasso.get().load(link)

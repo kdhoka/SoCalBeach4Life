@@ -93,11 +93,11 @@ public class ReviewEspressoTest {
 
         //navigate from beach info page to beach review page
         onView(withId(R.id.review_button)).perform(click());
-        pause(5000);
+        pause(1000);
 
         String expectedText = "4.99 stars";
         onView(withId(R.id.rating)).check(matches(withText(expectedText)));
-        pause(2000);
+        pause(1000);
         //jump from beach review page to userReviewPage
 //        onView(withId(R.id.button)).perform(click());
 //        pause(1000);
@@ -107,33 +107,63 @@ public class ReviewEspressoTest {
 //        pause(1500);
     }
 
-//    @Test
-//    public void with_comment_review_test(){
-//      //Log in
-//        String name = "espressoReview";
-//        String email  = "review@usc.edu";
-//        String pwd = "review123";
-//
-//        onView(withId(R.id.name)).perform(typeText(name), closeSoftKeyboard());
-//        pause(250);
-//        onView(withId(R.id.email)).perform(typeText(email), closeSoftKeyboard());
-//        pause(250);
-//        onView((withId(R.id.pwd))).perform((typeText(pwd)), closeSoftKeyboard());
-//        pause(250);
-//
-//        onView(withId(R.id.signIn)).perform(click());
-//        pause(1000);
-//
-//        //main->profile
-//        onView(withId(R.id.profile_btn)).perform(click());
-//        pause(1000);
-//
-//        //click on Spinner to select Marina beach to see my review
-//        onView(withId(R.id.beachChoice)).perform(click());
-//        pause(500);
-//        onData(allOf(is(instanceOf(String.class)), is("Venice Beach"))).perform(click());
-//        pause(500);
-//    }
+    @Test
+    public void with_comment_review_test(){
+      //Log in
+        String name = "espressoReview";
+        String email  = "review@usc.edu";
+        String pwd = "review123";
+
+        onView(withId(R.id.name)).perform(typeText(name), closeSoftKeyboard());
+        pause(250);
+        onView(withId(R.id.email)).perform(typeText(email), closeSoftKeyboard());
+        pause(250);
+        onView((withId(R.id.pwd))).perform((typeText(pwd)), closeSoftKeyboard());
+        pause(250);
+
+        onView(withId(R.id.signIn)).perform(click());
+        pause(1000);
+
+        //main->profile
+        onView(withId(R.id.profile_btn)).perform(click());
+        pause(1000);
+
+        //click on Spinner to select Marina beach to see my review
+        onView(withId(R.id.beachChoice)).perform(click());
+        pause(500);
+        onData(allOf(is(instanceOf(String.class)), is("Venice Beach"))).perform(click());
+        pause(500);
+
+        //My profile -> my review
+        onView(withId(R.id.button2)).perform(click());
+        pause(500);
+
+        //write rating and comment
+        String rating = "0.21";
+        onView(withId(R.id.rating)).perform(typeText(rating), closeSoftKeyboard());
+        pause(200);
+
+        String comment = "Happy Thanksgiving! Test written on Nov 24:D";
+        onView(withId(R.id.content_tv)).perform(typeText(comment), closeSoftKeyboard());
+        onView(withId(R.id.confirm_btn)).perform(click());
+        pause(500);
+
+        //Now at UserReviewPage, navigate back to beach info page
+        onView(withId(R.id.user_review_back_btn)).perform(click());
+        pause(800);
+
+        //navigate from beach info page to beach review page
+        onView(withId(R.id.review_button)).perform(click());
+        pause(1500);
+
+        String expectedRatingText = "0.21 stars";
+        onView(withId(R.id.rating)).check(matches(withText(expectedRatingText)));
+
+        String expectedCommentText = "Happy Thanksgiving! Test written on Nov 24:D";
+        onView(withId(R.id.review)).check(matches(withText(expectedCommentText)));
+        pause(1000);
+    }
+
 //
 //    @Test
 //    public void with_picture_review_test(){
