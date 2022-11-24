@@ -58,4 +58,5 @@ dependencies {
     //Add the dependency for the picasso library to handle downloading image from firebase cloud storage given imageURL, and displays
     //the image in an imageview directly.
     implementation 'com.squareup.picasso:picasso:2.71828'
+    testImplementation "org.robolectric:robolectric:3.3.2"
 }

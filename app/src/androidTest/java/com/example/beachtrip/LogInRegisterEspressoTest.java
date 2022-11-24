@@ -3,36 +3,28 @@ package com.example.beachtrip;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.typeText;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.intent.Intents.intended;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
+import static androidx.test.espresso.matcher.RootMatchers.withDecorView;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
-import android.content.Context;
-import android.content.Intent;
-import android.util.Log;
-import android.widget.TextView;
+import android.view.View;
 
 
-import androidx.test.espresso.intent.Intents;
-import androidx.test.espresso.intent.rule.IntentsTestRule;
+import androidx.test.core.app.ActivityScenario;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
-import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-import androidx.test.espresso.ViewAction;
 
-import org.junit.After;
+import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static org.junit.Assert.*;
-
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -42,21 +34,6 @@ import com.google.firebase.database.ValueEventListener;
 @RunWith(AndroidJUnit4.class)
 public class LogInRegisterEspressoTest {
 
-    private class Credential{
-        private String email;
-        Credential(){
-            email = "";
-        }
-
-        void setEmail(String email){
-            this.email = email;
-        }
-
-        String getEmail(){
-            return email;
-        }
-    }
-
     private static void pause(int length){
         long startTime = System.currentTimeMillis();
         long endTime = startTime + length;
@@ -64,8 +41,8 @@ public class LogInRegisterEspressoTest {
             startTime = System.currentTimeMillis();
         }
     }
+    private View decoView;
 
-    //display log in / register page upon launch
     /**
      * Use {@link ActivityScenarioRule} to create and launch the activity under test, and close it
      * after test completes. This is a replacement for {}.
@@ -76,15 +53,18 @@ public class LogInRegisterEspressoTest {
             = new ActivityScenarioRule<>(LogInRegisterActivity.class);
 
     @Before
-    public void setup(){
-        Intents.init();
+    public void setUp(){
+        activityScenarioRule.getScenario().onActivity(new ActivityScenario.ActivityAction<LogInRegisterActivity>() {
+            @Override
+            public void perform(LogInRegisterActivity activity) {
+                decoView = activity.getWindow().getDecorView();
+            }
+        });
     }
 
     @Test
-    public void register_success_Test(){
-        //navigate to log in / register page
-
-        String name = "espresso";
+    public void valid_register_auto_sign_in_test(){
+        String name = "valid_register_auto_sign_in_test";
         String email = "espresso@gmail.com";
         String password = "espresso123";
 
@@ -97,11 +77,101 @@ public class LogInRegisterEspressoTest {
 
         onView(withId(R.id.register)).perform(click());
 
-        intended(hasComponent(MainActivity.class.getName()));
+        pause(2000);
+        String expectedLogMsg = "Hi, " + name + "!";
+        onView(withId(R.id.logMsg)).check(matches(withText(expectedLogMsg)));
+        pause(3500);
     }
 
-    @After
-    public void tearDown() throws Exception{
-        Intents.release();
+    @Test
+    public void sign_in_view_profile_test(){
+        String name = "DeveloperXXQ";
+        String email = "xuxiaoqi@usc.edu";
+        String password = "GoTeamKTX!";
+
+        onView(withId(R.id.name)).perform(typeText(name));
+        pause(500);
+        onView(withId(R.id.email)).perform(typeText(email));
+        pause(500);
+        onView((withId(R.id.pwd))).perform((typeText(password)));
+
+        onView(withId(R.id.signIn)).perform(click());
+        pause(2000);
+
+        String expectedLogMsg = "Hi, " + name + "!";
+        onView(withId(R.id.logMsg)).check(matches(withText(expectedLogMsg)));
+        pause(1000);
+
+        onView(withId(R.id.profile)).perform(click());
+        pause(2000);
+
+        onView((withId((R.id.name_tv)))).check(matches(withText(name)));
+        onView((withId((R.id.email_tv)))).check(matches(withText(email)));
+        onView((withId((R.id.pwd_tv)))).check(matches(withText(password)));
+        pause(3500);
+    }
+
+    @Test
+    public void redundant_register_test(){
+        String name = "redundant_register_test";
+        String email = "xuxiaoqi@usc.edu";
+        String password = "GoTeamKTX!";
+
+        onView(withId(R.id.name)).perform(typeText(name));
+        pause(500);
+        onView(withId(R.id.email)).perform(typeText(email));
+        pause(500);
+        onView((withId(R.id.pwd))).perform((typeText(password)));
+
+        onView(withId(R.id.register)).perform(click());
+        pause(2000);
+
+        //TODO: check if toast is thrown
+        onView(withText("Registration failed.")).inRoot(withDecorView(Matchers.not(decoView))).check(matches(isDisplayed()));
+        pause(3500);
+    }
+
+    @Test
+    public void sign_in_sign_off_test(){
+        String name = "sign_in_sign_off_test";
+        String email = "xuxiaoqi@usc.edu";
+        String password = "GoTeamKTX!";
+
+        onView(withId(R.id.name)).perform(typeText(name));
+        pause(500);
+        onView(withId(R.id.email)).perform(typeText(email));
+        pause(500);
+        onView((withId(R.id.pwd))).perform((typeText(password)));
+
+        onView(withId(R.id.signIn)).perform(click());
+        pause(2000);
+
+        name = "DeveloperXXQ";
+        String expectedLogMsg = "Hi, " + name + "!";
+        onView(withId(R.id.logMsg)).check(matches(withText(expectedLogMsg)));
+        pause(2500);
+
+        onView(withId(R.id.log_out_button)).perform(click());
+        pause(2000);
+        expectedLogMsg = "Please sign in to start";
+        onView(withId(R.id.logMsg)).check(matches(withText(expectedLogMsg)));
+        pause(3500);
+    }
+
+    @Test
+    public void unregister_sign_in_test() throws InterruptedException {
+        String name = "unregister_sign_in_test";
+        String email = "unregister@usc.edu";
+        String password = "unregister123";
+
+        onView(withId(R.id.name)).perform(typeText(name));
+        pause(500);
+        onView(withId(R.id.email)).perform(typeText(email));
+        pause(500);
+        onView((withId(R.id.pwd))).perform((typeText(password)));
+        onView(withId(R.id.signIn)).perform(click());
+        //TODO: check if toast is thrown
+//        onView(withText("User not exist or wrong credentials.")).inRoot(withDecorView(Matchers.not(decoView))).check(matches(isDisplayed()));
+        pause(1000);
     }
 }
