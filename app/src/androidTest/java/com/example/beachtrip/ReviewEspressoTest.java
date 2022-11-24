@@ -69,10 +69,11 @@ public class ReviewEspressoTest {
         String pwd = "review123";
 
         onView(withId(R.id.name)).perform(typeText(name), closeSoftKeyboard());
-        pause(500);
+        pause(250);
         onView(withId(R.id.email)).perform(typeText(email), closeSoftKeyboard());
-        pause(500);
+        pause(250);
         onView((withId(R.id.pwd))).perform((typeText(pwd)), closeSoftKeyboard());
+        pause(250);
 
         onView(withId(R.id.signIn)).perform(click());
         pause(1000);
@@ -112,7 +113,7 @@ public class ReviewEspressoTest {
 
         //check if rating view shows the rating uploaded
         onView(withId(R.id.rating)).check(matches(withText(rating)));
-//        pause(1500);
+        pause(1500);
     }
 
 //    @Test
