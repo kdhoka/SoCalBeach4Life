@@ -4,28 +4,20 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.intent.Intents.intended;
-import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
-import static androidx.test.espresso.matcher.RootMatchers.withDecorView;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 import android.view.View;
 
-
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
-import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import static org.junit.Assert.*;
-
 /**
  * Instrumented test, which will execute on an Android device.
  *
@@ -64,7 +56,7 @@ public class LogInRegisterEspressoTest {
 
     @Test
     public void valid_register_auto_sign_in_test(){
-        String name = "valid_register_auto_sign_in_test";
+        String name = "register_auto_sign_in";
         String email = "espresso@gmail.com";
         String password = "espresso123";
 
@@ -80,35 +72,7 @@ public class LogInRegisterEspressoTest {
         pause(2000);
         String expectedLogMsg = "Hi, " + name + "!";
         onView(withId(R.id.logMsg)).check(matches(withText(expectedLogMsg)));
-        pause(3500);
-    }
-
-    @Test
-    public void sign_in_view_profile_test(){
-        String name = "DeveloperXXQ";
-        String email = "xuxiaoqi@usc.edu";
-        String password = "GoTeamKTX!";
-
-        onView(withId(R.id.name)).perform(typeText(name));
-        pause(500);
-        onView(withId(R.id.email)).perform(typeText(email));
-        pause(500);
-        onView((withId(R.id.pwd))).perform((typeText(password)));
-
-        onView(withId(R.id.signIn)).perform(click());
-        pause(2000);
-
-        String expectedLogMsg = "Hi, " + name + "!";
-        onView(withId(R.id.logMsg)).check(matches(withText(expectedLogMsg)));
-        pause(1000);
-
-        onView(withId(R.id.profile)).perform(click());
-        pause(2000);
-
-        onView((withId((R.id.name_tv)))).check(matches(withText(name)));
-        onView((withId((R.id.email_tv)))).check(matches(withText(email)));
-        onView((withId((R.id.pwd_tv)))).check(matches(withText(password)));
-        pause(3500);
+        pause(1500);
     }
 
     @Test
@@ -127,8 +91,8 @@ public class LogInRegisterEspressoTest {
         pause(2000);
 
         //TODO: check if toast is thrown
-        onView(withText("Registration failed.")).inRoot(withDecorView(Matchers.not(decoView))).check(matches(isDisplayed()));
-        pause(3500);
+        onView(withId(R.id.register)).check(matches(isDisplayed()));
+        pause(1500);
     }
 
     @Test
@@ -155,7 +119,7 @@ public class LogInRegisterEspressoTest {
         pause(2000);
         expectedLogMsg = "Please sign in to start";
         onView(withId(R.id.logMsg)).check(matches(withText(expectedLogMsg)));
-        pause(3500);
+        pause(1500);
     }
 
     @Test
@@ -170,8 +134,36 @@ public class LogInRegisterEspressoTest {
         pause(500);
         onView((withId(R.id.pwd))).perform((typeText(password)));
         onView(withId(R.id.signIn)).perform(click());
-        //TODO: check if toast is thrown
-//        onView(withText("User not exist or wrong credentials.")).inRoot(withDecorView(Matchers.not(decoView))).check(matches(isDisplayed()));
+        //TODO: check if stay in Log in / register page
+        onView(withId(R.id.register)).check(matches(isDisplayed()));
+        pause(2500);
+    }
+
+    @Test
+    public void sign_in_view_profile_test(){
+        String name = "DeveloperXXQ";
+        String email = "xuxiaoqi@usc.edu";
+        String password = "GoTeamKTX!";
+
+        onView(withId(R.id.name)).perform(typeText(name));
+        pause(500);
+        onView(withId(R.id.email)).perform(typeText(email));
+        pause(500);
+        onView((withId(R.id.pwd))).perform((typeText(password)));
+
+        onView(withId(R.id.signIn)).perform(click());
+        pause(1000);
+
+        String expectedLogMsg = "Hi, " + name + "!";
+        onView(withId(R.id.logMsg)).check(matches(withText(expectedLogMsg)));
+        pause(500);
+
+        onView(withId(R.id.profile_btn)).perform(click());
+        pause(2000);
+
+        onView((withId((R.id.name_tv)))).check(matches(withText(name)));
+        onView((withId((R.id.email_tv)))).check(matches(withText(email)));
+        onView((withId((R.id.pwd_tv)))).check(matches(withText(password)));
         pause(1000);
     }
 }
