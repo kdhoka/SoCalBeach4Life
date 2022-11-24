@@ -262,7 +262,6 @@ public class RestaurantEspressoTest {
         pause(100);
 
         onView(withId(R.id.restaurantButton)).perform(click());
-        intended(hasComponent(RestaurantPage.class.getName()));
 
         pause(100);
 

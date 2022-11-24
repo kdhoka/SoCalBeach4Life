@@ -71,7 +71,8 @@ public class UserReviewPage extends AppCompatActivity {
         setContentView(R.layout.activity_my_review);
 
         //initialize constants and references to DB and storage
-        beachID = getIntent().getStringExtra("beachID");
+        beachID = this.getIntent().getStringExtra("beachID");
+
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
         userID = user.getUid();
