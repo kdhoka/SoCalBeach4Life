@@ -11,6 +11,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import android.view.View;
 
 import androidx.test.core.app.ActivityScenario;
+import androidx.test.espresso.Espresso;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
@@ -67,6 +68,9 @@ public class LogInRegisterEspressoTest {
         onView((withId(R.id.pwd))).perform((typeText(password)));
         pause(500);
 
+        Espresso.closeSoftKeyboard();
+        pause(200);
+
         onView(withId(R.id.register)).perform(click());
 
         pause(2000);
@@ -87,6 +91,10 @@ public class LogInRegisterEspressoTest {
         pause(500);
         onView((withId(R.id.pwd))).perform((typeText(password)));
 
+        pause(200);
+        Espresso.closeSoftKeyboard();
+        pause(200);
+
         onView(withId(R.id.register)).perform(click());
         pause(2000);
 
@@ -106,6 +114,10 @@ public class LogInRegisterEspressoTest {
         onView(withId(R.id.email)).perform(typeText(email));
         pause(500);
         onView((withId(R.id.pwd))).perform((typeText(password)));
+
+        pause(200);
+        Espresso.closeSoftKeyboard();
+        pause(200);
 
         onView(withId(R.id.signIn)).perform(click());
         pause(2000);
@@ -133,6 +145,11 @@ public class LogInRegisterEspressoTest {
         onView(withId(R.id.email)).perform(typeText(email));
         pause(500);
         onView((withId(R.id.pwd))).perform((typeText(password)));
+
+        pause(200);
+        Espresso.closeSoftKeyboard();
+        pause(200);
+
         onView(withId(R.id.signIn)).perform(click());
         //TODO: check if stay in Log in / register page
         onView(withId(R.id.register)).check(matches(isDisplayed()));
@@ -150,6 +167,10 @@ public class LogInRegisterEspressoTest {
         onView(withId(R.id.email)).perform(typeText(email));
         pause(500);
         onView((withId(R.id.pwd))).perform((typeText(password)));
+
+        pause(200);
+        Espresso.closeSoftKeyboard();
+        pause(200);
 
         onView(withId(R.id.signIn)).perform(click());
         pause(1000);
