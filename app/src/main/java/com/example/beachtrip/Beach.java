@@ -14,6 +14,7 @@ public class Beach {
     public Beach(){
         id = "";
         this.name = "Null Beach";
+        location = null;
         hours = "0-0";
         parkingLots = new ArrayList<>();
         reviews = new ArrayList<>();

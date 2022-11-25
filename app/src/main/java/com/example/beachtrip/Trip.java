@@ -79,13 +79,13 @@ public class Trip {
         this.mode = mode;
     }
 
-    public String getEndTime(){
+    private String calculateEndTime(){
         int eta = Integer.parseInt(ETA.substring(0,ETA.indexOf(" ")));
         Date endtime = new Date(start_time + (eta * 60 * 1000));
         return endtime.toString();
     }
 
     public String toString(){
-        return "Origin: "+origin_name+"\nDestination: "+dest_name+"\nStart Time: "+(new Date(start_time)).toString()+"\nEnd Time: "+getEndTime()+"\nETA: "+ETA+"\nMode: "+mode;
+        return "Origin: "+origin_name+"\nDestination: "+dest_name+"\nStart Time: "+(new Date(start_time)).toString()+"\nEnd Time: "+calculateEndTime()+"\nETA: "+ETA+"\nMode: "+mode;
     }
 }
