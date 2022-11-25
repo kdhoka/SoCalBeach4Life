@@ -8,6 +8,8 @@ import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+
+import androidx.test.espresso.Espresso;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 
 import org.junit.After;
@@ -82,6 +84,8 @@ public class ReviewEspressoTest {
 
         //input a rating, confirm
         String rating = "4.99";
+        Espresso.closeSoftKeyboard();
+        pause(100);
         onView(withId(R.id.rating)).perform(typeText(rating), closeSoftKeyboard());
         pause(200);
         onView(withId(R.id.confirm_btn)).perform(click());
@@ -144,6 +148,8 @@ public class ReviewEspressoTest {
 
         //write rating and comment
         String rating = "0.21";
+        Espresso.closeSoftKeyboard();
+        pause(100);
         onView(withId(R.id.rating)).perform(typeText(rating), closeSoftKeyboard());
         pause(200);
 
@@ -265,6 +271,8 @@ public class ReviewEspressoTest {
 
         //write rating
         String rating = "3.14";
+        Espresso.closeSoftKeyboard();
+        pause(100);
         onView(withId(R.id.rating)).perform(typeText(rating), closeSoftKeyboard());
         pause(200);
 
