@@ -80,13 +80,13 @@ public class TripUnitTest {
         t.setUser("user");
         t.setOrigin_name("origin");
         t.setDest_name("dest");
-        t.setStart_time(0);
+        t.setStart_time(10);
         t.setETA("0 mins");
         t.setMode("walking");
         Assert.assertEquals(t.getUser(), "user");
         Assert.assertEquals(t.getOrigin_name(), "origin");
         Assert.assertEquals(t.getDest_name(), "dest");
-        Assert.assertEquals(t.getStart_time(), 0);
+        Assert.assertEquals(t.getStart_time(), 10);
         Assert.assertEquals(t.getETA(), "0 mins");
         Assert.assertEquals(t.getMode(), "walking");
     }
