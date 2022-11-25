@@ -2,18 +2,22 @@ package com.example.beachtrip;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import java.text.DateFormat;
+import java.util.Date;
+
 public class Trip {
     private String user;
     private String origin_name;
     private String dest_name;
+    private long start_time;
     private String ETA;
     private String mode;
 
-
-    public Trip(String user, String origin_name, String dest_name, String ETA, String mode) {
+    public Trip(String user, String origin_name, String dest_name, long start_time, String ETA, String mode) {
         this.user = user;
         this.origin_name = origin_name;
         this.dest_name = dest_name;
+        this.start_time = start_time;
         this.ETA = ETA;
         this.mode = mode;
     }
@@ -22,12 +26,21 @@ public class Trip {
         this.user = "";
         this.origin_name = "";
         this.dest_name = "";
+        this.start_time = 0;
         this.ETA = "";
         this.mode = "";
     }
 
     public String getUser() {
         return user;
+    }
+
+    public long getStart_time() {
+        return start_time;
+    }
+
+    public void setStart_time(long start_time) {
+        this.start_time = start_time;
     }
 
     public String getOrigin_name() {
@@ -66,7 +79,13 @@ public class Trip {
         this.mode = mode;
     }
 
+    public String getEndTime(){
+        int eta = Integer.parseInt(ETA.substring(0,ETA.indexOf(" ")));
+        Date endtime = new Date(start_time + (eta * 60 * 1000));
+        return endtime.toString();
+    }
+
     public String toString(){
-        return "Origin: "+origin_name+"\nDestination: "+dest_name+"\nETA: "+ETA+"\nMode: "+mode;
+        return "Origin: "+origin_name+"\nDestination: "+dest_name+"\nStart Time: "+(new Date(start_time)).toString()+"\nEnd Time: "+getEndTime()+"\nETA: "+ETA+"\nMode: "+mode;
     }
 }
