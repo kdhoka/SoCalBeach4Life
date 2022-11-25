@@ -300,11 +300,88 @@ public class ReviewEspressoTest {
         onView(withId(R.id.delete_btn)).perform(click());
         pause(200);
     }
-//
-//    @Test
-//    public void update_review_test(){
-//
-//    }
+
+    @Test
+    public void review_deletion_test(){
+        String name = "espressoReview";
+        String email  = "review@usc.edu";
+        String pwd = "review123";
+
+        onView(withId(R.id.name)).perform(typeText(name), closeSoftKeyboard());
+        pause(250);
+        onView(withId(R.id.email)).perform(typeText(email), closeSoftKeyboard());
+        pause(250);
+        onView((withId(R.id.pwd))).perform((typeText(pwd)), closeSoftKeyboard());
+        pause(250);
+
+        onView(withId(R.id.signIn)).perform(click());
+        pause(1000);
+
+        //main->profile
+        onView(withId(R.id.profile_btn)).perform(click());
+        pause(1000);
+
+        //click on Spinner to select Marina beach to see my review
+        onView(withId(R.id.beachChoice)).perform(click());
+        pause(500);
+        onData(allOf(is(instanceOf(String.class)), is("Marina Beach"))).perform(click());
+        pause(500);
+
+        //navigate to UserReviewPage
+        onView(withId(R.id.button2)).perform(click());
+        pause(500);
+
+        //input a rating, confirm
+        String rating = "3.01";
+        onView(withId(R.id.rating)).perform(typeText(rating), closeSoftKeyboard());
+        pause(200);
+        onView(withId(R.id.confirm_btn)).perform(click());
+        pause(500);
+
+        String comment = "review_deletion_test";
+        onView(withId(R.id.content_tv)).perform(typeText(comment), closeSoftKeyboard());
+        pause(200);
+        onView(withId(R.id.confirm_btn)).perform(click());
+        pause(500);
+
+        //Now at UserReviewPage, navigate back to beach info page
+        onView(withId(R.id.user_review_back_btn)).perform(click());
+        pause(800);
+
+        //navigate from beach info page to beach review page
+        onView(withId(R.id.review_button)).perform(click());
+        pause(1000);
+
+        //jump from beach review page to userReviewPage
+        onView(withId(R.id.button)).perform(click());
+        pause(1000);
+
+        //check if rating view shows the rating uploaded
+        onView(withId(R.id.rating)).check(matches(withText(rating)));
+        onView(withId(R.id.content_tv)).check(matches(withText(comment)));
+        pause(500);
+
+        //perform deletion
+        onView(withId(R.id.delete_btn)).perform(click());
+        pause(200);
+
+        //navigate back to my review page and check comment is empty
+        String expectedEmptyComment = "";
+        onView(withId(R.id.user_review_back_btn)).perform(click());
+        pause(800);
+
+        //navigate from beach info page to beach review page
+        onView(withId(R.id.review_button)).perform(click());
+        pause(1000);
+
+        //jump from beach review page to userReviewPage
+        onView(withId(R.id.button)).perform(click());
+        pause(1000);
+
+        //check if content is empty
+        onView(withId(R.id.content_tv)).check(matches(withText(expectedEmptyComment)));
+        pause(1000);
+    }
 
     @After
     public void tearDown(){
