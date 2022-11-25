@@ -139,7 +139,7 @@ public class TripEspressoTest {
             e.printStackTrace();
         }
         pause(200);
-        onView(withText("ETA: 36 mins"))
+        onView(withText(containsString("ETA")))
                 .inRoot(withDecorView(Matchers.not(decorView)))
                 .check(matches(isDisplayed()));
     }
@@ -154,18 +154,19 @@ public class TripEspressoTest {
             e.printStackTrace();
         }
         pause(200);
-        onView(withText("ETA: 36 mins"))
+        onView(withText(containsString("ETA")))
                 .inRoot(withDecorView(Matchers.not(decorView)))
                 .check(matches(isDisplayed()));
         pause(5000);
         UiObject marker2 = device.findObject(new UiSelector().descriptionContains("Alamitos Parking A"));
+        properZoomIn(marker2);
         try {
             marker2.click();
         } catch (UiObjectNotFoundException e) {
             e.printStackTrace();
         }
         pause(200);
-        onView(withText("ETA: 35 mins"))
+        onView(withText(containsString("ETA")))
                 .inRoot(withDecorView(Matchers.not(decorView)))
                 .check(matches(isDisplayed()));
     }
@@ -194,7 +195,7 @@ public class TripEspressoTest {
             e.printStackTrace();
         }
         pause(10);
-        onView(withText("ETA: 4 mins"))
+        onView(withText(containsString("ETA")))
                 .inRoot(withDecorView(Matchers.not(decorView)))
                 .check(matches(isDisplayed()));
     }
@@ -237,6 +238,7 @@ public class TripEspressoTest {
         onView(withId(R.id.saveButton)).perform(click());
         pause(5000);
         onView(withId(R.id.saveButton)).perform(click());
+        pause(100);
         onView(withText("This route has already been saved."))
                 .inRoot(withDecorView(Matchers.not(decorView)))
                 .check(matches(isDisplayed()));
