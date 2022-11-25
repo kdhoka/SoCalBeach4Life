@@ -70,7 +70,7 @@ public class ReviewEspressoTest {
 
         //main->profile
         onView(withId(R.id.profile_btn)).perform(click());
-        pause(1000);
+        pause(500);
 
         //click on Spinner to select Marina beach to see my review
         onView(withId(R.id.beachChoice)).perform(click());
@@ -134,7 +134,7 @@ public class ReviewEspressoTest {
 
         //main->profile
         onView(withId(R.id.profile_btn)).perform(click());
-        pause(1000);
+        pause(500);
 
         //click on Spinner to select Marina beach to see my review
         onView(withId(R.id.beachChoice)).perform(click());
@@ -257,7 +257,7 @@ public class ReviewEspressoTest {
 
         //main->profile
         onView(withId(R.id.profile_btn)).perform(click());
-        pause(1000);
+        pause(500);
 
         //click on Spinner to select Marina beach to see my review
         onView(withId(R.id.beachChoice)).perform(click());
@@ -327,7 +327,7 @@ public class ReviewEspressoTest {
 
         //main->profile
         onView(withId(R.id.profile_btn)).perform(click());
-        pause(1000);
+        pause(500);
 
         //click on Spinner to select Marina beach to see my review
         onView(withId(R.id.beachChoice)).perform(click());
