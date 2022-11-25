@@ -159,6 +159,7 @@ public class TripEspressoTest {
                 .check(matches(isDisplayed()));
         pause(5000);
         UiObject marker2 = device.findObject(new UiSelector().descriptionContains("Alamitos Parking A"));
+        properZoomIn(marker2);
         try {
             marker2.click();
         } catch (UiObjectNotFoundException e) {
