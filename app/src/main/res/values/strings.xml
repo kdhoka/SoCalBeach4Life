@@ -18,4 +18,12 @@
     <string name="Content">Content</string>
     <string name="star">\u2605</string>
     <string name = "half_star">\u2BEA</string>
+    <string-array name = "beaches">
+        <item>Marina Beach</item>
+        <item>Venice Beach</item>
+        <item>Santa Monica State Beach</item>
+        <item>Manhattan Beach</item>
+        <item>Cabrillo Beach</item>
+        <item>Alamitos Beach</item>
+    </string-array>
 </resources>

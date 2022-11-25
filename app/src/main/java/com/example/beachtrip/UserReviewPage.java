@@ -70,8 +70,12 @@ public class UserReviewPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_review);
 
+        progressBar = findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.GONE);
+
         //initialize constants and references to DB and storage
-        beachID = getIntent().getStringExtra("beachID");
+        beachID = this.getIntent().getStringExtra("beachID");
+
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
         userID = user.getUid();
@@ -185,14 +189,14 @@ public class UserReviewPage extends AppCompatActivity {
                     public void onSuccess(Uri uri) {
                         model = new Model(uri.toString(), fileRef.getPath());//model always contains the lastly upload image URL in fire storage
                         Toast.makeText(UserReviewPage.this, "Image uploaded successfully!", Toast.LENGTH_SHORT).show();
-                        progressBar.setVisibility(View.INVISIBLE);
+                        progressBar.setVisibility(View.GONE);
                     }
                 });
             }
         }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
-                progressBar.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.GONE);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -290,7 +294,6 @@ public class UserReviewPage extends AppCompatActivity {
             String link = review.getImageURL();
             if (!link.equals("nullURL")){
                 ImageView image_v = findViewById(R.id.review_image_upload_view);
-                ProgressBar progressBar = findViewById(R.id.progressBar);
                 progressBar.setVisibility(View.VISIBLE);
                 // Hide progress bar on successful load
                 Picasso.get().load(link)
@@ -305,22 +308,28 @@ public class UserReviewPage extends AppCompatActivity {
                             @Override
                             public void onError(Exception e) {
                                 System.out.println("Picasso load image failed");
+                                progressBar.setVisibility(View.GONE);
                             }
                         });
+            } else {
+                progressBar.setVisibility(View.GONE);
             }
-
             //hide delete button
             delete_btn.setVisibility(View.VISIBLE);
+
+            if (!rating.isEmpty()){//only load rating is there is one, else display hint
+                rating_view.setText(rating);
+            }
+
+            isAnon_btn.setText(isAnonStr);
+            if(!content.isEmpty()){//only load content is there is one, else display hint
+                content_view.setText(content);
+            } else {
+                String review_no_comment_hint = "You left no comment on your last edit of this review!";
+                content_view.setHint(review_no_comment_hint);
+            }
         } else {
             delete_btn.setVisibility(View.INVISIBLE);
-        }
-
-        if (!rating.isEmpty()){//only load rating is there is one, else display hint
-            rating_view.setText(rating);
-        }
-        isAnon_btn.setText(isAnonStr);
-        if(!content.isEmpty()){//only load content is there is one, else display hint
-            content_view.setText(content);
         }
     }
 
