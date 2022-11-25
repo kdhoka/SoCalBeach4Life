@@ -244,6 +244,21 @@ public class TripEspressoTest {
     }
 
     @Test
+    public void displayTripsTest(){
+        onView(withId(R.id.tripsButton)).perform(click());
+        intended(hasComponent(TripListActvity.class.getName()));
+    }
+
+    @Test
+    public void tryNotLoggedDisplayTripsTest(){
+        onView(withId(R.id.tripsButton)).perform(click());
+        pause(1000);
+        onView(withText("Please log in before viewing!"))
+                .inRoot(withDecorView(Matchers.not(decorView)))
+                .check(matches(isDisplayed()));
+    }
+
+    @Test
     public void saveNotLoggedSelectedTest() {
         onView(withId(R.id.log_out_button)).perform(click());
         pause(100);
