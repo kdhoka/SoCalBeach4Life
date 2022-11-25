@@ -130,6 +130,7 @@ public class RestaurantEspressoTest {
         onView(withId(R.id.beachButton)).perform(click());
 
         intended(hasComponent(BeachInfoActivity.class.getName()));
+        onView(withId(R.id.nameFieldView)).check(matches(withText("Manhattan Beach")));
     }
 
 

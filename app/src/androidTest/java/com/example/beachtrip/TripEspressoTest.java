@@ -202,7 +202,9 @@ public class TripEspressoTest {
 
     @Test
     public void saveNoTripSelectedTest() {
+        pause(500);
         onView(withId(R.id.saveButton)).perform(click());
+        pause(1000);
         onView(withText("Please make a route before saving."))
                 .inRoot(withDecorView(Matchers.not(decorView)))
                 .check(matches(isDisplayed()));
