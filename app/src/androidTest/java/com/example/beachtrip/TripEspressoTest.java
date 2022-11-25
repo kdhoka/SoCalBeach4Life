@@ -138,7 +138,7 @@ public class TripEspressoTest {
         } catch (UiObjectNotFoundException e) {
             e.printStackTrace();
         }
-        pause(200);
+        pause(2000);
         onView(withText("ETA: 36 mins"))
                 .inRoot(withDecorView(Matchers.not(decorView)))
                 .check(matches(isDisplayed()));
@@ -153,7 +153,7 @@ public class TripEspressoTest {
         } catch (UiObjectNotFoundException e) {
             e.printStackTrace();
         }
-        pause(200);
+        pause(2000);
         onView(withText("ETA: 36 mins"))
                 .inRoot(withDecorView(Matchers.not(decorView)))
                 .check(matches(isDisplayed()));
@@ -164,7 +164,7 @@ public class TripEspressoTest {
         } catch (UiObjectNotFoundException e) {
             e.printStackTrace();
         }
-        pause(200);
+        pause(2000);
         onView(withText("ETA: 35 mins"))
                 .inRoot(withDecorView(Matchers.not(decorView)))
                 .check(matches(isDisplayed()));
@@ -186,6 +186,7 @@ public class TripEspressoTest {
         } catch (UiObjectNotFoundException e) {
             e.printStackTrace();
         }
+        pause(500);
 
         UiObject restaurant1 = device.findObject(new UiSelector().descriptionContains("The Waterfront Venice"));
         try {
@@ -193,7 +194,7 @@ public class TripEspressoTest {
         } catch (UiObjectNotFoundException e) {
             e.printStackTrace();
         }
-        pause(10);
+        pause(2000);
         onView(withText("ETA: 4 mins"))
                 .inRoot(withDecorView(Matchers.not(decorView)))
                 .check(matches(isDisplayed()));
@@ -233,7 +234,7 @@ public class TripEspressoTest {
         } catch (UiObjectNotFoundException e) {
             e.printStackTrace();
         }
-        pause(100);
+        pause(2000);
         onView(withId(R.id.saveButton)).perform(click());
         pause(5000);
         onView(withId(R.id.saveButton)).perform(click());

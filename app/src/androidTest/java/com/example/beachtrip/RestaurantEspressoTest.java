@@ -102,7 +102,7 @@ public class RestaurantEspressoTest {
             } catch (UiObjectNotFoundException e) {
                 e.printStackTrace();
             }
-            pause(200);
+            pause(500);
         }
         pause(100);
     }
