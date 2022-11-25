@@ -102,7 +102,7 @@ public class RestaurantEspressoTest {
             } catch (UiObjectNotFoundException e) {
                 e.printStackTrace();
             }
-            pause(200);
+            pause(500);
         }
         pause(100);
     }
@@ -130,6 +130,7 @@ public class RestaurantEspressoTest {
         onView(withId(R.id.beachButton)).perform(click());
 
         intended(hasComponent(BeachInfoActivity.class.getName()));
+        onView(withId(R.id.nameFieldView)).check(matches(withText("Manhattan Beach")));
     }
 
 

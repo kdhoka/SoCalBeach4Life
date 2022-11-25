@@ -59,6 +59,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -227,9 +229,10 @@ public class MainActivity extends AppCompatActivity
             Toast.makeText(MainActivity.this, "This route has already been saved.",
                     Toast.LENGTH_SHORT).show();
         } else {
-            Trip t = new Trip(currentUser.getUid(), route_details[0], route_details[1], ETA, route_details[2]);
+            Trip t = new Trip(currentUser.getUid(), route_details[0], route_details[1], Calendar.getInstance().getTimeInMillis(), ETA, route_details[2]);
             FirebaseDatabase root = FirebaseDatabase.getInstance();
             DatabaseReference tripsRef= root.getReference("trips");
+            System.out.println(t.toString());
             tripsRef.push().setValue(t);
             Toast.makeText(MainActivity.this, "Successfully saved trip.",
                     Toast.LENGTH_SHORT).show();
@@ -511,6 +514,9 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(this, TripListActvity.class);
             intent.putExtra("uid", uid);
             startActivity(intent);
+        } else {
+            Toast.makeText(MainActivity.this, "Please log in before viewing!",
+                    Toast.LENGTH_SHORT).show();
         }
     }
 
