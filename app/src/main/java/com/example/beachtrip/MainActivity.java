@@ -514,6 +514,9 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(this, TripListActvity.class);
             intent.putExtra("uid", uid);
             startActivity(intent);
+        } else {
+            Toast.makeText(MainActivity.this, "Please log in before viewing!",
+                    Toast.LENGTH_SHORT).show();
         }
     }
 
