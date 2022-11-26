@@ -158,7 +158,7 @@ public class LogInRegisterEspressoTest {
 
     @Test
     public void sign_in_view_profile_test(){
-        String name = "sign_in_view_profile_test";
+        String name = "DeveloperXXQ";
         String email = "xuxiaoqi@usc.edu";
         String password = "GoTeamKTX!";
 
@@ -173,11 +173,11 @@ public class LogInRegisterEspressoTest {
         pause(200);
 
         onView(withId(R.id.signIn)).perform(click());
-        pause(1000);
+        pause(2000);
 
         String expectedLogMsg = "Hi, " + name + "!";
         onView(withId(R.id.logMsg)).check(matches(withText(expectedLogMsg)));
-        pause(500);
+        pause(2000);
 
         onView(withId(R.id.profile_btn)).perform(click());
         pause(2000);
