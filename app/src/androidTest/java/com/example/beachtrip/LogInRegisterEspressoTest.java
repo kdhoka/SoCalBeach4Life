@@ -158,7 +158,7 @@ public class LogInRegisterEspressoTest {
 
     @Test
     public void sign_in_view_profile_test(){
-        String name = "DeveloperXXQ";
+        String name = "sign_in_view_profile_test";
         String email = "xuxiaoqi@usc.edu";
         String password = "GoTeamKTX!";
 
