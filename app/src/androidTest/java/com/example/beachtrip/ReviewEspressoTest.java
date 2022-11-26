@@ -6,10 +6,17 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.intent.Intents.intending;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
-import androidx.test.espresso.Espresso;
+import androidx.test.espresso.ViewAction;
+import androidx.test.espresso.action.CoordinatesProvider;
+import androidx.test.espresso.action.GeneralClickAction;
+import androidx.test.espresso.action.Press;
+import androidx.test.espresso.action.Tap;
+import androidx.test.espresso.intent.Intents;
+import androidx.test.espresso.intent.matcher.IntentMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 
 import org.junit.After;
@@ -23,16 +30,46 @@ import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 
+import android.content.Intent;
+import android.view.View;
+
 @RunWith(AndroidJUnit4.class)
 public class ReviewEspressoTest {
     public static final String STRING_TO_BE_TYPED = "Espresso";
 
+    /**
+     * @author Tianrui Xia
+     * @param length time duration in milliseconds to pause this thread
+     */
     private static void pause(int length){
         long startTime = System.currentTimeMillis();
         long endTime = startTime + length;
         while (startTime < endTime) {
             startTime = System.currentTimeMillis();
         }
+    }
+
+    /**
+     * @author Tianrui Xia
+     */
+    private static ViewAction clickXY(final int x, final int y){
+        return new GeneralClickAction(
+                Tap.SINGLE,
+                new CoordinatesProvider() {
+                    @Override
+                    public float[] calculateCoordinates(View view) {
+
+                        final int[] screenPos = new int[2];
+                        view.getLocationOnScreen(screenPos);
+
+                        final float screenX = screenPos[0] + x;
+                        final float screenY = screenPos[1] + y;
+                        float[] coordinates = {screenX, screenY};
+
+                        return coordinates;
+                    }
+                },
+                Press.FINGER);
     }
 
     /**
@@ -43,9 +80,10 @@ public class ReviewEspressoTest {
     public ActivityScenarioRule<LogInRegisterActivity> activityScenarioRule
             = new ActivityScenarioRule<>(LogInRegisterActivity.class);
 
+
     @Before
     public void setup(){
-
+        Intents.init();
     }
 
     /**
@@ -84,7 +122,6 @@ public class ReviewEspressoTest {
 
         //input a rating, confirm
         String rating = "4.99";
-        Espresso.closeSoftKeyboard();
         pause(100);
         onView(withId(R.id.rating)).perform(typeText(rating), closeSoftKeyboard());
         pause(200);
@@ -148,7 +185,6 @@ public class ReviewEspressoTest {
 
         //write rating and comment
         String rating = "0.21";
-        Espresso.closeSoftKeyboard();
         pause(100);
         onView(withId(R.id.rating)).perform(typeText(rating), closeSoftKeyboard());
         pause(200);
@@ -184,61 +220,6 @@ public class ReviewEspressoTest {
     }
 
 
-//    @Test
-//    public void with_picture_review_test(){
-//        String name = "espressoReview";
-//        String email  = "review@usc.edu";
-//        String pwd = "review123";
-//
-//        onView(withId(R.id.name)).perform(typeText(name), closeSoftKeyboard());
-//        pause(250);
-//        onView(withId(R.id.email)).perform(typeText(email), closeSoftKeyboard());
-//        pause(250);
-//        onView((withId(R.id.pwd))).perform((typeText(pwd)), closeSoftKeyboard());
-//        pause(250);
-//
-//        onView(withId(R.id.signIn)).perform(click());
-//        pause(1000);
-//
-//        //main->profile
-//        onView(withId(R.id.profile_btn)).perform(click());
-//        pause(1000);
-//
-//        //click on Spinner to select Marina beach to see my review
-//        onView(withId(R.id.beachChoice)).perform(click());
-//        pause(500);
-//        onData(allOf(is(instanceOf(String.class)), is("Cabrillo Beach"))).perform(click());
-//        pause(500);
-//
-//        //My profile -> my review
-//        onView(withId(R.id.button2)).perform(click());
-//        pause(500);
-//
-//        //write rating
-//        String rating = "2.4";
-//        onView(withId(R.id.rating)).perform(typeText(rating), closeSoftKeyboard());
-//        pause(200);
-//
-//        //upload image
-//
-//        //Now at UserReviewPage, navigate back to beach info page
-//        onView(withId(R.id.user_review_back_btn)).perform(click());
-//        pause(800);
-//
-//        //navigate from beach info page to beach review page
-//        onView(withId(R.id.review_button)).perform(click());
-//        pause(1500);
-//
-//        String expectedRatingText = "2.4 stars";
-//        onView(withId(R.id.rating)).check(matches(withText(expectedRatingText)));
-//
-//
-//        //show image, as long as image is not null it's fine
-//
-//        //TODO: delete this test review
-//    }
-
-
     @Test
     public void new_anonymous_review_and_delete_test(){
         String name = "espressoReview";
@@ -271,7 +252,6 @@ public class ReviewEspressoTest {
 
         //write rating
         String rating = "3.14";
-        Espresso.closeSoftKeyboard();
         pause(100);
         onView(withId(R.id.rating)).perform(typeText(rating), closeSoftKeyboard());
         pause(200);
@@ -391,8 +371,51 @@ public class ReviewEspressoTest {
         pause(1000);
     }
 
+    @Test
+    public void valid_gallery_open_intent_test(){
+        String name = "espressoReview";
+        String email  = "review@usc.edu";
+        String pwd = "review123";
+
+        onView(withId(R.id.name)).perform(typeText(name), closeSoftKeyboard());
+        pause(250);
+        onView(withId(R.id.email)).perform(typeText(email), closeSoftKeyboard());
+        pause(250);
+        onView((withId(R.id.pwd))).perform((typeText(pwd)), closeSoftKeyboard());
+        pause(250);
+
+        onView(withId(R.id.signIn)).perform(click());
+        pause(1000);
+
+        //main->profile
+        onView(withId(R.id.profile_btn)).perform(click());
+        pause(1000);
+
+        //click on Spinner to select Marina beach to see my review
+        onView(withId(R.id.beachChoice)).perform(click());
+        pause(500);
+        onData(allOf(is(instanceOf(String.class)), is("Cabrillo Beach"))).perform(click());
+        pause(500);
+
+        //My profile -> my review
+        onView(withId(R.id.button2)).perform(click());
+        pause(500);
+
+        //write rating
+        String rating = "0.11";
+        onView(withId(R.id.rating)).perform(typeText(rating), closeSoftKeyboard());
+        pause(200);
+
+        //Click on image view
+        onView(withId(R.id.review_image_upload_view)).perform(click());
+        pause(2000);
+
+        //check if there is an intent sent from this app under test to somewhere else with the expected properties
+        intending(IntentMatchers.hasAction(Intent.ACTION_GET_CONTENT));
+    }
+
     @After
     public void tearDown(){
-
+        Intents.release();
     }
 }
