@@ -7,7 +7,6 @@ public class User {
     Review[] reviews;
 
     public User(){
-
     }
 
     public User(String name, String email, String password) {
@@ -15,14 +14,6 @@ public class User {
         this.email = email;
         this.password = password;
     }
-
-//    public User(String name, String email, String password, Review[] reviews) {
-//
-//        this.name = name;
-//        this.email = email;
-//        this.password = password;
-//        this.reviews = reviews;
-//    }
 
     public String getName() {
         return name;
@@ -34,17 +25,5 @@ public class User {
 
     public String getPassword() {
         return password;
-    }
-
-    public Review[] getReviews() {
-        return reviews;
-    }
-
-    public void addReview(Review toAdd){
-        //TODO
-    }
-
-    public void deleteReview(Review toDelete){
-        //TODO
     }
 }
