@@ -6,7 +6,6 @@ public class Model {
     private String imageUri;
     private String imagePath;
     public Model(){
-
     }
 
     public Model(String uri, String imagePath){
@@ -24,9 +23,5 @@ public class Model {
 
     public String getImageUri() {
         return imageUri;
-    }
-
-    public void setImageUri(Uri imageUri) {
-        this.imageUri = imageUri.toString();
     }
 }
