@@ -10,6 +10,7 @@ import static androidx.test.espresso.intent.Intents.intending;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
+import androidx.test.espresso.Espresso;
 import androidx.test.espresso.ViewAction;
 import androidx.test.espresso.action.CoordinatesProvider;
 import androidx.test.espresso.action.GeneralClickAction;
@@ -123,7 +124,7 @@ public class ReviewEspressoTest {
         //input a rating, confirm
         String rating = "4.99";
         pause(100);
-        onView(withId(R.id.rating)).perform(typeText(rating), closeSoftKeyboard());
+        onView(withId(R.id.rating)).perform(closeSoftKeyboard(), typeText(rating), closeSoftKeyboard());
         pause(200);
         onView(withId(R.id.confirm_btn)).perform(click());
         pause(500);
@@ -186,11 +187,11 @@ public class ReviewEspressoTest {
         //write rating and comment
         String rating = "0.21";
         pause(100);
-        onView(withId(R.id.rating)).perform(typeText(rating), closeSoftKeyboard());
+        onView(withId(R.id.rating)).perform(closeSoftKeyboard(), typeText(rating), closeSoftKeyboard());
         pause(200);
 
         String comment = "Happy Thanksgiving! Test written on Nov 24:D";
-        onView(withId(R.id.content_tv)).perform(typeText(comment), closeSoftKeyboard());
+        onView(withId(R.id.content_tv)).perform(closeSoftKeyboard(), typeText(comment), closeSoftKeyboard());
         onView(withId(R.id.confirm_btn)).perform(click());
         pause(500);
 
@@ -253,7 +254,7 @@ public class ReviewEspressoTest {
         //write rating
         String rating = "3.14";
         pause(100);
-        onView(withId(R.id.rating)).perform(typeText(rating), closeSoftKeyboard());
+        onView(withId(R.id.rating)).perform(closeSoftKeyboard(), typeText(rating), closeSoftKeyboard());
         pause(200);
 
         //Set is anonymous to true
@@ -321,13 +322,13 @@ public class ReviewEspressoTest {
 
         //input a rating, confirm
         String rating = "3.01";
-        onView(withId(R.id.rating)).perform(typeText(rating), closeSoftKeyboard());
+        onView(withId(R.id.rating)).perform(closeSoftKeyboard(), typeText(rating), closeSoftKeyboard());
         pause(200);
         onView(withId(R.id.confirm_btn)).perform(click());
         pause(500);
 
         String comment = "review_deletion_test";
-        onView(withId(R.id.content_tv)).perform(typeText(comment), closeSoftKeyboard());
+        onView(withId(R.id.content_tv)).perform(closeSoftKeyboard(), typeText(comment), closeSoftKeyboard());
         pause(200);
         onView(withId(R.id.confirm_btn)).perform(click());
         pause(500);
@@ -403,7 +404,7 @@ public class ReviewEspressoTest {
 
         //write rating
         String rating = "0.11";
-        onView(withId(R.id.rating)).perform(typeText(rating), closeSoftKeyboard());
+        onView(withId(R.id.rating)).perform(closeSoftKeyboard(), typeText(rating), closeSoftKeyboard());
         pause(200);
 
         //Click on image view
