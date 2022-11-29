@@ -26,40 +26,45 @@
     <TextView
         android:id="@+id/textView4"
         android:layout_width="112dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="12dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
         android:text="@string/rating"
         android:textColor="@color/white"
-        android:textSize="28dp"
+        android:textSize="24dp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/textView5"
+        app:layout_constraintEnd_toStartOf="@+id/rating"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/beach_name" />
+        app:layout_constraintTop_toBottomOf="@+id/beach_name"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/textView5"
         android:layout_width="223dp"
         android:layout_height="42dp"
-        android:layout_marginStart="12dp"
         android:text="@string/IsAnonymous"
         android:textColor="@color/white"
         android:textColorHint="@color/transparentBlue"
-        android:textSize="28dp"
+        android:textSize="24dp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/content_tv"
+        app:layout_constraintBottom_toTopOf="@+id/upload_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.085"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4"
-        app:layout_constraintVertical_bias="0.684" />
+        app:layout_constraintTop_toBottomOf="@+id/beach_name"
+        app:layout_constraintVertical_bias="0.397" />
 
     <EditText
         android:id="@+id/rating"
         android:layout_width="171dp"
         android:layout_height="43dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="20dp"
         android:backgroundTint="#F3F3F3"
         android:hint="enter 0-5 double"
-        android:textColor="#BAB7B7"
+        android:textColor="@color/white"
         android:textColorHint="@color/yolkYellow"
         android:textSize="18dp"
         android:textStyle="bold"
@@ -77,7 +82,7 @@
         android:textSize="18dp"
         app:layout_constraintBottom_toTopOf="@+id/upload_btn"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.792"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/textView5"
         app:layout_constraintTop_toBottomOf="@+id/rating"
         app:layout_constraintVertical_bias="0.0" />
@@ -99,13 +104,13 @@
         android:id="@+id/confirm_btn"
         android:layout_width="95dp"
         android:layout_height="50dp"
-        android:layout_marginBottom="44dp"
+        android:layout_marginBottom="16dp"
         android:backgroundTint="@color/lavender"
         android:onClick="onClickConfirm"
         android:text="Confirm"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.782"
+        app:layout_constraintHorizontal_bias="0.708"
         app:layout_constraintStart_toEndOf="@+id/upload_btn" />
 
     <TextView
@@ -115,16 +120,16 @@
         android:layout_marginTop="48dp"
         android:text="Beach name"
         android:textColor="@color/white"
-        android:textSize="28dp"
+        android:textSize="24dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/beach_name_val"
-        app:layout_constraintHorizontal_bias="0.077"
+        app:layout_constraintHorizontal_bias="0.25"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/review_image_upload_view" />
 
     <TextView
         android:id="@+id/beach_name_val"
-        android:layout_width="120dp"
+        android:layout_width="180dp"
         android:layout_height="40dp"
         android:layout_marginTop="48dp"
         android:layout_marginEnd="16dp"
@@ -150,6 +155,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
+
     <ImageView
         android:id="@+id/review_image_upload_view"
         android:layout_width="386dp"
@@ -160,12 +166,13 @@
         android:scaleType="centerInside"
         android:scaleX="1.0"
         android:scaleY="1.0"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.36"
+        app:layout_constraintHorizontal_bias="0.48"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/review"
+        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/ic_baseline_add_photo_alternate_24" />
-
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -181,8 +188,8 @@
         android:id="@+id/upload_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="44dp"
-        android:layout_marginBottom="48dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginBottom="16dp"
         android:backgroundTint="#F01D4F8E"
         android:text="Upload"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -201,8 +208,8 @@
         android:textSize="16dp"
         app:layout_constraintBottom_toTopOf="@+id/upload_btn"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.48"
+        app:layout_constraintHorizontal_bias="0.566"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/anon_btn"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.355" />
 </androidx.constraintlayout.widget.ConstraintLayout>
