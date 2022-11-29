@@ -310,7 +310,7 @@ public class MainActivity extends AppCompatActivity
             temp.setTag(b.getID());
             for(ParkingLot p: b.getParkingLots()){
                 temp = mMap.addMarker(new MarkerOptions().position(p.getLocation()).title(p.getName()));
-                temp.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+                temp.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
                 temp.setTag(p.getId());
             }
         }

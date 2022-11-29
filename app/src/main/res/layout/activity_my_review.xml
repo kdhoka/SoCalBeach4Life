@@ -25,142 +25,147 @@
 
     <TextView
         android:id="@+id/textView4"
-        android:layout_width="112dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="80dp"
+        android:layout_height="35dp"
         android:text="@string/rating"
         android:textColor="@color/white"
-        android:textSize="24dp"
+        android:textSize="20dp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/textView5"
-        app:layout_constraintEnd_toStartOf="@+id/rating"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.048"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/beach_name"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.67" />
 
     <TextView
         android:id="@+id/textView5"
-        android:layout_width="223dp"
-        android:layout_height="42dp"
+        android:layout_width="160dp"
+        android:layout_height="35dp"
         android:text="@string/IsAnonymous"
         android:textColor="@color/white"
         android:textColorHint="@color/transparentBlue"
-        android:textSize="24dp"
+        android:textSize="20dp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/upload_btn"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.085"
+        app:layout_constraintHorizontal_bias="0.071"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/beach_name"
-        app:layout_constraintVertical_bias="0.397" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.731" />
 
     <EditText
         android:id="@+id/rating"
         android:layout_width="171dp"
         android:layout_height="43dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="20dp"
         android:backgroundTint="#F3F3F3"
         android:hint="enter 0-5 double"
-        android:textColor="@color/white"
+        android:textColor="@color/yolkYellow"
         android:textColorHint="@color/yolkYellow"
         android:textSize="18dp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/beach_name_val" />
+        app:layout_constraintHorizontal_bias="0.929"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.678" />
 
     <Button
         android:id="@+id/anon_btn"
-        android:layout_width="99dp"
+        android:layout_width="80dp"
         android:layout_height="44dp"
-        android:layout_marginTop="16dp"
         android:backgroundTint="#5B000000"
         android:onClick="onClickAnon"
         android:text="false"
         android:textSize="18dp"
-        app:layout_constraintBottom_toTopOf="@+id/upload_btn"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/textView5"
-        app:layout_constraintTop_toBottomOf="@+id/rating"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintHorizontal_bias="0.83"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.74" />
 
     <Button
         android:id="@+id/user_review_back_btn"
         android:layout_width="80dp"
         android:layout_height="40dp"
-        android:layout_marginStart="16dp"
         android:backgroundTint="#FFD24C"
         android:onClick="onClickBackFromMyReview"
         android:text="Back"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.078"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/delete_btn"
-        app:layout_constraintVertical_bias="0.541" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.962" />
 
     <Button
         android:id="@+id/confirm_btn"
         android:layout_width="95dp"
         android:layout_height="50dp"
-        android:layout_marginBottom="16dp"
         android:backgroundTint="@color/lavender"
         android:onClick="onClickConfirm"
         android:text="Confirm"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.708"
-        app:layout_constraintStart_toEndOf="@+id/upload_btn" />
+        app:layout_constraintHorizontal_bias="0.946"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.969" />
 
     <TextView
         android:id="@+id/beach_name"
-        android:layout_width="151dp"
-        android:layout_height="41dp"
-        android:layout_marginTop="48dp"
+        android:layout_width="145dp"
+        android:layout_height="35dp"
         android:text="Beach name"
         android:textColor="@color/white"
-        android:textSize="24dp"
+        android:textSize="20dp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/beach_name_val"
-        app:layout_constraintHorizontal_bias="0.25"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.063"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/review_image_upload_view" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.614" />
+
 
     <TextView
         android:id="@+id/beach_name_val"
         android:layout_width="180dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="48dp"
-        android:layout_marginEnd="16dp"
+        android:layout_height="35dp"
         android:hint="Beach name"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textColorHint="@color/teal_200"
-        android:textSize="20dp"
+        android:textSize="18dp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/review_image_upload_view" />
+        app:layout_constraintHorizontal_bias="0.93"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.613" />
 
     <Button
         android:id="@+id/delete_btn"
         android:layout_width="80dp"
         android:layout_height="45dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginBottom="48dp"
         android:backgroundTint="@color/red"
         android:onClick="onClickDelete"
         android:text="Delete"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.969" />
 
     <ImageView
         android:id="@+id/review_image_upload_view"
         android:layout_width="386dp"
         android:layout_height="272dp"
-        android:layout_marginTop="8dp"
         android:adjustViewBounds="true"
         android:cropToPadding="true"
         android:scaleType="centerInside"
@@ -171,7 +176,7 @@
         app:layout_constraintHorizontal_bias="0.48"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/review"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintVertical_bias="0.03"
         app:srcCompat="@drawable/ic_baseline_add_photo_alternate_24" />
 
     <ProgressBar
@@ -182,34 +187,35 @@
         app:layout_constraintBottom_toBottomOf="@+id/review_image_upload_view"
         app:layout_constraintEnd_toEndOf="@+id/review_image_upload_view"
         app:layout_constraintStart_toStartOf="@+id/review_image_upload_view"
-        app:layout_constraintTop_toBottomOf="@+id/review" />
+        app:layout_constraintTop_toTopOf="@+id/review_image_upload_view" />
 
     <Button
         android:id="@+id/upload_btn"
-        android:layout_width="wrap_content"
+        android:layout_width="85dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginBottom="16dp"
-        android:backgroundTint="#F01D4F8E"
+        android:backgroundTint="#281D4F8E"
         android:text="Upload"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/delete_btn" />
+        app:layout_constraintBottom_toTopOf="@+id/beach_name_val"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.947"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/content_tv"
-        android:layout_width="381dp"
-        android:layout_height="47dp"
+        android:layout_width="376dp"
+        android:layout_height="96dp"
         android:backgroundTint="@color/white"
         android:gravity="top|left"
         android:hint="You have no review written for this beach. Write a new one here..."
-        android:lines="2"
+        android:lines="5"
+        android:textColor="@color/white"
         android:maxLines="8"
         android:scrollbars="vertical"
         android:textSize="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/upload_btn"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.566"
+        app:layout_constraintHorizontal_bias="0.514"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/anon_btn"
-        app:layout_constraintVertical_bias="0.355" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.87" />
 </androidx.constraintlayout.widget.ConstraintLayout>
