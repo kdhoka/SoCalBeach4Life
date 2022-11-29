@@ -111,7 +111,6 @@ public class UserReviewPage extends AppCompatActivity {
 
         //initialization of data members for image uploading
         uploadBtn = findViewById(R.id.upload_btn);
-        showallbtn = findViewById(R.id.show_all_btn);
         progressBar = findViewById(R.id.progressBar);
         imageView = findViewById(R.id.review_image_upload_view);
         progressBar.setVisibility(View.INVISIBLE);

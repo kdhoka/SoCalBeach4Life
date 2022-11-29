@@ -181,7 +181,7 @@ public class BeachReviewActivity extends AppCompatActivity {
         }
         TextView average = findViewById(R.id.averageRating);
         int average1 = (int) (totalRate * 10 / beach_reviews.size());
-        average.setText("average rate: " + String.valueOf(((double) average1) / 10.0));
+        average.setText(String.valueOf(((double) average1) / 10.0) + "/5.0");
     }
 
     private void displayUsername(){
@@ -197,7 +197,7 @@ public class BeachReviewActivity extends AppCompatActivity {
                 Review r = beach_reviews.get(index);
                 String name = dataSnapshot.child(r.getUser_ID()).child("name").getValue().toString();
                 TextView tv = findViewById(R.id.username);
-                tv.setText(name + "'s review");
+                tv.setText(name);
                 // ..
             }
 

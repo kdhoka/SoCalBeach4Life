@@ -11,12 +11,15 @@
         <entry key="app/src/main/res/layout/activity_beach_info.xml" value="0.3074395751953125" />
         <entry key="app/src/main/res/layout/activity_beach_review.xml" value="0.3327272727272727" />
         <entry key="app/src/main/res/layout/activity_image_upload1.xml" value="0.3542852078951322" />
-        <entry key="app/src/main/res/layout/activity_login_register.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/activity_login_register.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/activity_my_review.xml" value="0.3650190114068441" />
+        <entry key="app/src/main/res/layout/activity_my_review.xml" value="0.33997225374788853" />
+        <entry key="app/src/main/res/layout/activity_trip_list_actvity.xml" value="0.302536231884058" />
         <entry key="app/src/main/res/layout/activity_user_profile.xml" value="0.33792877197265625" />
         <entry key="app/src/main/res/layout/activity_user_review.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_first.xml" value="0.10104166666666667" />
+        <entry key="app/src/main/res/layout/layout.xml" value="0.302536231884058" />
+        <entry key="app/src/main/res/layout/restaurant_info.xml" value="0.21875" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.193" />
       </map>
     </option>
