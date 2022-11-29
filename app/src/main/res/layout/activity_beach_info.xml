@@ -4,97 +4,140 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/info"
     tools:context=".BeachInfoActivity">
+
+    <TextView
+        android:id="@+id/Info"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:fontFamily="cursive"
+        android:text="@string/info"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="60sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.11" />
 
     <Button
         android:id="@+id/review_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/duckYellow"
         android:onClick="onClickReviews"
         android:text="Reviews"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.921"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.976" />
+        app:layout_constraintTop_toBottomOf="@+id/hoursTagView"
+        app:layout_constraintVertical_bias="0.066" />
 
     <TextView
         android:id="@+id/nameTagView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="51dp"
-        android:layout_marginTop="70dp"
-        android:text="Name:"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="12dp"
+        android:fontFamily="cursive"
+        android:text="Name"
+        android:textColor="@color/black"
+        android:textSize="30dp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/Info" />
 
     <TextView
         android:id="@+id/locationTagView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="48dp"
-        android:layout_marginTop="120dp"
-        android:text="Latitude and Longitude:"
+        android:layout_marginTop="24dp"
+        android:fontFamily="cursive"
+        android:text="Coordinates"
+        android:textColor="@color/black"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.145"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/nameTagView" />
 
     <TextView
         android:id="@+id/hoursTagView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="48dp"
-        android:layout_marginTop="176dp"
-        android:text="Hours:"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="28dp"
+        android:fontFamily="cursive"
+        android:text="Opening Hours"
+        android:textColor="@color/black"
+        android:textSize="30dp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/locationFieldView" />
 
     <TextView
         android:id="@+id/nameFieldView"
-        android:layout_width="wrap_content"
+        android:layout_width="240dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="68dp"
-        android:layout_marginEnd="68dp"
+        android:layout_marginTop="12dp"
+        android:fontFamily="sans-serif-condensed"
         android:text="TextView"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="18dp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.471"
         app:layout_constraintStart_toEndOf="@+id/nameTagView"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/Info" />
 
     <TextView
         android:id="@+id/locationFieldView"
-        android:layout_width="wrap_content"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="33dp"
-        android:layout_marginEnd="68dp"
+        android:layout_marginTop="48dp"
+        android:fontFamily="sans-serif-condensed"
         android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textColor="@color/black"
+        android:textSize="18dp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.528"
         app:layout_constraintStart_toEndOf="@+id/locationTagView"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.128" />
+        app:layout_constraintTop_toBottomOf="@+id/nameFieldView" />
 
     <TextView
         android:id="@+id/hoursFieldView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="272dp"
-        android:layout_marginTop="176dp"
+        android:layout_marginTop="12dp"
+        android:fontFamily="sans-serif-condensed"
         android:text="HoursView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textColor="@color/black"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/review_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.229"
+        app:layout_constraintStart_toEndOf="@+id/hoursTagView"
+        app:layout_constraintTop_toBottomOf="@+id/locationFieldView"
+        app:layout_constraintVertical_bias="0.45" />
 
     <Button
         android:id="@+id/info_back_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/yolkYellow"
         android:onClick="onClickBackFromBeachInfo"
         android:text="Back"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/review_button"
-        app:layout_constraintHorizontal_bias="0.131"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.095"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.976" />
+        app:layout_constraintVertical_bias="0.957" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,6 +8,7 @@
         <item>3000</item>
     </string-array>
     <string name="welcome"><i><b>Welcome!</b></i></string>
+    <string name="info">==Beach Info==</string>
     <string name="profile"><i><b>==My Profile==</b></i></string>
     <string name="my_review"><i><b>My Review</b></i></string>
     <string name="name_prompt"><i><b>Name</b></i></string>
