@@ -113,7 +113,6 @@ public class MainActivity extends AppCompatActivity
 
             }
         });
-        rangeSpinner.setBackgroundColor(Color.CYAN);
         ArrayAdapter<CharSequence>adapter = ArrayAdapter.createFromResource(this, R.array.ranges, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
         rangeSpinner.setAdapter(adapter);

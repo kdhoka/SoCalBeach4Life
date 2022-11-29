@@ -10,13 +10,13 @@
         android:id="@+id/beach_review_title"
         android:layout_width="411dp"
         android:layout_height="58dp"
+        android:fontFamily="cursive"
         android:fontFeatureSettings="italic"
         android:text="Beach Name"
         android:textAlignment="center"
         android:textColor="@color/lavender"
         android:textSize="40sp"
         android:textStyle="bold"
-        android:fontFamily="cursive"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -26,8 +26,8 @@
 
     <Button
         android:id="@+id/next"
-        android:layout_width="52dp"
-        android:layout_height="54dp"
+        android:layout_width="50dp"
+        android:layout_height="48dp"
         android:background="#00FFFFFF"
         android:foreground="@drawable/ic_baseline_arrow_forward_ios_24"
         android:onClick="onClickNextReview"
@@ -36,14 +36,14 @@
         android:textSize="30dp"
         app:layout_constraintBottom_toTopOf="@+id/rating"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.947"
+        app:layout_constraintHorizontal_bias="0.944"
         app:layout_constraintStart_toEndOf="@+id/previous"
         app:layout_constraintTop_toBottomOf="@+id/image"
-        app:layout_constraintVertical_bias="0.512" />
+        app:layout_constraintVertical_bias="0.437" />
 
     <Button
         android:id="@+id/previous"
-        android:layout_width="55dp"
+        android:layout_width="53dp"
         android:layout_height="52dp"
         android:layout_marginStart="16dp"
         android:background="#00FFFFFF"
@@ -79,8 +79,10 @@
         android:maxLines="10"
         android:scrollbars="vertical"
         android:text="Beach review content"
+        android:fontFamily="cursive"
+        android:textStyle="bold"
         android:textColor="@color/white"
-        android:textSize="20dp"
+        android:textSize="24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.481"
@@ -92,15 +94,17 @@
         android:id="@+id/username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="340dp"
         android:fontFamily="sans-serif-condensed"
         android:text="comment owner"
         android:textColor="@color/lavender"
         android:textSize="25dp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/rating"
+        app:layout_constraintHorizontal_bias="0.096"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/averageRating" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.619" />
 
     <TextView
         android:id="@+id/rating"
@@ -108,26 +112,26 @@
         android:layout_height="32dp"
         android:layout_marginEnd="16dp"
         android:text="rating"
-        android:textStyle="bold"
         android:textAlignment="center"
         android:textColor="@color/yolkYellow"
         android:textSize="20dp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/review"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/image"
-        app:layout_constraintVertical_bias="0.694" />
+        app:layout_constraintVertical_bias="0.596" />
 
     <TextView
         android:id="@+id/averageRating"
-        android:layout_width="200dp"
-        android:layout_height="24dp"
+        android:layout_width="205dp"
+        android:layout_height="50dp"
         android:text="Average rating"
         android:textColor="@color/yolkYellow"
-        android:textSize="20dp"
+        android:textSize="24dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.829"
+        app:layout_constraintHorizontal_bias="0.669"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/beach_review_title"
         app:layout_constraintVertical_bias="0.016" />
@@ -180,7 +184,7 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/username"
         app:layout_constraintTop_toBottomOf="@+id/image"
-        app:layout_constraintVertical_bias="0.682" />
+        app:layout_constraintVertical_bias="0.585" />
 
     <ImageView
         android:id="@+id/imageView2"

@@ -7,39 +7,36 @@
     android:orientation="vertical"
     android:background="@drawable/lavender_background"
     tools:context=".TripListActvity">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
         <TextView
             android:id="@+id/textView7"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:text="My Trips"
+            android:layout_height="92dp"
             android:fontFamily="cursive"
-            android:textColor="@color/lavender"
-            android:textStyle="bold"
+            android:text="My Trips"
             android:textAlignment="center"
-            android:textSize="20dp" />
+            android:textColor="@color/lavender"
+            android:textSize="60dp"
+            android:textStyle="bold" />
 
-        <ListView
-            android:id="@+id/tripListview"
-            android:layout_width="match_parent"
-            android:layout_height="500dp"
-            android:layout_alignParentTop="true">
-        </ListView>
+     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        android:orientation="vertical">
 
-    </LinearLayout>
+         <ListView
+             android:id="@+id/tripListview"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:layout_alignParentTop="true"></ListView>
 
+     </LinearLayout>
     <Button
         android:id="@+id/trip_back_button"
-        android:layout_width="131dp"
-        android:layout_height="74dp"
-        android:background="#FAFFFFFF"
+        android:layout_width="377dp"
+        android:layout_height="155dp"
         android:layout_gravity="center_horizontal|center"
         android:layout_weight="1"
+        android:background="#00FFFFFF"
         android:onClick="onClickBackFromTripList"
         android:text="Back" />
 </LinearLayout>
