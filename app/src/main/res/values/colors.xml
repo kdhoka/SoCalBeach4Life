@@ -10,4 +10,8 @@
     <color name="semi_blue">#4D00FFFF</color>
     <color name="red">#E30E0E</color>
     <color name="green">#4CAF50</color>
+    <color name= "lavender">#92B4EC</color>
+    <color name= "duckYellow">#FFE69A</color>
+    <color name="yolkYellow">#FFD24C</color>
+    <color name="transparentBlue">#5B539BF4</color>
 </resources>

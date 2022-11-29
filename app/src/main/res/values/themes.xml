@@ -14,4 +14,7 @@
         <!-- Customize your theme here. -->
         <item name="android:textAllCaps">false</item>
     </style>
+    <style name="spinner_theme">
+        <item name="android:textColor">@color/yolkYellow</item>
+    </style>
 </resources>

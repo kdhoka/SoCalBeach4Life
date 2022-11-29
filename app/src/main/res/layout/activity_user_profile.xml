@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/profile"
     tools:context=".userProfileActivity">
 
     <Button
@@ -11,6 +12,7 @@
         android:layout_width="120dp"
         android:layout_height="40dp"
         android:layout_marginTop="68dp"
+        android:backgroundTint="@color/lavender"
         android:onClick="onClickProfileToMyReview"
         android:text="My review"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -28,106 +30,13 @@
         android:layout_marginBottom="25dp"
         android:onClick="onClickBack"
         android:text="Back"
+        android:backgroundTint="@color/yolkYellow"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.995" />
-
-
-    <TextView
-        android:id="@+id/email_tv"
-        android:layout_width="200dp"
-        android:layout_height="40dp"
-        android:hint="email"
-        android:textAlignment="center"
-        android:textColor="@color/teal_700"
-        android:textSize="18dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.748"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/name_tv" />
-
-    <TextView
-        android:id="@+id/pwd_tv"
-        android:layout_width="200dp"
-        android:layout_height="40dp"
-        android:hint="password"
-        android:textAlignment="center"
-        android:textColor="@color/teal_700"
-        android:textSize="18dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.748"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/email_tv" />
-
-    <TextView
-        android:id="@+id/name_tv"
-        android:layout_width="200dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="56dp"
-        android:hint="name"
-        android:textAlignment="center"
-        android:textColor="@color/teal_700"
-        android:textSize="18dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.748"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profile" />
-
-    <TextView
-        android:id="@+id/profile"
-        android:layout_width="0dp"
-        android:layout_height="100dp"
-        android:fontFeatureSettings="italic"
-        android:text="@string/profile"
-        android:textAlignment="center"
-        android:textColor="@color/teal_200"
-        android:textSize="60sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="120dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="56dp"
-        android:text="@string/name_prompt"
-        android:textAlignment="center"
-        android:textColor="@color/teal_200"
-        android:textSize="20dp"
-        app:layout_constraintEnd_toStartOf="@+id/name_tv"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profile" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="120dp"
-        android:layout_height="40dp"
-        android:text="@string/email_prompt"
-        android:textAlignment="center"
-        android:textColor="@color/teal_200"
-        android:textSize="20dp"
-        app:layout_constraintEnd_toStartOf="@+id/email_tv"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
-
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="120dp"
-        android:layout_height="40dp"
-        android:text="@string/pwd_prompt"
-        android:textAlignment="center"
-        android:textColor="@color/teal_200"
-        android:textSize="20dp"
-        app:layout_constraintEnd_toStartOf="@+id/pwd_tv"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
 
     <!--    <EditText-->
@@ -140,6 +49,112 @@
     <!--        tools:layout_editor_absoluteX="145dp"-->
     <!--        tools:layout_editor_absoluteY="290dp" />-->
 
+    <TextView
+        android:id="@+id/email_tv"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="8dp"
+        android:hint="email"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.924"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/name_tv" />
+
+    <TextView
+        android:id="@+id/pwd_tv"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="4dp"
+        android:hint="password"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.924"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/email_tv" />
+
+    <TextView
+        android:id="@+id/name_tv"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="40dp"
+        android:hint="name"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.924"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profile" />
+
+    <TextView
+        android:id="@+id/profile"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:fontFamily="cursive"
+        android:text="@string/profile"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="60sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.11" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="120dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="36dp"
+        android:fontFamily="cursive"
+        android:text="@string/name_prompt"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="30dp"
+        app:layout_constraintEnd_toStartOf="@+id/name_tv"
+        app:layout_constraintHorizontal_bias="0.648"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profile" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="120dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="4dp"
+        android:fontFamily="cursive"
+        android:text="@string/email_prompt"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="30dp"
+        app:layout_constraintEnd_toStartOf="@+id/email_tv"
+        app:layout_constraintHorizontal_bias="0.648"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="140dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="cursive"
+        android:text="@string/pwd_prompt"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="30dp"
+        app:layout_constraintEnd_toStartOf="@+id/pwd_tv"
+        app:layout_constraintHorizontal_bias="0.83"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
     <Spinner
         android:id="@+id/beachChoice"
         android:layout_width="200dp"
@@ -147,6 +162,7 @@
         android:backgroundTint="@color/white"
         android:textAlignment="center"
         android:textSize="14dp"
+        android:theme="@style/spinner_theme"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.616"

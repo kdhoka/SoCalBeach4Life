@@ -25,6 +25,7 @@
         android:layout_marginBottom="16dp"
         android:onClick="onClickLogOut"
         android:text="Log out"
+        android:backgroundTint="@color/lavender"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.049"
@@ -36,6 +37,7 @@
         android:id="@+id/log_reg_btn"
         android:layout_width="120dp"
         android:layout_height="50dp"
+        android:backgroundTint="#5B539BF4"
         android:onClick="onClickLogReg"
         android:text="Login/Reg"
         app:layout_constraintBottom_toTopOf="@+id/log_out_button"
@@ -52,6 +54,7 @@
         android:layout_marginBottom="20dp"
         android:onClick="onClickBeach"
         android:text="Beach"
+        android:backgroundTint="@color/lavender"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.344"
@@ -64,6 +67,7 @@
         android:layout_marginBottom="20dp"
         android:onClick="onClickRestaurant"
         android:text="Restaurant"
+        android:backgroundTint="@color/lavender"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.697"
@@ -94,45 +98,50 @@
     <!--        app:layout_constraintBottom_toBottomOf="parent"-->
     <!--        app:layout_constraintEnd_toStartOf="@+id/rangeChoice" />-->
 
+
     <Spinner
         android:id="@+id/rangeChoice"
         android:layout_width="94dp"
         android:layout_height="35dp"
         android:layout_marginEnd="16dp"
-        android:backgroundTint="@color/white"
+        android:backgroundTint="#61F8DA9F"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/select"
         app:layout_constraintTop_toTopOf="@+id/map"
-        app:layout_constraintVertical_bias="0.094" />
+        app:layout_constraintVertical_bias="0.114" />
 
     <Button
         android:id="@+id/select"
-        android:layout_width="150dp"
+        android:layout_width="130dp"
         android:layout_height="40dp"
         android:layout_marginEnd="92dp"
         android:backgroundTint="@color/white"
-        android:fontFamily="sans-serif-condensed-medium"
+        android:textStyle="bold"
+        android:fontFamily="sans-serif-condensed"
         android:text="select radius:"
         android:textAlignment="textStart"
-        android:textColor="@color/teal_700"
+        android:textColor="@color/yolkYellow"
         app:layout_constraintBottom_toTopOf="@+id/logMsg"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.47"
         app:layout_constraintStart_toEndOf="@+id/profile_btn"
         app:layout_constraintTop_toBottomOf="@+id/profile_btn"
-        app:layout_constraintVertical_bias="0.48" />
-
+        app:layout_constraintVertical_bias="0.354" />
 
     <Button
         android:id="@+id/logMsg"
         android:layout_width="250dp"
-        android:layout_height="40dp"
+        android:layout_height="60dp"
         android:layout_marginStart="40dp"
-        android:backgroundTint="@color/common_google_signin_btn_text_dark"
+        android:background="#00FFFFFF"
+        android:backgroundTint="#00539BF4"
         android:text=""
-        android:textColor="@color/teal_200"
+        android:textStyle="bold"
+        android:fontFamily="cursive"
+        android:textSize="20dp"
+        android:textColor="#4A6BBF"
         app:layout_constraintBottom_toTopOf="@+id/restaurantButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -146,6 +155,7 @@
         android:layout_height="60dp"
         android:layout_marginTop="4dp"
         android:onClick = "onClickProfile"
+        android:backgroundTint="@color/lavender"
         android:text="My Profile"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.051"
@@ -160,6 +170,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="4dp"
         android:onClick = "onClickSave"
+        android:backgroundTint="@color/lavender"
         android:text="Save Trip"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tripsButton" />
@@ -171,6 +182,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="4dp"
         android:onClick = "onClickTrips"
+        android:backgroundTint="@color/lavender"
         android:text="My Trips"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profile_btn"
