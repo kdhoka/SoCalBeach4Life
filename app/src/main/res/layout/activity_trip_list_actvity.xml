@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".TripListActvity">
 
     <LinearLayout
@@ -15,14 +16,24 @@
             android:id="@+id/textView7"
             android:layout_width="match_parent"
             android:layout_height="30dp"
+            android:text="Your Trips"
             android:textAlignment="center"
-            android:textSize="20dp"
-            android:text="Your Trips" />
+            android:textSize="20dp" />
 
         <ListView
             android:id="@+id/tripListview"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="631dp"
             android:layout_alignParentTop="true"></ListView>
+
     </LinearLayout>
+
+    <Button
+        android:id="@+id/trip_back_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:onClick="onClickBackFromTripList"
+        android:layout_gravity="center_horizontal|center"
+        android:text="Back" />
 </LinearLayout>
