@@ -17,7 +17,6 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:context=".MainActivity" />
 
-
     <Button
         android:id="@+id/log_out_button"
         android:layout_width="90dp"
@@ -52,9 +51,9 @@
         android:layout_width="80dp"
         android:layout_height="50dp"
         android:layout_marginBottom="20dp"
+        android:backgroundTint="@color/lavender"
         android:onClick="onClickBeach"
         android:text="Beach"
-        android:backgroundTint="@color/lavender"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.344"
@@ -65,9 +64,9 @@
         android:layout_width="120dp"
         android:layout_height="50dp"
         android:layout_marginBottom="20dp"
+        android:backgroundTint="@color/lavender"
         android:onClick="onClickRestaurant"
         android:text="Restaurant"
-        android:backgroundTint="@color/lavender"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.697"
@@ -98,14 +97,13 @@
     <!--        app:layout_constraintBottom_toBottomOf="parent"-->
     <!--        app:layout_constraintEnd_toStartOf="@+id/rangeChoice" />-->
 
-
     <Spinner
         android:id="@+id/rangeChoice"
-        android:layout_width="94dp"
-        android:layout_height="35dp"
+        android:layout_width="126dp"
+        android:layout_height="47dp"
         android:layout_marginEnd="16dp"
+        android:backgroundTint="@color/white"
         android:theme="@style/spinner_theme"
-        android:backgroundTint="#61F8DA9F"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -119,11 +117,11 @@
         android:layout_height="40dp"
         android:layout_marginEnd="92dp"
         android:backgroundTint="@color/white"
-        android:textStyle="bold"
         android:fontFamily="sans-serif-condensed"
         android:text="select radius:"
         android:textAlignment="textStart"
         android:textColor="@color/yolkYellow"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/logMsg"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.47"
@@ -154,14 +152,13 @@
         android:layout_width="120dp"
         android:layout_height="60dp"
         android:layout_marginTop="4dp"
-        android:onClick = "onClickProfile"
         android:backgroundTint="@color/lavender"
+        android:onClick="onClickProfile"
         android:text="My Profile"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.051"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/log_reg_btn"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/log_reg_btn" />
 
     <Button
         android:id="@+id/saveButton"
@@ -169,8 +166,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="4dp"
-        android:onClick = "onClickSave"
         android:backgroundTint="@color/lavender"
+        android:onClick="onClickSave"
         android:text="Save Trip"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tripsButton" />
@@ -181,10 +178,11 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="4dp"
-        android:onClick = "onClickTrips"
         android:backgroundTint="@color/lavender"
+        android:onClick="onClickTrips"
         android:text="My Trips"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profile_btn"
         tools:layout_editor_absoluteY="187dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
