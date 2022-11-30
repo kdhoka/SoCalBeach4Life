@@ -354,7 +354,7 @@ public class UserReviewPage extends AppCompatActivity {
         try {
             rate_double = Double.parseDouble(rating);
 
-            if (!(0 <= rate_double) && (rate_double <= 5)) {
+            if (0 > rate_double ||  rate_double > 5) {
                 rating_view.setError("Rating must be a double in range 0-5");
                 return;
             }
