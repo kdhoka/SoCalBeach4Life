@@ -27,7 +27,7 @@
         android:id="@+id/review_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/duckYellow"
+        android:backgroundTint="#FF9800"
         android:onClick="onClickReviews"
         android:text="Reviews"
         app:layout_constraintBottom_toBottomOf="parent"
